@@ -43,13 +43,16 @@ namespace HermesDataTagger
                 bool openedDialog = diagResult == DialogResult.OK && !String.IsNullOrWhiteSpace(srcDirectory);
                 if (openedDialog)
                 {
-                    // TODO: Path.GetExtension --> jpg
-                    Files = System.IO.Directory.GetFiles(srcDirectory);
+                    Files = Directory.GetFiles(srcDirectory).Where((file) =>
+                    {
+                        string ext = Path.GetExtension(file).ToLower();
+                        return ext == ".jpg" || ext == ".jpeg" || ext == ".png";
+                    }).ToArray();
                     FileIdx = 0;
                 }
-                else
+                if (Files.Length == 0)
                 {
-                    MessageBox.Show("No Files Loaded. Aborting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"No Image Files Loaded! Check that JPEG or PNGs exist in the directory {srcDirectory}. Aborting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(1);
                 }
                 Debug.WriteLine($"{Files.Length} files were loaded in");
