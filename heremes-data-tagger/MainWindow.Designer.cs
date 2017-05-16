@@ -28,156 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnLoadImages = new System.Windows.Forms.Button();
-            this.btnPrevImage = new System.Windows.Forms.Button();
-            this.btnNextImage = new System.Windows.Forms.Button();
-            this.grpTaggingArea = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblFilename = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.imgPhoto = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnWriteCSV = new System.Windows.Forms.Button();
-            this.grpTaggingArea.SuspendLayout();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblMousePos = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLoadImages = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnNextImage = new System.Windows.Forms.Button();
+            this.btnPrevImage = new System.Windows.Forms.Button();
+            this.topPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.tabSteps = new System.Windows.Forms.TabControl();
+            this.lblStepName = new System.Windows.Forms.Label();
+            this.tabPagePrototype = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            this.topPanel.SuspendLayout();
+            this.tabSteps.SuspendLayout();
+            this.tabPagePrototype.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnLoadImages
-            // 
-            this.btnLoadImages.Location = new System.Drawing.Point(14, 1309);
-            this.btnLoadImages.Name = "btnLoadImages";
-            this.btnLoadImages.Size = new System.Drawing.Size(204, 63);
-            this.btnLoadImages.TabIndex = 8;
-            this.btnLoadImages.Text = "Load Images";
-            this.btnLoadImages.UseVisualStyleBackColor = true;
-            // 
-            // btnPrevImage
-            // 
-            this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrevImage.Location = new System.Drawing.Point(14, 1086);
-            this.btnPrevImage.Name = "btnPrevImage";
-            this.btnPrevImage.Size = new System.Drawing.Size(204, 217);
-            this.btnPrevImage.TabIndex = 10;
-            this.btnPrevImage.Text = "< Previous Image";
-            this.btnPrevImage.UseVisualStyleBackColor = true;
-
-            // 
-            // btnNextImage
-            // 
-            this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNextImage.Location = new System.Drawing.Point(1602, 1086);
-            this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.Size = new System.Drawing.Size(202, 217);
-            this.btnNextImage.TabIndex = 9;
-            this.btnNextImage.Text = "Next Image >";
-            this.btnNextImage.UseVisualStyleBackColor = true;
-
-            // 
-            // grpTaggingArea
-            // 
-            this.grpTaggingArea.Controls.Add(this.label5);
-            this.grpTaggingArea.Controls.Add(this.button3);
-            this.grpTaggingArea.Controls.Add(this.button2);
-            this.grpTaggingArea.Controls.Add(this.checkBox2);
-            this.grpTaggingArea.Controls.Add(this.label7);
-            this.grpTaggingArea.Controls.Add(this.lblFilename);
-            this.grpTaggingArea.Controls.Add(this.label3);
-            this.grpTaggingArea.Controls.Add(this.label1);
-            this.grpTaggingArea.Location = new System.Drawing.Point(224, 1074);
-            this.grpTaggingArea.Name = "grpTaggingArea";
-            this.grpTaggingArea.Size = new System.Drawing.Size(1372, 298);
-            this.grpTaggingArea.TabIndex = 14;
-            this.grpTaggingArea.TabStop = false;
-            this.grpTaggingArea.Text = "Image Tagging";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(29, 151);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(105, 25);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "Regions:";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(145, 209);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(262, 52);
-            this.button3.TabIndex = 14;
-            this.button3.Text = "Select Face Reigon";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(145, 151);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(262, 52);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "Select Bib Region";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(145, 96);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(262, 29);
-            this.checkBox2.TabIndex = 12;
-            this.checkBox2.Text = "This Image Is Crowded";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(23, 97);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(111, 25);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Crowded:";
-            // 
-            // lblFilename
-            // 
-            this.lblFilename.AutoSize = true;
-            this.lblFilename.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFilename.Location = new System.Drawing.Point(140, 44);
-            this.lblFilename.Name = "lblFilename";
-            this.lblFilename.Size = new System.Drawing.Size(112, 25);
-            this.lblFilename.TabIndex = 6;
-            this.lblFilename.Text = "[Filename]";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(19, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 25);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Filename:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(52, 69);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 25);
-            this.label1.TabIndex = 4;
             // 
             // imgPhoto
             // 
-            this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.imgPhoto.Location = new System.Drawing.Point(14, -3);
+            this.imgPhoto.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.imgPhoto.Location = new System.Drawing.Point(3, 217);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1790, 1068);
+            this.imgPhoto.Size = new System.Drawing.Size(1816, 1129);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 11;
             this.imgPhoto.TabStop = false;
@@ -190,56 +71,164 @@
             this.label2.Size = new System.Drawing.Size(0, 25);
             this.label2.TabIndex = 13;
             // 
-            // btnWriteCSV
+            // statusStrip1
             // 
-            this.btnWriteCSV.Location = new System.Drawing.Point(1602, 1309);
-            this.btnWriteCSV.Name = "btnWriteCSV";
-            this.btnWriteCSV.Size = new System.Drawing.Size(202, 63);
-            this.btnWriteCSV.TabIndex = 12;
-            this.btnWriteCSV.Text = "Write CSV";
-            this.btnWriteCSV.UseVisualStyleBackColor = true;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblMousePos});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1342);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1816, 37);
+            this.statusStrip1.TabIndex = 15;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblMousePos
+            // 
+            this.lblMousePos.Name = "lblMousePos";
+            this.lblMousePos.Size = new System.Drawing.Size(68, 32);
+            this.lblMousePos.Text = "(X, Y)";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1816, 40);
+            this.menuStrip1.TabIndex = 16;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLoadImages});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // mnuLoadImages
+            // 
+            this.mnuLoadImages.Name = "mnuLoadImages";
+            this.mnuLoadImages.Size = new System.Drawing.Size(249, 38);
+            this.mnuLoadImages.Text = "Load Images";
+            // 
+            // btnNextImage
+            // 
+            this.btnNextImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNextImage.Location = new System.Drawing.Point(1546, 3);
+            this.btnNextImage.Name = "btnNextImage";
+            this.btnNextImage.Size = new System.Drawing.Size(267, 168);
+            this.btnNextImage.TabIndex = 9;
+            this.btnNextImage.Text = "[&N]ext >";
+            this.btnNextImage.UseVisualStyleBackColor = true;
+            // 
+            // btnPrevImage
+            // 
+            this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrevImage.Location = new System.Drawing.Point(3, 3);
+            this.btnPrevImage.Name = "btnPrevImage";
+            this.btnPrevImage.Size = new System.Drawing.Size(266, 168);
+            this.btnPrevImage.TabIndex = 10;
+            this.btnPrevImage.Text = "< [&B]ack";
+            this.btnPrevImage.UseVisualStyleBackColor = true;
+            // 
+            // topPanel
+            // 
+            this.topPanel.BackColor = System.Drawing.Color.White;
+            this.topPanel.ColumnCount = 3;
+            this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.topPanel.Controls.Add(this.btnPrevImage, 0, 0);
+            this.topPanel.Controls.Add(this.btnNextImage, 2, 0);
+            this.topPanel.Controls.Add(this.tabSteps, 1, 0);
+            this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.topPanel.Location = new System.Drawing.Point(0, 40);
+            this.topPanel.Name = "topPanel";
+            this.topPanel.RowCount = 1;
+            this.topPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.topPanel.Size = new System.Drawing.Size(1816, 174);
+            this.topPanel.TabIndex = 18;
+            // 
+            // tabSteps
+            // 
+            this.tabSteps.Controls.Add(this.tabPagePrototype);
+            this.tabSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabSteps.Location = new System.Drawing.Point(275, 3);
+            this.tabSteps.Name = "tabSteps";
+            this.tabSteps.SelectedIndex = 0;
+            this.tabSteps.Size = new System.Drawing.Size(1265, 168);
+            this.tabSteps.TabIndex = 11;
+            // 
+            // lblStepName
+            // 
+            this.lblStepName.BackColor = System.Drawing.Color.White;
+            this.lblStepName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepName.ForeColor = System.Drawing.Color.Red;
+            this.lblStepName.Location = new System.Drawing.Point(3, 3);
+            this.lblStepName.Name = "lblStepName";
+            this.lblStepName.Padding = new System.Windows.Forms.Padding(20);
+            this.lblStepName.Size = new System.Drawing.Size(1243, 114);
+            this.lblStepName.TabIndex = 20;
+            this.lblStepName.Text = "[Step Label]";
+            this.lblStepName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tabPage1
+            // 
+            this.tabPagePrototype.Controls.Add(this.lblStepName);
+            this.tabPagePrototype.Location = new System.Drawing.Point(8, 43);
+            this.tabPagePrototype.Name = "tabPage1";
+            this.tabPagePrototype.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePrototype.Size = new System.Drawing.Size(1249, 117);
+            this.tabPagePrototype.TabIndex = 0;
+            this.tabPagePrototype.Text = "Step 1";
+            this.tabPagePrototype.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1816, 1379);
-            this.Controls.Add(this.btnLoadImages);
-            this.Controls.Add(this.btnPrevImage);
-            this.Controls.Add(this.btnNextImage);
-            this.Controls.Add(this.grpTaggingArea);
+            this.Controls.Add(this.topPanel);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.imgPhoto);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnWriteCSV);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
+            this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(1842, 1450);
             this.Name = "MainWindow";
             this.Text = "Racing Bib Number Tagger";
-            this.grpTaggingArea.ResumeLayout(false);
-            this.grpTaggingArea.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.topPanel.ResumeLayout(false);
+            this.tabSteps.ResumeLayout(false);
+            this.tabPagePrototype.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnLoadImages;
-        private System.Windows.Forms.Button btnPrevImage;
-        private System.Windows.Forms.Button btnNextImage;
-        private System.Windows.Forms.GroupBox grpTaggingArea;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label lblFilename;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox imgPhoto;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnWriteCSV;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuLoadImages;
+        private System.Windows.Forms.ToolStripStatusLabel lblMousePos;
+        private System.Windows.Forms.Button btnNextImage;
+        private System.Windows.Forms.Button btnPrevImage;
+        private System.Windows.Forms.TableLayoutPanel topPanel;
+        private System.Windows.Forms.TabControl tabSteps;
+        private System.Windows.Forms.TabPage tabPagePrototype;
+        private System.Windows.Forms.Label lblStepName;
     }
 }
 
