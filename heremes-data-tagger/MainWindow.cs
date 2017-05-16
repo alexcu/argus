@@ -36,7 +36,7 @@ namespace HermesDataTagger
             }
             // Remove le prototype
             tabSteps.TabPages.Remove(tabPagePrototype);
-            tabSteps.TabPages[0].Select();
+            tabSteps.SelectedIndex = 0;
         }
 
         private void BindControls()
@@ -61,8 +61,8 @@ namespace HermesDataTagger
         private void BindEvents()
         {
             // Click events
-            btnPrevImage.Click += (sender, e) => Model.GetPrevFile();
-            btnNextImage.Click += (sender, e) => Model.GetNextFile();
+            btnPrevImage.Click += (sender, e) => Model.GetPrevPhoto();
+            btnNextImage.Click += (sender, e) => Model.GetNextPhoto();
             mnuLoadImages.Click += (sender, e) => Model.AttemptLoadFiles();
 
             // Mouse move event
@@ -79,11 +79,11 @@ namespace HermesDataTagger
             {
                 if (e.KeyCode == Keys.B)
                 {
-                    Model.GetPrevFile();
+                    Model.GetPrevPhoto();
                 }
                 if (e.KeyCode == Keys.N)
                 {
-                    Model.GetNextFile();
+                    Model.GetNextPhoto();
                 }
             };
 

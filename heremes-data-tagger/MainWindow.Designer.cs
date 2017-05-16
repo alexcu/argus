@@ -39,8 +39,8 @@
             this.btnPrevImage = new System.Windows.Forms.Button();
             this.topPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tabSteps = new System.Windows.Forms.TabControl();
-            this.lblStepName = new System.Windows.Forms.Label();
             this.tabPagePrototype = new System.Windows.Forms.TabPage();
+            this.lblStepName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -154,6 +154,9 @@
             // 
             // tabSteps
             // 
+            this.tabSteps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabSteps.Controls.Add(this.tabPagePrototype);
             this.tabSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabSteps.Location = new System.Drawing.Point(275, 3);
@@ -161,6 +164,17 @@
             this.tabSteps.SelectedIndex = 0;
             this.tabSteps.Size = new System.Drawing.Size(1265, 168);
             this.tabSteps.TabIndex = 11;
+            // 
+            // tabPagePrototype
+            // 
+            this.tabPagePrototype.Controls.Add(this.lblStepName);
+            this.tabPagePrototype.Location = new System.Drawing.Point(8, 43);
+            this.tabPagePrototype.Name = "tabPagePrototype";
+            this.tabPagePrototype.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePrototype.Size = new System.Drawing.Size(1249, 117);
+            this.tabPagePrototype.TabIndex = 0;
+            this.tabPagePrototype.Text = "Step 1";
+            this.tabPagePrototype.UseVisualStyleBackColor = true;
             // 
             // lblStepName
             // 
@@ -175,17 +189,6 @@
             this.lblStepName.TabIndex = 20;
             this.lblStepName.Text = "[Step Label]";
             this.lblStepName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tabPage1
-            // 
-            this.tabPagePrototype.Controls.Add(this.lblStepName);
-            this.tabPagePrototype.Location = new System.Drawing.Point(8, 43);
-            this.tabPagePrototype.Name = "tabPage1";
-            this.tabPagePrototype.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePrototype.Size = new System.Drawing.Size(1249, 117);
-            this.tabPagePrototype.TabIndex = 0;
-            this.tabPagePrototype.Text = "Step 1";
-            this.tabPagePrototype.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
