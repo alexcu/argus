@@ -55,7 +55,6 @@
             this.btnLoadImages.TabIndex = 8;
             this.btnLoadImages.Text = "Load Images";
             this.btnLoadImages.UseVisualStyleBackColor = true;
-            this.btnLoadImages.Click += new System.EventHandler(this.btnLoadImages_Click_1);
             // 
             // btnPrevImage
             // 
@@ -66,7 +65,7 @@
             this.btnPrevImage.TabIndex = 10;
             this.btnPrevImage.Text = "< Previous Image";
             this.btnPrevImage.UseVisualStyleBackColor = true;
-            this.btnPrevImage.Click += new System.EventHandler(this.btnPrevImage_Click);
+
             // 
             // btnNextImage
             // 
@@ -77,7 +76,7 @@
             this.btnNextImage.TabIndex = 9;
             this.btnNextImage.Text = "Next Image >";
             this.btnNextImage.UseVisualStyleBackColor = true;
-            this.btnNextImage.Click += new System.EventHandler(this.btnNextImage_Click);
+
             // 
             // grpTaggingArea
             // 
