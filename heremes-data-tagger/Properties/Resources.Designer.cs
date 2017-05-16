@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace heremes_data_tagger.Properties
+namespace HermesDataTagger.Properties
 {
 
 
