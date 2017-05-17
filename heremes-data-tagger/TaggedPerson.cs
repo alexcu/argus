@@ -10,15 +10,15 @@ namespace HermesDataTagger
     public class TaggedPerson
     {
         #region Related Data Types
-        public struct PersonFace
+        public class PersonFace
         {
             // Reigon
-            public Point TopLeft { get; set; }
-            public Point BtmRight { get; set; }
-            public Point[] Points => new Point[] { TopLeft, BtmRight };
+            public Point TopLeft => ClickPoints[0];
+            public Point BtmRight => ClickPoints[1];
 
-            public Point[] PixelPoints;
-            public Point[] DisplayPoints;
+            // 2 indexes for top left and bottom right and the second mapped as pixels
+            public List<Point> ClickPoints = new List<Point>(2);
+            public List<Point> PixelPoints = new List<Point>(2);
 
             // Face modifications
             public bool IsWearingCap { get; set; }
@@ -27,13 +27,17 @@ namespace HermesDataTagger
             // Classifications
             public bool IsFaceVisible { get; set; }
         }
-        public struct BibSheet
+        public class BibSheet
         {
-            public Point TopLeft { get; set; }
-            public Point TopRight { get; set; }
-            public Point BtmLeft { get; set; }
-            public Point BtmRight { get; set; }
-            public Point[] Points => new Point[] { TopLeft, TopRight, BtmLeft, BtmRight };
+            // Bib region
+            public Point TopLeft => ClickPoints[0];
+            public Point TopRight => ClickPoints[1];
+            public Point BtmRight => ClickPoints[2];
+            public Point BtmLeft => ClickPoints[3];
+
+            // 4 indexes for 4 corners of mouse clicks and the representation as pixels
+            public List<Point> ClickPoints = new List<Point>(4);
+            public List<Point> PixelPoints = new List<Point>(4);
 
             public string BibNumber { get; set; }
         }
@@ -52,7 +56,7 @@ namespace HermesDataTagger
         public PersonFace Face = new PersonFace();
 
         // Bounds of person within photo
-        private Point[] AllPoints => Face.Points.Concat(Bib.Points).ToArray();
+        private Point[] AllPoints => Face.ClickPoints.Concat(Bib.ClickPoints).ToArray();
         public int LeftmostX => AllPoints.Min(pt => pt.X);
         public int RightmostX => AllPoints.Max(pt => pt.X);
     
@@ -76,15 +80,8 @@ namespace HermesDataTagger
             set { _shoesColor = Utils.GetNearestWebColor(value); }
         }
 
-        public TaggedPerson(Photo srcPhoto, Point[] clickPts, Point[] pixelPts)
+        public TaggedPerson(Photo srcPhoto)
         {
-            Bib = new BibSheet
-            {
-                TopLeft = pixelPts[0],
-                TopRight = pixelPts[1],
-                BtmRight = pixelPts[2],
-                BtmLeft = pixelPts[3]
-            };
             SourcePhoto = srcPhoto;
         }
     }

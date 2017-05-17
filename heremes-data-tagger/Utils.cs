@@ -3,6 +3,7 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
@@ -12,7 +13,19 @@ namespace HermesDataTagger
 	public static class Utils
 	{
         public static Pen BibPen = new Pen(Color.Lime, 2);
+        public static Brush BibBrush = Brushes.Lime;
+        public static Font StdFont = new Font("Courier", 9, FontStyle.Bold);
         public static Pen FacePen = new Pen(Color.Aqua, 2);
+
+        public static bool AtCapacity<T>(this List<T> me)
+        {
+            return me.Count == me.Capacity;
+        }
+
+        public static Point ToPixelPoint(this Point me, PictureBox picBx)
+        {
+            return MousePointToPixelPoint(picBx, me);
+        }
 
         public static Point MousePointToPixelPoint(PictureBox picBx, Point pt)
         {

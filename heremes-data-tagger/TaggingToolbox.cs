@@ -18,17 +18,14 @@ namespace HermesDataTagger
         {
             InitializeComponent();
             BindEvents();
-            BindDataControls();
+            BindDataToControls();
             PopulateStepList();
         }
 
-        void BindDataControls()
+        void BindDataToControls()
         {
             imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
             lblFilename.DataBindings.Add("Text", Model, "CurrentPhoto.Identifier", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            
-
         }
 
         void PopulateStepList()

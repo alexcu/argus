@@ -18,9 +18,7 @@ namespace HermesDataTagger
 
         // Array of person
         public List<TaggedPerson> TaggedPeople = new List<TaggedPerson>();
-
-        // Bib tagging management
-        private List<Point> _bibTagCache = new List<Point>(4);
+        public TaggedPerson LastPersonTagged => TaggedPeople.LastOrDefault();
 
         // Current step with photo
         public StepType TaggingStep { get; set; }
@@ -45,11 +43,7 @@ namespace HermesDataTagger
                     AskIfPhotoCrowded();
                     break;
                 case StepType.SelectBibRegion:
-                    bool tagResult = TagBibRegion(picBx, e.Location);
-                    if (tagResult)
-                    {
-                        //break;
-                    }
+                    TagBibRegion(picBx, e.Location);
                     return;
                 default:
                     return;
@@ -65,41 +59,27 @@ namespace HermesDataTagger
             IsImageCrowded = result == DialogResult.Yes;
         }
 
-        private void DrawBibLine(PictureBox picBx)
+        public void TagBibRegion(PictureBox pbx, Point pt)
         {
-            int lastIdx = _bibTagCache.Count() - 1;
-            using (Graphics graphics = picBx.CreateGraphics())
-            {
-                Point fromPt = _bibTagCache[lastIdx];
-                Point lastPt =_bibTagCache[lastIdx - 1];
-                graphics.DrawLine(Utils.BibPen, fromPt, lastPt);
-                // Autocomplete polygon
-                if (lastIdx == _bibTagCache.Capacity - 1)
-                {
-                    graphics.DrawLine(Utils.BibPen, fromPt, _bibTagCache[0]);
-                }
-            }
-        }
+            TaggedPerson person = LastPersonTagged;
 
-        public bool TagBibRegion(PictureBox picBx, Point pt)
-        {
-            int idx = _bibTagCache.Count;
-            // Points 0, 1, 2
-            _bibTagCache.Add(pt);
-            if (idx > 0 && idx < _bibTagCache.Capacity)
+            // First person tagged or new person (last person has 4 clicks)?
+            if (person == null || person.Bib.ClickPoints.Count == 4)
             {
-                DrawBibLine(picBx);
+                person = new TaggedPerson(this);
+                TaggedPeople.Add(person);
+                Debug.WriteLine($"Adding person #{TaggedPeople.Count} to ({Identifier})");
             }
-            if (idx == _bibTagCache.Capacity - 1)
+            person.Bib.ClickPoints.Add(pt);
+            person.Bib.PixelPoints.Add(pt.ToPixelPoint(pbx));
+            Debug.WriteLine($"Person #{TaggedPeople.Count} has Bib[{person.Bib.ClickPoints.Count}] = {pt} ({Identifier})");
+            if (person.Bib.ClickPoints.AtCapacity())
             {
-                // Map each "clicked" coords into "pixel of photo" coords
-                Point[] pixelPts = _bibTagCache.Select(p => Utils.MousePointToPixelPoint(picBx, p)).ToArray();
-                Point[] clickPts = _bibTagCache.ToArray();
-                TaggedPerson person = new TaggedPerson(this, pixelPts, clickPts);
-                _bibTagCache.Clear();
-                return true;
+                BibNumberDialog bibDiag = new BibNumberDialog(pbx.Image, person.Bib);
+                bibDiag.ShowDialog();
+                person.Bib.BibNumber = bibDiag.BibNumber;
+                Debug.WriteLine($"Person #{TaggedPeople.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
             }
-            return false;
         }
     }
 }

@@ -35,6 +35,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLoadImages = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.btnNextImage = new System.Windows.Forms.Button();
             this.btnPrevImage = new System.Windows.Forms.Button();
             this.topPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -54,7 +56,7 @@
             this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
             this.imgPhoto.Location = new System.Drawing.Point(3, 121);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1816, 1225);
+            this.imgPhoto.Size = new System.Drawing.Size(1842, 1296);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 11;
             this.imgPhoto.TabStop = false;
@@ -72,9 +74,9 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblMousePos});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1342);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1413);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1816, 37);
+            this.statusStrip1.Size = new System.Drawing.Size(1842, 37);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -91,14 +93,16 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1816, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1842, 40);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuLoadImages});
+            this.mnuLoadImages,
+            this.toolStripSeparator1,
+            this.mnuExit});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
             this.fileToolStripMenuItem.Text = "File";
@@ -106,14 +110,26 @@
             // mnuLoadImages
             // 
             this.mnuLoadImages.Name = "mnuLoadImages";
-            this.mnuLoadImages.Size = new System.Drawing.Size(249, 38);
+            this.mnuLoadImages.Size = new System.Drawing.Size(269, 38);
             this.mnuLoadImages.Text = "Load Images";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(266, 6);
+            // 
+            // mnuExit
+            // 
+            this.mnuExit.Name = "mnuExit";
+            this.mnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.mnuExit.Size = new System.Drawing.Size(269, 38);
+            this.mnuExit.Text = "Exit";
             // 
             // btnNextImage
             // 
             this.btnNextImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNextImage.Location = new System.Drawing.Point(1546, 3);
+            this.btnNextImage.Location = new System.Drawing.Point(1572, 3);
             this.btnNextImage.Name = "btnNextImage";
             this.btnNextImage.Size = new System.Drawing.Size(267, 72);
             this.btnNextImage.TabIndex = 9;
@@ -145,7 +161,7 @@
             this.topPanel.Name = "topPanel";
             this.topPanel.RowCount = 1;
             this.topPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.topPanel.Size = new System.Drawing.Size(1816, 78);
+            this.topPanel.Size = new System.Drawing.Size(1842, 78);
             this.topPanel.TabIndex = 18;
             // 
             // lblStepName
@@ -154,10 +170,10 @@
             this.lblStepName.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStepName.ForeColor = System.Drawing.Color.Red;
-            this.lblStepName.Location = new System.Drawing.Point(275, 0);
+            this.lblStepName.Location = new System.Drawing.Point(279, 0);
             this.lblStepName.Name = "lblStepName";
             this.lblStepName.Padding = new System.Windows.Forms.Padding(20);
-            this.lblStepName.Size = new System.Drawing.Size(1265, 78);
+            this.lblStepName.Size = new System.Drawing.Size(1283, 78);
             this.lblStepName.TabIndex = 21;
             this.lblStepName.Text = "[Step Label]";
             this.lblStepName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -166,17 +182,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1816, 1379);
+            this.ClientSize = new System.Drawing.Size(1842, 1450);
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.imgPhoto);
             this.Controls.Add(this.label2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1842, 1450);
             this.Name = "MainWindow";
             this.Text = "Racing Bib Number Tagger";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -200,6 +219,8 @@
         private System.Windows.Forms.Button btnPrevImage;
         private System.Windows.Forms.TableLayoutPanel topPanel;
         private System.Windows.Forms.Label lblStepName;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem mnuExit;
     }
 }
 

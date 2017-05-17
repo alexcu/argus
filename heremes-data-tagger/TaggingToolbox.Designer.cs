@@ -32,7 +32,6 @@
             this.lblFilename = new System.Windows.Forms.Label();
             this.lstSteps = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,28 +79,18 @@
             this.label1.Text = "[Instructions]";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(12, 684);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(655, 158);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Crowded Image";
-            // 
             // TaggingToolbox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(692, 1947);
-            this.Controls.Add(this.groupBox1);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(692, 803);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lstSteps);
             this.Controls.Add(this.lblFilename);
             this.Controls.Add(this.imgPhoto);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "TaggingToolbox";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tagging";
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
@@ -115,6 +104,5 @@
         private System.Windows.Forms.Label lblFilename;
         private System.Windows.Forms.ListBox lstSteps;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

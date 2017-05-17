@@ -49,6 +49,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BibNumberDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BibNumberDialog.Designer.cs">
+      <DependentUpon>BibNumberDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -68,6 +74,9 @@
     <Compile Include="TaggingToolbox.Designer.cs">
       <DependentUpon>TaggingToolbox.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BibNumberDialog.resx">
+      <DependentUpon>BibNumberDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
