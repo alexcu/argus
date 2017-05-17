@@ -38,15 +38,11 @@
             this.btnNextImage = new System.Windows.Forms.Button();
             this.btnPrevImage = new System.Windows.Forms.Button();
             this.topPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.tabSteps = new System.Windows.Forms.TabControl();
-            this.tabPagePrototype = new System.Windows.Forms.TabPage();
             this.lblStepName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.topPanel.SuspendLayout();
-            this.tabSteps.SuspendLayout();
-            this.tabPagePrototype.SuspendLayout();
             this.SuspendLayout();
             // 
             // imgPhoto
@@ -56,9 +52,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.imgPhoto.Location = new System.Drawing.Point(3, 217);
+            this.imgPhoto.Location = new System.Drawing.Point(3, 121);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1816, 1129);
+            this.imgPhoto.Size = new System.Drawing.Size(1816, 1225);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 11;
             this.imgPhoto.TabStop = false;
@@ -119,7 +115,7 @@
             this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNextImage.Location = new System.Drawing.Point(1546, 3);
             this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.Size = new System.Drawing.Size(267, 168);
+            this.btnNextImage.Size = new System.Drawing.Size(267, 72);
             this.btnNextImage.TabIndex = 9;
             this.btnNextImage.Text = "[&N]ext >";
             this.btnNextImage.UseVisualStyleBackColor = true;
@@ -129,7 +125,7 @@
             this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrevImage.Location = new System.Drawing.Point(3, 3);
             this.btnPrevImage.Name = "btnPrevImage";
-            this.btnPrevImage.Size = new System.Drawing.Size(266, 168);
+            this.btnPrevImage.Size = new System.Drawing.Size(266, 72);
             this.btnPrevImage.TabIndex = 10;
             this.btnPrevImage.Text = "< [&B]ack";
             this.btnPrevImage.UseVisualStyleBackColor = true;
@@ -141,40 +137,16 @@
             this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.topPanel.Controls.Add(this.lblStepName, 0, 0);
             this.topPanel.Controls.Add(this.btnPrevImage, 0, 0);
             this.topPanel.Controls.Add(this.btnNextImage, 2, 0);
-            this.topPanel.Controls.Add(this.tabSteps, 1, 0);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 40);
             this.topPanel.Name = "topPanel";
             this.topPanel.RowCount = 1;
             this.topPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.topPanel.Size = new System.Drawing.Size(1816, 174);
+            this.topPanel.Size = new System.Drawing.Size(1816, 78);
             this.topPanel.TabIndex = 18;
-            // 
-            // tabSteps
-            // 
-            this.tabSteps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabSteps.Controls.Add(this.tabPagePrototype);
-            this.tabSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabSteps.Location = new System.Drawing.Point(275, 3);
-            this.tabSteps.Name = "tabSteps";
-            this.tabSteps.SelectedIndex = 0;
-            this.tabSteps.Size = new System.Drawing.Size(1265, 168);
-            this.tabSteps.TabIndex = 11;
-            // 
-            // tabPagePrototype
-            // 
-            this.tabPagePrototype.Controls.Add(this.lblStepName);
-            this.tabPagePrototype.Location = new System.Drawing.Point(8, 43);
-            this.tabPagePrototype.Name = "tabPagePrototype";
-            this.tabPagePrototype.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePrototype.Size = new System.Drawing.Size(1249, 117);
-            this.tabPagePrototype.TabIndex = 0;
-            this.tabPagePrototype.Text = "Step 1";
-            this.tabPagePrototype.UseVisualStyleBackColor = true;
             // 
             // lblStepName
             // 
@@ -182,11 +154,11 @@
             this.lblStepName.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStepName.ForeColor = System.Drawing.Color.Red;
-            this.lblStepName.Location = new System.Drawing.Point(3, 3);
+            this.lblStepName.Location = new System.Drawing.Point(275, 0);
             this.lblStepName.Name = "lblStepName";
             this.lblStepName.Padding = new System.Windows.Forms.Padding(20);
-            this.lblStepName.Size = new System.Drawing.Size(1243, 114);
-            this.lblStepName.TabIndex = 20;
+            this.lblStepName.Size = new System.Drawing.Size(1265, 78);
+            this.lblStepName.TabIndex = 21;
             this.lblStepName.Text = "[Step Label]";
             this.lblStepName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -211,8 +183,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.topPanel.ResumeLayout(false);
-            this.tabSteps.ResumeLayout(false);
-            this.tabPagePrototype.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,8 +199,6 @@
         private System.Windows.Forms.Button btnNextImage;
         private System.Windows.Forms.Button btnPrevImage;
         private System.Windows.Forms.TableLayoutPanel topPanel;
-        private System.Windows.Forms.TabControl tabSteps;
-        private System.Windows.Forms.TabPage tabPagePrototype;
         private System.Windows.Forms.Label lblStepName;
     }
 }

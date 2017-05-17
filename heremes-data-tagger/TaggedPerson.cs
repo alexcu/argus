@@ -9,13 +9,16 @@ namespace HermesDataTagger
 {
     public class TaggedPerson
     {
-        // Related Data Types
+        #region Related Data Types
         public struct PersonFace
         {
             // Reigon
             public Point TopLeft { get; set; }
             public Point BtmRight { get; set; }
             public Point[] Points => new Point[] { TopLeft, BtmRight };
+
+            public Point[] PixelPoints;
+            public Point[] DisplayPoints;
 
             // Face modifications
             public bool IsWearingCap { get; set; }
@@ -24,7 +27,7 @@ namespace HermesDataTagger
             // Classifications
             public bool IsFaceVisible { get; set; }
         }
-        public struct BibNumber
+        public struct BibSheet
         {
             public Point TopLeft { get; set; }
             public Point TopRight { get; set; }
@@ -35,6 +38,7 @@ namespace HermesDataTagger
             public string BibNumber { get; set; }
         }
         public enum LikelihoodOfPurchaseType { No = -1, Maybe = 0, Yes = 1 }
+        #endregion
 
         // Source photo
         public Photo SourcePhoto { get; }
@@ -42,10 +46,10 @@ namespace HermesDataTagger
         // Classifications
         public bool IsRunnerBlurred { get; set; }
         public LikelihoodOfPurchaseType LikelihoodOfPurchase { get; set; }
-        
+
         // Reigons
-        public BibNumber Bib { get; set; }
-        public PersonFace Face { get; set; }
+        public BibSheet Bib = new BibSheet();
+        public PersonFace Face = new PersonFace();
 
         // Bounds of person within photo
         private Point[] AllPoints => Face.Points.Concat(Bib.Points).ToArray();
@@ -59,21 +63,28 @@ namespace HermesDataTagger
         public Color ShirtColor
         {
             get { return _shirtColor; }
-            set { _shirtColor = ColorManagement.GetNearestWebColor(value); }
+            set { _shirtColor = Utils.GetNearestWebColor(value); }
         }
         public Color ShortsColor
         {
             get { return _shortsColor; }
-            set { _shortsColor = ColorManagement.GetNearestWebColor(value); }
+            set { _shortsColor = Utils.GetNearestWebColor(value); }
         }
         public Color ShoesColor
         {
             get { return _shoesColor; }
-            set { _shoesColor = ColorManagement.GetNearestWebColor(value); }
+            set { _shoesColor = Utils.GetNearestWebColor(value); }
         }
 
-        public TaggedPerson(Photo srcPhoto)
+        public TaggedPerson(Photo srcPhoto, Point[] clickPts, Point[] pixelPts)
         {
+            Bib = new BibSheet
+            {
+                TopLeft = pixelPts[0],
+                TopRight = pixelPts[1],
+                BtmRight = pixelPts[2],
+                BtmLeft = pixelPts[3]
+            };
             SourcePhoto = srcPhoto;
         }
     }

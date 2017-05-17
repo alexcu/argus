@@ -11,8 +11,7 @@ namespace HermesDataTagger
     {
         ImageCrowded,
         SelectBibRegion,
-        SelectFaceRegion,
-        Complete
+        SelectFaceRegion
     }
 
     public static class StepTypeExtensions
@@ -22,13 +21,26 @@ namespace HermesDataTagger
             switch (me)
             {
                 case StepType.ImageCrowded:
-                    return "Is this image crowded? (Click image to answer)";
+                    return "Image Crowded";
                 case StepType.SelectBibRegion:
-                    return "Select the bib number pad (4 clicks)";
+                    return "Select Bib Number Region";
                 case StepType.SelectFaceRegion:
-                    return "Select the face for this bib (2 clicks)";
-                case StepType.Complete:
-                    return "Fully tagged";
+                    return "Select Face Region";
+                default:
+                    return "";
+            }
+        }
+
+        public static string ToHelpLabel(this StepType me)
+        {
+            switch (me)
+            {
+                case StepType.ImageCrowded:
+                    return "Determine if this image is crowded with people";
+                case StepType.SelectBibRegion:
+                    return "Click FOUR times on the image to mark up a new bib region";
+                case StepType.SelectFaceRegion:
+                    return "Drag-and-drop around the face for the runner with Bib #{X}";
                 default:
                     return "";
             }

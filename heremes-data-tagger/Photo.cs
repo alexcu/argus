@@ -6,16 +6,26 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using PropertyChanged;
 
 namespace HermesDataTagger
 {
+    [ImplementPropertyChanged]
     public class Photo
     {
         public string Filename { get; }
         public string Identifier { get; }
 
+        // Array of person
+        public List<TaggedPerson> TaggedPeople = new List<TaggedPerson>();
+
+        // Bib tagging management
+        private List<Point> _bibTagCache = new List<Point>(4);
+
         // Current step with photo
         public StepType TaggingStep { get; set; }
+        public string TaggingStepLabel => TaggingStep.ToActionLabel();
+        public string TaggingStepHelpLabel => TaggingStep.ToHelpLabel();
 
         // Classifications
         public bool IsImageCrowded { get; private set; }
@@ -27,13 +37,22 @@ namespace HermesDataTagger
             TaggingStep = StepType.ImageCrowded;
         }
 
-        public void HandleClick(MouseEventArgs e)
+        public void HandleClick(PictureBox picBx, MouseEventArgs e)
         {
             switch (TaggingStep)
             {
                 case StepType.ImageCrowded:
                     AskIfPhotoCrowded();
                     break;
+                case StepType.SelectBibRegion:
+                    bool tagResult = TagBibRegion(picBx, e.Location);
+                    if (tagResult)
+                    {
+                        //break;
+                    }
+                    return;
+                default:
+                    return;
             }
             // Move to next step
             Debug.WriteLine($"The current step is: {TaggingStep.ToString()}");
@@ -46,65 +65,41 @@ namespace HermesDataTagger
             IsImageCrowded = result == DialogResult.Yes;
         }
 
-        public void AskToTagBibReigons()
+        private void DrawBibLine(PictureBox picBx)
         {
-
-        }
-
-#region UI Stuff
-        public Point GetPointFromMousePos(PictureBox pic, int x, int y)
-        {
-            int picHeight = pic.ClientSize.Height;
-            int picWidth = pic.ClientSize.Width;
-            int imgHeight = pic.Image.Height;
-            int imgWidth = pic.Image.Width;
-
-            int retX = x;
-            int retY = y;
-
-            switch (pic.SizeMode)
+            int lastIdx = _bibTagCache.Count() - 1;
+            using (Graphics graphics = picBx.CreateGraphics())
             {
-                case PictureBoxSizeMode.AutoSize:
-                case PictureBoxSizeMode.Normal:
-                    // These are okay. Leave them alone.
-                    break;
-                case PictureBoxSizeMode.CenterImage:
-                    retX = x - (picWidth - imgWidth) / 2;
-                    retY = y - (picHeight - imgHeight) / 2;
-                    break;
-                case PictureBoxSizeMode.StretchImage:
-                    retX = (int)(imgWidth * x / (float)picWidth);
-                    retY = (int)(imgHeight * y / (float)picHeight);
-                    break;
-                case PictureBoxSizeMode.Zoom:
-                    float pic_aspect = picWidth / (float)picHeight;
-                    float img_aspect = imgWidth / (float)imgHeight;
-                    if (pic_aspect > img_aspect)
-                    {
-                        // The PictureBox is wider/shorter than the image.
-                        retY = (int)(imgHeight * y / (float)picHeight);
-
-                        // The image fills the height of the PictureBox.
-                        // Get its width.
-                        float scaled_width = imgWidth * picHeight / imgHeight;
-                        float dx = (picWidth - scaled_width) / 2;
-                        retX = (int)((x - dx) * imgHeight / (float)picHeight);
-                    }
-                    else
-                    {
-                        // The PictureBox is taller/thinner than the image.
-                        retX = (int)(imgWidth * x / (float)picWidth);
-
-                        // The image fills the height of the PictureBox.
-                        // Get its height.
-                        float scaled_height = imgHeight * picWidth / imgWidth;
-                        float dy = (picHeight - scaled_height) / 2;
-                        retY = (int)((y - dy) * imgWidth / picWidth);
-                    }
-                    break;
+                Point fromPt = _bibTagCache[lastIdx];
+                Point lastPt =_bibTagCache[lastIdx - 1];
+                graphics.DrawLine(Utils.BibPen, fromPt, lastPt);
+                // Autocomplete polygon
+                if (lastIdx == _bibTagCache.Capacity - 1)
+                {
+                    graphics.DrawLine(Utils.BibPen, fromPt, _bibTagCache[0]);
+                }
             }
-            return new Point(retX, retY);
         }
-#endregion
+
+        public bool TagBibRegion(PictureBox picBx, Point pt)
+        {
+            int idx = _bibTagCache.Count;
+            // Points 0, 1, 2
+            _bibTagCache.Add(pt);
+            if (idx > 0 && idx < _bibTagCache.Capacity)
+            {
+                DrawBibLine(picBx);
+            }
+            if (idx == _bibTagCache.Capacity - 1)
+            {
+                // Map each "clicked" coords into "pixel of photo" coords
+                Point[] pixelPts = _bibTagCache.Select(p => Utils.MousePointToPixelPoint(picBx, p)).ToArray();
+                Point[] clickPts = _bibTagCache.ToArray();
+                TaggedPerson person = new TaggedPerson(this, pixelPts, clickPts);
+                _bibTagCache.Clear();
+                return true;
+            }
+            return false;
+        }
     }
 }

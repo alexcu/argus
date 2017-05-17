@@ -11,21 +11,17 @@ namespace HermesDataTagger
     [ImplementPropertyChanged]
     public class PhotoManager
     {
+        public static PhotoManager SharedManager = new PhotoManager();
+
         private Photo[] Photos { get; set; }
         private int PhotoIdx { get; set; }
+        public Photo CurrentPhoto => Photos[PhotoIdx];
 
         #region Photo Storage
         public string SrcDirectory { get; private set; }
         public bool PhotosLoaded => Photos.Length > 0;
         public bool CanGetNextPhoto => CurrentPhoto != Photos.Last();
         public bool CanGetPrevPhoto => CurrentPhoto != Photos.First();
-        #endregion
-
-        #region Current Photo Properties
-        public Photo CurrentPhoto => Photos[PhotoIdx];
-        public string CurrentPhotoFilename => CurrentPhoto.Filename;
-        public string CurrentPhotoStepLabel => CurrentPhoto.TaggingStep.ToActionLabel();
-        public int CurrentPhotoStepIdx => (int)CurrentPhoto.TaggingStep;
         #endregion
 
         #region Progressing Files

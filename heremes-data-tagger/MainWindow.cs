@@ -1,61 +1,43 @@
 ﻿﻿﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace HermesDataTagger
 {
     public partial class MainWindow : Form
     {
-        #region Main Window
-        PhotoManager Model = new PhotoManager();
+        PhotoManager Model = PhotoManager.SharedManager;
+
         public MainWindow()
         {
             InitializeComponent();
             Model.LoadFiles();
-            BindControls();
+            BindDataControls();
             BindEvents();
-            CreateTaggingStepPanels();
+            CreateTaggingToolbox();
             BringToFront();
         }
 
-        private void CreateTaggingStepPanels()
+        void CreateTaggingToolbox()
         {
-            System.Array stepArray = Enum.GetValues(typeof(StepType));
-            for (int i = 0; i < stepArray.Length; i++)
-            {
-                StepType step = (StepType)stepArray.GetValue(i);
-                string labelText = step.ToActionLabel();
-                TabPage newTabPage = new TabPage($"Step {i + 1}");
-                tabSteps.TabPages.Add(newTabPage);
-                // Dynamically add in the new tab each time
-                newTabPage.Enter += (sender, e) =>
-                {
-                    // Update the step to this tab and ensure the label control shifts inside it
-                    Model.CurrentPhoto.TaggingStep = step;
-                    newTabPage.Controls.Add(lblStepName);
-                };
-            }
-            // Remove le prototype
-            tabSteps.TabPages.Remove(tabPagePrototype);
-            tabSteps.SelectedIndex = 0;
+            TaggingToolbox tiForm = new TaggingToolbox();
+            tiForm.Show();
         }
 
-        private void BindControls()
+        private void BindDataControls()
         {
             // Buttons display
             btnPrevImage.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
             btnNextImage.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
-           
+
             // Image
-            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhotoFilename", false, DataSourceUpdateMode.OnPropertyChanged);
+            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
 
             // Window Title
-            this.DataBindings.Add("Text", Model, "CurrentPhotoFilename", false, DataSourceUpdateMode.OnPropertyChanged);
+            this.DataBindings.Add("Text", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
 
             // Labels
-            lblStepName.DataBindings.Add("Text", Model, "CurrentPhotoStepLabel", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            // Step Count
-            tabSteps.DataBindings.Add("SelectedIndex", Model, "CurrentPhotoStepIdx", false, DataSourceUpdateMode.OnPropertyChanged);
+            lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepLabel", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void BindEvents()
@@ -68,7 +50,7 @@ namespace HermesDataTagger
             // Mouse move event
             imgPhoto.MouseMove += (sender, e) =>
             {
-                var pt = Model.CurrentPhoto.GetPointFromMousePos(imgPhoto, e.X, e.Y);
+                var pt = Utils.MousePointToPixelPoint(imgPhoto, e.Location);
                 lblMousePos.Text = $"{pt.X}x{pt.Y}";
             };
             imgPhoto.MouseEnter += (sender, e) => lblMousePos.Visible = true;
@@ -88,9 +70,8 @@ namespace HermesDataTagger
             };
 
             // Mouse click event
-            imgPhoto.MouseClick += (sender, e) => Model.CurrentPhoto.HandleClick(e);
+            imgPhoto.MouseClick += (sender, e) => Model.CurrentPhoto.HandleClick(imgPhoto, e);
 
         }
-        #endregion
     }
 }
