@@ -101,25 +101,23 @@ namespace HermesDataTagger
         {
             Debug.WriteLine("Rendering Graphics...");
             Graphics graphics = e.Graphics;
-            //using (Graphics graphics = e.Graphics)
+            // For every runner tagged in the photo
+            foreach (TaggedPerson person in Model.CurrentPhoto.TaggedPeople)
             {
-                // For every runner tagged in the photo
-                foreach (TaggedPerson person in Model.CurrentPhoto.TaggedPeople)
+                // Markup each bib region (granted two lines)
+                if (person.Bib.ClickPoints.Count > 1)
                 {
-                    // Markup each bib region
-                    var bibClicks = person.Bib.ClickPoints;
-                    for (int i = 1; i < bibClicks.Count; i++)
+                    graphics.DrawLines(Utils.BibPen, person.Bib.ClickPoints.ToArray());
+                    // Autocomplete the line between the first and last click if fully tagged
+                    if (person.IsBibRegionTagged)
                     {
-                        Point fromPt = bibClicks[i - 1];
-                        Point toPt = bibClicks[i];
-                        graphics.DrawLine(Utils.BibPen, fromPt, toPt);
+                        graphics.DrawLine(Utils.BibPen, person.Bib.ClickPoints.First(), person.Bib.ClickPoints.Last());
                     }
-                    // Autocomplete between first and last clicks if reached 4 (capacity) clicks
-                    if (bibClicks.AtCapacity())
-                    {
-                        graphics.DrawLine(Utils.BibPen, bibClicks.First(), bibClicks.Last());
-                        graphics.DrawString(person.Bib.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft);
-                    }
+                }
+                // Number has been assigned? Draw that number
+                if (person.Bib.BibNumber != null)
+                {
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft);
                 }
             }
         }

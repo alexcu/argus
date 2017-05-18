@@ -59,12 +59,6 @@ namespace HermesDataTagger
         public bool IsPhotoCrowded    { get { return _photoCrowded; }  set { _photoCrowded = value; } }
         #endregion
 
-        #region Graphics
-        // Tagged bib polygons
-        public Point[][] BibPolygonsToDraw => TaggedPeople.Where(p => p.Bib.ClickPoints.AtCapacity()).Select(p => p.Bib.ClickPoints.ToArray()).ToArray();
-        public Point[] BibLinesToDraw => TaggedPeople.Where(p => p == LastPersonTagged && !p.Bib.ClickPoints.AtCapacity()).First().Bib.ClickPoints.ToArray();
-        #endregion
-
         public Photo(string filename)
         {
             Filename = filename;
@@ -119,7 +113,7 @@ namespace HermesDataTagger
         public void AskToTagBibNumber(PictureBox pbx, TaggedPerson person)
         {
             // Can only tag if all clicked!
-            if (person.Bib.ClickPoints.AtCapacity())
+            if (person.IsBibRegionTagged)
             {
                 BibNumberDialog bibDiag = new BibNumberDialog(pbx.Image, person.Bib);
                 // Prevent duplicate bib numbers being entered
