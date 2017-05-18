@@ -24,8 +24,16 @@ namespace HermesDataTagger
 
         void BindDataToControls()
         {
+            // UI Basics
             imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
             lblFilename.DataBindings.Add("Text", Model, "CurrentPhoto.Identifier", false, DataSourceUpdateMode.OnPropertyChanged);
+            lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Crowded
+            radioBtnCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            radioBtnNotCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Disable next button & steps if crowded
+            btnNextStep.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            lstSteps.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         void PopulateStepList()
@@ -35,7 +43,7 @@ namespace HermesDataTagger
             for (int i = 0; i < stepArray.Length; i++)
             {
                 StepType step = (StepType)stepArray.GetValue(i);
-                string stepLabel = $"[Step {i+1}] {step.ToActionLabel()}";
+                string stepLabel = $"[Step {i+1}] {step.ToStepNameString()}";
                 resultingList.Add(stepLabel);
             }
             lstSteps.DataSource = resultingList;
@@ -47,6 +55,12 @@ namespace HermesDataTagger
         {
             // Prevent form from closing
             FormClosing += (sender, e) => e.Cancel = true;
+            // Buttons
+            btnNextStep.Click += (sender, e) => Model.CurrentPhoto.GoToNextStep();
+            btnPrevStep.Click += (sender, e) => Model.CurrentPhoto.GoToPrevStep();
+            lstSteps.KeyDown += (sender, e) => e.SuppressKeyPress = true;
+            // KBD Shortcuts
+            KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
         }
     }
 }

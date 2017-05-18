@@ -40,6 +40,7 @@
             this.btnNextImage = new System.Windows.Forms.Button();
             this.btnPrevImage = new System.Windows.Forms.Button();
             this.topPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.lblInstructions = new System.Windows.Forms.Label();
             this.lblStepName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -54,9 +55,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.imgPhoto.Location = new System.Drawing.Point(3, 121);
+            this.imgPhoto.Location = new System.Drawing.Point(3, 209);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1842, 1296);
+            this.imgPhoto.Size = new System.Drawing.Size(1842, 1208);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 11;
             this.imgPhoto.TabStop = false;
@@ -110,19 +111,19 @@
             // mnuLoadImages
             // 
             this.mnuLoadImages.Name = "mnuLoadImages";
-            this.mnuLoadImages.Size = new System.Drawing.Size(269, 38);
+            this.mnuLoadImages.Size = new System.Drawing.Size(249, 38);
             this.mnuLoadImages.Text = "Load Images";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(246, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
             this.mnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.mnuExit.Size = new System.Drawing.Size(269, 38);
+            this.mnuExit.Size = new System.Drawing.Size(249, 38);
             this.mnuExit.Text = "Exit";
             // 
             // btnNextImage
@@ -131,9 +132,10 @@
             this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNextImage.Location = new System.Drawing.Point(1572, 3);
             this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.Size = new System.Drawing.Size(267, 72);
+            this.topPanel.SetRowSpan(this.btnNextImage, 2);
+            this.btnNextImage.Size = new System.Drawing.Size(267, 157);
             this.btnNextImage.TabIndex = 9;
-            this.btnNextImage.Text = "[&N]ext >";
+            this.btnNextImage.Text = "Next   ▶";
             this.btnNextImage.UseVisualStyleBackColor = true;
             // 
             // btnPrevImage
@@ -141,9 +143,10 @@
             this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrevImage.Location = new System.Drawing.Point(3, 3);
             this.btnPrevImage.Name = "btnPrevImage";
-            this.btnPrevImage.Size = new System.Drawing.Size(266, 72);
+            this.topPanel.SetRowSpan(this.btnPrevImage, 2);
+            this.btnPrevImage.Size = new System.Drawing.Size(266, 157);
             this.btnPrevImage.TabIndex = 10;
-            this.btnPrevImage.Text = "< [&B]ack";
+            this.btnPrevImage.Text = "◀   Back";
             this.btnPrevImage.UseVisualStyleBackColor = true;
             // 
             // topPanel
@@ -153,16 +156,31 @@
             this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.topPanel.Controls.Add(this.lblInstructions, 0, 1);
             this.topPanel.Controls.Add(this.lblStepName, 0, 0);
             this.topPanel.Controls.Add(this.btnPrevImage, 0, 0);
             this.topPanel.Controls.Add(this.btnNextImage, 2, 0);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 40);
             this.topPanel.Name = "topPanel";
-            this.topPanel.RowCount = 1;
-            this.topPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.topPanel.Size = new System.Drawing.Size(1842, 78);
+            this.topPanel.RowCount = 2;
+            this.topPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.topPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.topPanel.Size = new System.Drawing.Size(1842, 163);
             this.topPanel.TabIndex = 18;
+            // 
+            // lblInstructions
+            // 
+            this.lblInstructions.BackColor = System.Drawing.Color.White;
+            this.lblInstructions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstructions.ForeColor = System.Drawing.Color.Red;
+            this.lblInstructions.Location = new System.Drawing.Point(279, 97);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(1283, 66);
+            this.lblInstructions.TabIndex = 22;
+            this.lblInstructions.Text = "[Step Instructions Label]";
+            this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblStepName
             // 
@@ -172,8 +190,7 @@
             this.lblStepName.ForeColor = System.Drawing.Color.Red;
             this.lblStepName.Location = new System.Drawing.Point(279, 0);
             this.lblStepName.Name = "lblStepName";
-            this.lblStepName.Padding = new System.Windows.Forms.Padding(20);
-            this.lblStepName.Size = new System.Drawing.Size(1283, 78);
+            this.lblStepName.Size = new System.Drawing.Size(1283, 97);
             this.lblStepName.TabIndex = 21;
             this.lblStepName.Text = "[Step Label]";
             this.lblStepName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -221,6 +238,7 @@
         private System.Windows.Forms.Label lblStepName;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuExit;
+        private System.Windows.Forms.Label lblInstructions;
     }
 }
 

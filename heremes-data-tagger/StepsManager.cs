@@ -16,7 +16,7 @@ namespace HermesDataTagger
 
     public static class StepTypeExtensions
     {
-        public static string ToActionLabel(this StepType me)
+        public static string ToStepNameString(this StepType me)
         {
             switch (me)
             {
@@ -31,14 +31,14 @@ namespace HermesDataTagger
             }
         }
 
-        public static string ToHelpLabel(this StepType me)
+        public static string ToInstructionString(this StepType me)
         {
             switch (me)
             {
                 case StepType.ImageCrowded:
-                    return "Determine if this image is crowded with people";
+                    return "Determine if this image is crowded with people. Use the checkbox shown in the toolbox or TYPE C to toggle.";
                 case StepType.SelectBibRegion:
-                    return "Click FOUR times on the image to mark up a new bib region";
+                    return "Click FOUR times on the image to mark up a new bib region in a CLOCKWISE DIRECTION (top left, top right, bottom right, bottom left)";
                 case StepType.SelectFaceRegion:
                     return "Drag-and-drop around the face for the runner with Bib #{X}";
                 default:

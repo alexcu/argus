@@ -22,11 +22,42 @@ namespace HermesDataTagger
 
         // Current step with photo
         public StepType TaggingStep { get; set; }
-        public string TaggingStepLabel => TaggingStep.ToActionLabel();
-        public string TaggingStepHelpLabel => TaggingStep.ToHelpLabel();
+        public string TaggingStepName => TaggingStep.ToStepNameString();
+        public string TaggingStepInstructions => TaggingStep.ToInstructionString();
+
+        public void GoToNextStep()
+        {
+            // Can only progress if photo is not crowded
+            if (IsPhotoCrowded)
+            {
+                return;
+            }
+            if (TaggingStep != (StepType)(Enum.GetValues(typeof(StepType)).Length - 1))
+            {
+                TaggingStep++;
+            }
+        }
+
+        public void GoToPrevStep()
+        {
+            if (TaggingStep != 0)
+            {
+                TaggingStep--;
+            }
+        }
 
         // Classifications
-        public bool IsImageCrowded { get; private set; }
+        private bool _photoCrowded = false;
+        private void _setPhotoCrowded(bool value)
+        {
+            if (value)
+            {
+                TaggingStep = StepType.ImageCrowded;
+            }
+            _photoCrowded = value;
+        }
+        public bool IsPhotoNotCrowded { get { return !_photoCrowded; } set { _setPhotoCrowded((!value)); } }
+        public bool IsPhotoCrowded    { get { return _photoCrowded; }  set { _setPhotoCrowded(value); } }
 
         public Photo(string filename)
         {
@@ -56,7 +87,7 @@ namespace HermesDataTagger
         public void AskIfPhotoCrowded()
         {
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            IsImageCrowded = result == DialogResult.Yes;
+            IsPhotoCrowded = result == DialogResult.Yes;
         }
 
         public void TagBibRegion(PictureBox pbx, Point pt)

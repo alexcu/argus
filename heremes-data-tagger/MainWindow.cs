@@ -7,14 +7,11 @@ namespace HermesDataTagger
 {
     public partial class MainWindow : Form
     {
-        public static MainWindow MainWindowSingleton;
-
         PhotoManager Model = PhotoManager.SharedManager;
 
         public MainWindow()
         {
             InitializeComponent();
-            MainWindowSingleton = this;
             Model.LoadFiles();
             BindDataControls();
             BindEvents();
@@ -41,7 +38,8 @@ namespace HermesDataTagger
             this.DataBindings.Add("Text", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
 
             // Labels
-            lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepLabel", false, DataSourceUpdateMode.OnPropertyChanged);
+            lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepName", false, DataSourceUpdateMode.OnPropertyChanged);
+            lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void BindEvents()
@@ -64,9 +62,6 @@ namespace HermesDataTagger
             imgPhoto.MouseEnter += (sender, e) => lblMousePos.Visible = true;
             imgPhoto.MouseLeave += (sender, e) => lblMousePos.Visible = false;
 
-            // Key Down Events
-            KeyDown += HandleBackAndNextKeys;
-
             // Mouse click event
             imgPhoto.MouseClick += (sender, e) =>
             {
@@ -76,6 +71,9 @@ namespace HermesDataTagger
 
             // Paint event
             imgPhoto.Paint += RenderLines;
+
+            // KBD Shortcuts
+            KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
         }
 
         private void RenderLines(object sender, PaintEventArgs e)
@@ -94,25 +92,12 @@ namespace HermesDataTagger
                         graphics.DrawLine(Utils.BibPen, fromPt, toPt);
                     }
                     // Autocomplete between first and last clicks if reached 4 (capacity) clicks
-                    if (bibClicks.Capacity == bibClicks.Count)
+                    if (bibClicks.AtCapacity())
                     {
                         graphics.DrawLine(Utils.BibPen, bibClicks.First(), bibClicks.Last());
                         graphics.DrawString(person.Bib.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft);
                     }
-                    
                 }
-            }
-        }
-
-        private void HandleBackAndNextKeys(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.B)
-            {
-                Model.GetPrevPhoto();
-            }
-            if (e.KeyCode == Keys.N)
-            {
-                Model.GetNextPhoto();
             }
         }
     }
