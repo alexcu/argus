@@ -74,17 +74,22 @@ namespace HermesDataTagger
             // Paint event
             imgPhoto.Paint += RenderGraphics;
 
-            // Redraw graphics whenever we delete a item
-            Model.CurrentPhoto.TaggedPeople.ListChanged += (sender, e) =>
-            {
-                if (e.ListChangedType == System.ComponentModel.ListChangedType.ItemDeleted)
-                {
-                    RequestRedrawGraphics();
-                }
-            };
+            // Do something when the list changes
+            Model.CurrentPhoto.TaggedPeople.ListChanged += ModelListChanged;
 
             // KBD Shortcuts
             KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
+        }
+
+        private void ModelListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
+        {
+            // Redraw graphics whenever we delete a item
+            switch (e.ListChangedType)
+            {
+                case System.ComponentModel.ListChangedType.ItemDeleted:
+                    RequestRedrawGraphics();
+                    break;
+            }
         }
 
         private void RequestRedrawGraphics()

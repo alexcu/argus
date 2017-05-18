@@ -56,7 +56,9 @@ namespace HermesDataTagger
 
         // Reigons
         public BibSheet Bib = new BibSheet();
+        public bool IsBibRegionTagged => Bib.ClickPoints.AtCapacity();
         public PersonFace Face = new PersonFace();
+        public bool IsFaceRegionTagged => Face.ClickPoints.AtCapacity();
 
         // Bounds of person within photo
         private Point[] AllPoints => Face.ClickPoints.Concat(Bib.ClickPoints).ToArray();

@@ -57,8 +57,6 @@ namespace HermesDataTagger
             StepType newStep = (StepType)lstSteps.SelectedIndex;
             Model.CurrentPhoto.TaggingStep = newStep;
 
-            
-
             // Switching to new panel?
             switch (newStep)
             {

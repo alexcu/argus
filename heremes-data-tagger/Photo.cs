@@ -60,7 +60,9 @@ namespace HermesDataTagger
         #endregion
 
         #region Graphics
-        public Point[][] PolygonsToDraw => TaggedPeople.Where(p => p.Bib.ClickPoints.AtCapacity()).Select(p => p.Bib.ClickPoints.ToArray()).ToArray();
+        // Tagged bib polygons
+        public Point[][] BibPolygonsToDraw => TaggedPeople.Where(p => p.Bib.ClickPoints.AtCapacity()).Select(p => p.Bib.ClickPoints.ToArray()).ToArray();
+        public Point[] BibLinesToDraw => TaggedPeople.Where(p => p == LastPersonTagged && !p.Bib.ClickPoints.AtCapacity()).First().Bib.ClickPoints.ToArray();
         #endregion
 
         public Photo(string filename)
@@ -78,7 +80,7 @@ namespace HermesDataTagger
                     AskIfPhotoCrowded();
                     break;
                 case StepType.SelectBibRegion:
-                    TagBibRegion(picBx, e.Location);
+                    AskToTagBibRegion(picBx, e.Location);
                     break;
                 default:
                     break;
@@ -91,7 +93,7 @@ namespace HermesDataTagger
             IsPhotoCrowded = result == DialogResult.Yes;
         }
 
-        public void TagBibRegion(PictureBox pbx, Point pt)
+        public void AskToTagBibRegion(PictureBox pbx, Point pt)
         {
             TaggedPerson person = LastPersonTagged;
 
@@ -105,6 +107,18 @@ namespace HermesDataTagger
             person.Bib.ClickPoints.Add(pt);
             person.Bib.PixelPoints.Add(pt.ToPixelPoint(pbx));
             Debug.WriteLine($"Person #{TaggedPeople.Count} has Bib[{person.Bib.ClickPoints.Count}] = {pt} ({Identifier})");
+            // We just finished tagging?
+            if (person.IsBibRegionTagged)
+            {
+                // Invalidate (update graphics) of picture box to reflect new bib number
+                pbx.Invalidate();
+                AskToTagBibNumber(pbx, person);
+            }
+        }
+
+        public void AskToTagBibNumber(PictureBox pbx, TaggedPerson person)
+        {
+            // Can only tag if all clicked!
             if (person.Bib.ClickPoints.AtCapacity())
             {
                 BibNumberDialog bibDiag = new BibNumberDialog(pbx.Image, person.Bib);
