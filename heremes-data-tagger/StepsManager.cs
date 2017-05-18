@@ -9,13 +9,23 @@ namespace HermesDataTagger
 {
     public enum StepType
     {
-        ImageCrowded,
+        ImageCrowded = 0,
         SelectBibRegion,
         SelectFaceRegion
     }
 
     public static class StepTypeExtensions
     {
+        public static bool IsFirstStep(this StepType me)
+        {
+            return me == 0;
+        }
+
+        public static bool IsLastStep(this StepType me)
+        {
+            return (int)me == Enum.GetValues(typeof(StepType)).Length - 1;
+        }
+
         public static string ToStepNameString(this StepType me)
         {
             switch (me)

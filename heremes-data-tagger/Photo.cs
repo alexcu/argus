@@ -22,6 +22,8 @@ namespace HermesDataTagger
 
         // Current step with photo
         public StepType TaggingStep { get; set; }
+        public bool IsFirstTaggingStep => TaggingStep.IsFirstStep();
+        public bool IsLastTaggingStep => TaggingStep.IsLastStep();
         public string TaggingStepName => TaggingStep.ToStepNameString();
         public string TaggingStepInstructions => TaggingStep.ToInstructionString();
 
@@ -48,16 +50,8 @@ namespace HermesDataTagger
 
         // Classifications
         private bool _photoCrowded = false;
-        private void _setPhotoCrowded(bool value)
-        {
-            if (value)
-            {
-                TaggingStep = StepType.ImageCrowded;
-            }
-            _photoCrowded = value;
-        }
-        public bool IsPhotoNotCrowded { get { return !_photoCrowded; } set { _setPhotoCrowded((!value)); } }
-        public bool IsPhotoCrowded    { get { return _photoCrowded; }  set { _setPhotoCrowded(value); } }
+        public bool IsPhotoNotCrowded { get { return !_photoCrowded; } }
+        public bool IsPhotoCrowded    { get { return _photoCrowded; }  set { _photoCrowded = value; } }
 
         public Photo(string filename)
         {
@@ -75,13 +69,10 @@ namespace HermesDataTagger
                     break;
                 case StepType.SelectBibRegion:
                     TagBibRegion(picBx, e.Location);
-                    return;
+                    break;
                 default:
-                    return;
+                    break;
             }
-            // Move to next step
-            Debug.WriteLine($"The current step is: {TaggingStep.ToString()}");
-            TaggingStep++;
         }
 
         public void AskIfPhotoCrowded()

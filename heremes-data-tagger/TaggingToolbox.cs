@@ -29,8 +29,7 @@ namespace HermesDataTagger
             lblFilename.DataBindings.Add("Text", Model, "CurrentPhoto.Identifier", false, DataSourceUpdateMode.OnPropertyChanged);
             lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
             // Crowded
-            radioBtnCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            radioBtnNotCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            chbxIsCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
             // Disable next button & steps if crowded
             btnNextStep.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
             lstSteps.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -58,6 +57,7 @@ namespace HermesDataTagger
             // Buttons
             btnNextStep.Click += (sender, e) => Model.CurrentPhoto.GoToNextStep();
             btnPrevStep.Click += (sender, e) => Model.CurrentPhoto.GoToPrevStep();
+            // Supress list from changing order on keydown
             lstSteps.KeyDown += (sender, e) => e.SuppressKeyPress = true;
             // KBD Shortcuts
             KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);

@@ -34,15 +34,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.imgPhoto = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.radioBtnCrowded = new System.Windows.Forms.RadioButton();
-            this.radioBtnNotCrowded = new System.Windows.Forms.RadioButton();
             this.btnPrevStep = new System.Windows.Forms.Button();
             this.btnNextStep = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.chbxIsCrowded = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblFilename
@@ -111,39 +108,6 @@
             this.label1.Text = "STEPS:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.radioBtnCrowded);
-            this.panel1.Controls.Add(this.radioBtnNotCrowded);
-            this.panel1.Location = new System.Drawing.Point(12, 751);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(668, 124);
-            this.panel1.TabIndex = 9;
-            // 
-            // radioBtnCrowded
-            // 
-            this.radioBtnCrowded.AutoSize = true;
-            this.radioBtnCrowded.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioBtnCrowded.Location = new System.Drawing.Point(163, 66);
-            this.radioBtnCrowded.Name = "radioBtnCrowded";
-            this.radioBtnCrowded.Size = new System.Drawing.Size(302, 41);
-            this.radioBtnCrowded.TabIndex = 10;
-            this.radioBtnCrowded.Text = "Photo Is &Crowded";
-            this.radioBtnCrowded.UseVisualStyleBackColor = true;
-            // 
-            // radioBtnNotCrowded
-            // 
-            this.radioBtnNotCrowded.AutoSize = true;
-            this.radioBtnNotCrowded.Checked = true;
-            this.radioBtnNotCrowded.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioBtnNotCrowded.Location = new System.Drawing.Point(163, 19);
-            this.radioBtnNotCrowded.Name = "radioBtnNotCrowded";
-            this.radioBtnNotCrowded.Size = new System.Drawing.Size(362, 41);
-            this.radioBtnNotCrowded.TabIndex = 9;
-            this.radioBtnNotCrowded.TabStop = true;
-            this.radioBtnNotCrowded.Text = "Photo Is Not &Crowded";
-            this.radioBtnNotCrowded.UseVisualStyleBackColor = true;
-            // 
             // btnPrevStep
             // 
             this.btnPrevStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -175,15 +139,26 @@
             this.label3.Text = "Use S and SHIFT+S to move to next and previous step";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // chbxIsCrowded
+            // 
+            this.chbxIsCrowded.AutoSize = true;
+            this.chbxIsCrowded.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chbxIsCrowded.Location = new System.Drawing.Point(89, 800);
+            this.chbxIsCrowded.Name = "chbxIsCrowded";
+            this.chbxIsCrowded.Size = new System.Drawing.Size(533, 55);
+            this.chbxIsCrowded.TabIndex = 12;
+            this.chbxIsCrowded.Text = "Mark photo as [&C]rowded";
+            this.chbxIsCrowded.UseVisualStyleBackColor = true;
+            // 
             // TaggingToolbox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(692, 971);
+            this.Controls.Add(this.chbxIsCrowded);
             this.Controls.Add(this.btnNextStep);
             this.Controls.Add(this.btnPrevStep);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -196,8 +171,6 @@
             this.Text = "Tagging Toolbox";
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,12 +183,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox imgPhoto;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radioBtnCrowded;
-        private System.Windows.Forms.RadioButton radioBtnNotCrowded;
         private System.Windows.Forms.Button btnPrevStep;
         private System.Windows.Forms.Button btnNextStep;
         private System.Windows.Forms.Label label3;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.CheckBox chbxIsCrowded;
     }
 }
