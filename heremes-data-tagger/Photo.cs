@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,20 +14,23 @@ namespace HermesDataTagger
     [ImplementPropertyChanged]
     public class Photo
     {
+        // Basic identifiers
         public string Filename { get; }
         public string Identifier { get; }
 
-        // Array of person
-        public List<TaggedPerson> TaggedPeople = new List<TaggedPerson>();
-        public TaggedPerson LastPersonTagged => TaggedPeople.LastOrDefault();
+        #region TaggedItems
+        public BindingList<TaggedPerson> TaggedPeople = new BindingList<TaggedPerson>();
+        public TaggedPerson LastPersonTagged => TaggedPeople.FirstOrDefault();
+        private string[] TaggedBibNumbers => TaggedPeople.Select(p => p.BibNumber).ToArray();
+        #endregion
 
-        // Current step with photo
+        #region Steps
+        // Steps in tagging the photo
         public StepType TaggingStep { get; set; }
         public bool IsFirstTaggingStep => TaggingStep.IsFirstStep();
         public bool IsLastTaggingStep => TaggingStep.IsLastStep();
         public string TaggingStepName => TaggingStep.ToStepNameString();
         public string TaggingStepInstructions => TaggingStep.ToInstructionString();
-
         public void GoToNextStep()
         {
             // Can only progress if photo is not crowded
@@ -39,7 +43,6 @@ namespace HermesDataTagger
                 TaggingStep++;
             }
         }
-
         public void GoToPrevStep()
         {
             if (TaggingStep != 0)
@@ -47,11 +50,18 @@ namespace HermesDataTagger
                 TaggingStep--;
             }
         }
+        #endregion Steps
 
-        // Classifications
+        #region GeneralClassifications
+        // General classifications about the photo
         private bool _photoCrowded = false;
         public bool IsPhotoNotCrowded { get { return !_photoCrowded; } }
         public bool IsPhotoCrowded    { get { return _photoCrowded; }  set { _photoCrowded = value; } }
+        #endregion
+
+        #region Graphics
+        public Point[][] PolygonsToDraw => TaggedPeople.Where(p => p.Bib.ClickPoints.AtCapacity()).Select(p => p.Bib.ClickPoints.ToArray()).ToArray();
+        #endregion
 
         public Photo(string filename)
         {
@@ -89,7 +99,7 @@ namespace HermesDataTagger
             if (person == null || person.Bib.ClickPoints.Count == 4)
             {
                 person = new TaggedPerson(this);
-                TaggedPeople.Add(person);
+                TaggedPeople.Insert(0, person);
                 Debug.WriteLine($"Adding person #{TaggedPeople.Count} to ({Identifier})");
             }
             person.Bib.ClickPoints.Add(pt);
@@ -98,8 +108,23 @@ namespace HermesDataTagger
             if (person.Bib.ClickPoints.AtCapacity())
             {
                 BibNumberDialog bibDiag = new BibNumberDialog(pbx.Image, person.Bib);
-                bibDiag.ShowDialog();
-                person.Bib.BibNumber = bibDiag.BibNumber;
+                // Prevent duplicate bib numbers being entered
+                do
+                {
+                    bibDiag.ShowDialog();
+                    string diagBibNumber = bibDiag.BibNumber;
+                    if (TaggedBibNumbers.Contains(diagBibNumber))
+                    {
+                        MessageBox.Show($"The bib number {diagBibNumber} already exists in this photo!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        person.Bib.BibNumber = diagBibNumber;
+                        break;
+                    }
+                } while (true);
+                // Notify that bindings should be updated to display tag
+                TaggedPeople.ResetItem(0);
                 Debug.WriteLine($"Person #{TaggedPeople.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
             }
         }

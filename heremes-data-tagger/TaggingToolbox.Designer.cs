@@ -28,165 +28,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblFilename = new System.Windows.Forms.Label();
-            this.lstSteps = new System.Windows.Forms.ListBox();
-            this.lblInstructions = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.imgPhoto = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnPrevStep = new System.Windows.Forms.Button();
-            this.btnNextStep = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.chbxIsCrowded = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.tblTags = new System.Windows.Forms.DataGridView();
+            this.tblcolBibNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolFaceTagged = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tblcolBibDelete = new System.Windows.Forms.DataGridViewButtonColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.tblTags)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblFilename
+            // tblTags
             // 
-            this.lblFilename.BackColor = System.Drawing.Color.Transparent;
-            this.lblFilename.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFilename.Location = new System.Drawing.Point(12, 9);
-            this.lblFilename.Name = "lblFilename";
-            this.lblFilename.Size = new System.Drawing.Size(668, 29);
-            this.lblFilename.TabIndex = 2;
-            this.lblFilename.Text = "[Filename]";
-            this.lblFilename.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tblTags.AllowUserToAddRows = false;
+            this.tblTags.AllowUserToDeleteRows = false;
+            this.tblTags.AllowUserToResizeColumns = false;
+            this.tblTags.AllowUserToResizeRows = false;
+            this.tblTags.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tblTags.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tblTags.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.tblTags.ColumnHeadersHeight = 40;
+            this.tblTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.tblTags.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tblcolBibNumber,
+            this.tblcolFaceTagged,
+            this.tblcolBibDelete});
+            this.tblTags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblTags.Location = new System.Drawing.Point(0, 0);
+            this.tblTags.MultiSelect = false;
+            this.tblTags.Name = "tblTags";
+            this.tblTags.ReadOnly = true;
+            this.tblTags.RowHeadersVisible = false;
+            this.tblTags.RowTemplate.Height = 50;
+            this.tblTags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.tblTags.Size = new System.Drawing.Size(738, 483);
+            this.tblTags.StandardTab = true;
+            this.tblTags.TabIndex = 17;
             // 
-            // lstSteps
+            // tblcolBibNumber
             // 
-            this.lstSteps.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lstSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstSteps.FormattingEnabled = true;
-            this.lstSteps.ItemHeight = 37;
-            this.lstSteps.Items.AddRange(new object[] {
-            ""});
-            this.lstSteps.Location = new System.Drawing.Point(12, 404);
-            this.lstSteps.Name = "lstSteps";
-            this.lstSteps.Size = new System.Drawing.Size(668, 152);
-            this.lstSteps.TabIndex = 3;
+            this.tblcolBibNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(10);
+            this.tblcolBibNumber.DefaultCellStyle = dataGridViewCellStyle2;
+            this.tblcolBibNumber.FillWeight = 90F;
+            this.tblcolBibNumber.Frozen = true;
+            this.tblcolBibNumber.HeaderText = "Bib Number";
+            this.tblcolBibNumber.Name = "tblcolBibNumber";
+            this.tblcolBibNumber.ReadOnly = true;
+            this.tblcolBibNumber.Width = 211;
             // 
-            // lblInstructions
+            // tblcolFaceTagged
             // 
-            this.lblInstructions.AutoSize = true;
-            this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInstructions.ForeColor = System.Drawing.Color.Red;
-            this.lblInstructions.Location = new System.Drawing.Point(11, 665);
-            this.lblInstructions.MaximumSize = new System.Drawing.Size(668, 0);
-            this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(171, 31);
-            this.lblInstructions.TabIndex = 4;
-            this.lblInstructions.Text = "[Instructions]";
+            this.tblcolFaceTagged.FillWeight = 10F;
+            this.tblcolFaceTagged.HeaderText = "Face Tagged";
+            this.tblcolFaceTagged.Name = "tblcolFaceTagged";
+            this.tblcolFaceTagged.ReadOnly = true;
             // 
-            // label2
+            // tblcolBibDelete
             // 
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 631);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(668, 34);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "INSTRUCTIONS:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // imgPhoto
-            // 
-            this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.imgPhoto.Location = new System.Drawing.Point(12, 41);
-            this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(668, 315);
-            this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgPhoto.TabIndex = 0;
-            this.imgPhoto.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 375);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(668, 26);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "STEPS:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnPrevStep
-            // 
-            this.btnPrevStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrevStep.Location = new System.Drawing.Point(12, 896);
-            this.btnPrevStep.Name = "btnPrevStep";
-            this.btnPrevStep.Size = new System.Drawing.Size(300, 63);
-            this.btnPrevStep.TabIndex = 10;
-            this.btnPrevStep.Text = "◀   Previous Step";
-            this.btnPrevStep.UseVisualStyleBackColor = true;
-            // 
-            // btnNextStep
-            // 
-            this.btnNextStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNextStep.Location = new System.Drawing.Point(380, 896);
-            this.btnNextStep.Name = "btnNextStep";
-            this.btnNextStep.Size = new System.Drawing.Size(300, 63);
-            this.btnNextStep.TabIndex = 11;
-            this.btnNextStep.Text = "Next Step   ▶";
-            this.btnNextStep.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label3.Location = new System.Drawing.Point(12, 559);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(668, 26);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Use S and SHIFT+S to move to next and previous step";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // chbxIsCrowded
-            // 
-            this.chbxIsCrowded.AutoSize = true;
-            this.chbxIsCrowded.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chbxIsCrowded.Location = new System.Drawing.Point(89, 800);
-            this.chbxIsCrowded.Name = "chbxIsCrowded";
-            this.chbxIsCrowded.Size = new System.Drawing.Size(533, 55);
-            this.chbxIsCrowded.TabIndex = 12;
-            this.chbxIsCrowded.Text = "Mark photo as [&C]rowded";
-            this.chbxIsCrowded.UseVisualStyleBackColor = true;
+            this.tblcolBibDelete.FillWeight = 10F;
+            this.tblcolBibDelete.HeaderText = "Delete";
+            this.tblcolBibDelete.Name = "tblcolBibDelete";
+            this.tblcolBibDelete.ReadOnly = true;
+            this.tblcolBibDelete.Text = "Delete";
+            this.tblcolBibDelete.ToolTipText = "Delete this bib region";
+            this.tblcolBibDelete.UseColumnTextForButtonValue = true;
             // 
             // TaggingToolbox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(692, 971);
-            this.Controls.Add(this.chbxIsCrowded);
-            this.Controls.Add(this.btnNextStep);
-            this.Controls.Add(this.btnPrevStep);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.lblInstructions);
-            this.Controls.Add(this.lstSteps);
-            this.Controls.Add(this.lblFilename);
-            this.Controls.Add(this.imgPhoto);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.ClientSize = new System.Drawing.Size(738, 483);
+            this.ControlBox = false;
+            this.Controls.Add(this.tblTags);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MaximizeBox = false;
             this.Name = "TaggingToolbox";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Tagging Toolbox";
             this.TopMost = true;
-            ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblTags)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label lblFilename;
-        private System.Windows.Forms.ListBox lstSteps;
-        private System.Windows.Forms.Label lblInstructions;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox imgPhoto;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnPrevStep;
-        private System.Windows.Forms.Button btnNextStep;
-        private System.Windows.Forms.Label label3;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.CheckBox chbxIsCrowded;
+
+        private System.Windows.Forms.DataGridView tblTags;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolBibNumber;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolFaceTagged;
+        private System.Windows.Forms.DataGridViewButtonColumn tblcolBibDelete;
     }
 }

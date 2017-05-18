@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System.Linq;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace HermesDataTagger
 {
@@ -21,7 +23,7 @@ namespace HermesDataTagger
 
         void CreateTaggingToolbox()
         {
-            TaggingToolbox tiForm = new TaggingToolbox();
+            StepsToolbox tiForm = new StepsToolbox();
             tiForm.Show();
         }
 
@@ -66,19 +68,35 @@ namespace HermesDataTagger
             imgPhoto.MouseClick += (sender, e) =>
             {
                 Model.CurrentPhoto.HandleClick(imgPhoto, e);
-                RenderLines(sender, null);
+                RequestRedrawGraphics();
             };
 
             // Paint event
-            imgPhoto.Paint += RenderLines;
+            imgPhoto.Paint += RenderGraphics;
+
+            // Redraw graphics whenever we delete a item
+            Model.CurrentPhoto.TaggedPeople.ListChanged += (sender, e) =>
+            {
+                if (e.ListChangedType == System.ComponentModel.ListChangedType.ItemDeleted)
+                {
+                    RequestRedrawGraphics();
+                }
+            };
 
             // KBD Shortcuts
             KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
         }
 
-        private void RenderLines(object sender, PaintEventArgs e)
+        private void RequestRedrawGraphics()
         {
-            using (Graphics graphics = imgPhoto.CreateGraphics())
+            imgPhoto.Invalidate();
+        }
+
+        private void RenderGraphics(object sender, PaintEventArgs e)
+        {
+            Debug.WriteLine("Rendering Graphics...");
+            Graphics graphics = e.Graphics;
+            //using (Graphics graphics = e.Graphics)
             {
                 // For every runner tagged in the photo
                 foreach (TaggedPerson person in Model.CurrentPhoto.TaggedPeople)

@@ -12,55 +12,57 @@ namespace HermesDataTagger
 {
     public partial class TaggingToolbox : Form
     {
-        PhotoManager Model = PhotoManager.SharedManager;
+        private PhotoManager Model = PhotoManager.SharedManager;
 
         public TaggingToolbox()
         {
             InitializeComponent();
-            BindEvents();
+            MoveToBottom();
             BindDataToControls();
-            PopulateStepList();
+            BindEvents();
         }
 
         void BindDataToControls()
         {
-            // UI Basics
-            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
-            lblFilename.DataBindings.Add("Text", Model, "CurrentPhoto.Identifier", false, DataSourceUpdateMode.OnPropertyChanged);
-            lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
-            // Crowded
-            chbxIsCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            // Disable next button & steps if crowded
-            btnNextStep.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            lstSteps.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Enable bib panel if not in crowded step
+            tblTags.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Set up table for bib # identified
+            tblTags.AutoGenerateColumns = false;
+            tblTags.DataSource = Model.CurrentPhoto.TaggedPeople;
+            tblcolBibNumber.DataPropertyName = "BibNumber";
         }
 
-        void PopulateStepList()
-        {
-            List<string> resultingList = new List<string>();
-            Array stepArray = Enum.GetValues(typeof(StepType));
-            for (int i = 0; i < stepArray.Length; i++)
-            {
-                StepType step = (StepType)stepArray.GetValue(i);
-                string stepLabel = $"[Step {i+1}] {step.ToStepNameString()}";
-                resultingList.Add(stepLabel);
-            }
-            lstSteps.DataSource = resultingList;
-            lstSteps.DataBindings.Add("SelectedIndex", Model, "CurrentPhoto.TaggingStep", false, DataSourceUpdateMode.OnPropertyChanged);
-            lstSteps.SelectedIndexChanged += (sender, e) => Model.CurrentPhoto.TaggingStep = (StepType)lstSteps.SelectedIndex;
-        }
 
         void BindEvents()
         {
             // Prevent form from closing
             FormClosing += (sender, e) => e.Cancel = true;
-            // Buttons
-            btnNextStep.Click += (sender, e) => Model.CurrentPhoto.GoToNextStep();
-            btnPrevStep.Click += (sender, e) => Model.CurrentPhoto.GoToPrevStep();
-            // Supress list from changing order on keydown
-            lstSteps.KeyDown += (sender, e) => e.SuppressKeyPress = true;
             // KBD Shortcuts
             KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
+            // Switch to most recently added in bind list
+            tblTags.RowsAdded += NewTagAdded;
+            tblTags.CellContentClick += HandleDeleteRow;
         }
+
+        private void HandleDeleteRow(object sender, DataGridViewCellEventArgs e)
+        {
+            if (tblTags.Columns[e.ColumnIndex] == tblcolBibDelete)
+            {
+                Model.CurrentPhoto.TaggedPeople.RemoveAt(e.RowIndex);
+            }
+        }
+
+        private void NewTagAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            tblTags.Rows[0].Selected = true;
+        }
+
+        void MoveToBottom()
+        {
+            Rectangle workingArea = Screen.GetWorkingArea(this);
+            this.Location = new Point(workingArea.Right - Size.Width,
+                                      workingArea.Bottom - Size.Height);
+        }
+
     }
 }

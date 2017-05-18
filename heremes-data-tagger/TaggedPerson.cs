@@ -45,11 +45,14 @@ namespace HermesDataTagger
         #endregion
 
         // Source photo
-        public Photo SourcePhoto { get; }
+        private Photo SourcePhoto { get; }
 
         // Classifications
         public bool IsRunnerBlurred { get; set; }
         public LikelihoodOfPurchaseType LikelihoodOfPurchase { get; set; }
+
+        // Bib Number
+        public string BibNumber => Bib.BibNumber ?? "N/A";
 
         // Reigons
         public BibSheet Bib = new BibSheet();

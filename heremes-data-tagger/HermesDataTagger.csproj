@@ -56,6 +56,12 @@
       <DependentUpon>BibNumberDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyboardShortcutManager.cs" />
+    <Compile Include="TaggingToolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaggingToolbox.Designer.cs">
+      <DependentUpon>TaggingToolbox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -69,11 +75,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepsManager.cs" />
     <Compile Include="TaggedPerson.cs" />
-    <Compile Include="TaggingToolbox.cs">
+    <Compile Include="StepsToolbox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TaggingToolbox.Designer.cs">
-      <DependentUpon>TaggingToolbox.cs</DependentUpon>
+    <Compile Include="StepsToolbox.Designer.cs">
+      <DependentUpon>StepsToolbox.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="BibNumberDialog.resx">
       <DependentUpon>BibNumberDialog.cs</DependentUpon>
@@ -93,6 +99,9 @@
     </Compile>
     <EmbeddedResource Include="TaggingToolbox.resx">
       <DependentUpon>TaggingToolbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StepsToolbox.resx">
+      <DependentUpon>StepsToolbox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
