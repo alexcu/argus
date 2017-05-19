@@ -123,6 +123,9 @@ namespace HermesDataTagger
             {
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
+                    // Show the person classification dialog
+                    PersonClassificationsDialog pcd = new PersonClassificationsDialog(SelectedPerson);
+                    pcd.ShowDialog();
                     // Notify that this person has now been tagged (mouse up)
                     TaggedPeople.ResetItem(TaggedPeople.IndexOf(SelectedPerson));
                     break;
@@ -143,6 +146,12 @@ namespace HermesDataTagger
         #region AddBibRegion
         public void AskToTagBibRegion(PictureBox pbx, Point pt)
         {
+            // Ignore this point if outside bounds of pbx
+            if (!pbx.IsPointInImage(pt))
+            {
+                return;
+            }
+
             TaggedPerson person = LastPersonTagged;
 
             // First person tagged or new person (last person has 4 clicks)?

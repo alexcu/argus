@@ -61,9 +61,9 @@ namespace HermesDataTagger
         public bool IsFaceRegionTagged => Face.ClickPoints.AtCapacity();
 
         // Bounds of person within photo
-        private Point[] AllPoints => Face.ClickPoints.Concat(Bib.ClickPoints).ToArray();
-        public int LeftmostX => AllPoints.Min(pt => pt.X);
-        public int RightmostX => AllPoints.Max(pt => pt.X);
+        private Point[] AllPixelPoints => Face.PixelPoints.Concat(Bib.PixelPoints).ToArray();
+        public int LeftmostPixelX => AllPixelPoints.Min(pt => pt.X);
+        public int RightmostPixelX => AllPixelPoints.Max(pt => pt.X);
     
         // Colors
         private Color _shirtColor = Color.Black;

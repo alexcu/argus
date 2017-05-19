@@ -31,6 +31,12 @@ namespace HermesDataTagger
             return MousePointToPixelPoint(picBx, me);
         }
 
+        public static bool IsPointInImage(this PictureBox me, Point pt)
+        {
+            pt = pt.ToPixelPoint(me);
+            return pt.X <= me.Image.Width && pt.X >= 0 && pt.Y >= 0 && pt.Y <= me.Image.Height;
+        }
+
         public static Point MousePointToPixelPoint(PictureBox picBx, Point pt)
         {
             int picHeight = picBx.ClientSize.Height;

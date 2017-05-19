@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgPersonCrop = new System.Windows.Forms.PictureBox();
             this.grpClothing = new System.Windows.Forms.GroupBox();
             this.chbxHat = new System.Windows.Forms.CheckBox();
             this.chbxGlasses = new System.Windows.Forms.CheckBox();
@@ -40,31 +40,33 @@
             this.chbxBlurry = new System.Windows.Forms.CheckBox();
             this.chbxFaceVisible = new System.Windows.Forms.CheckBox();
             this.btnSave = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.btnCancel = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).BeginInit();
             this.grpClothing.SuspendLayout();
             this.grpLikelihood.SuspendLayout();
             this.grpVisibility.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // imgPersonCrop
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.imgPersonCrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(774, 1008);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.imgPersonCrop.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.imgPersonCrop.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.imgPersonCrop.Location = new System.Drawing.Point(0, 0);
+            this.imgPersonCrop.Name = "imgPersonCrop";
+            this.imgPersonCrop.Size = new System.Drawing.Size(774, 1008);
+            this.imgPersonCrop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgPersonCrop.TabIndex = 0;
+            this.imgPersonCrop.TabStop = false;
             // 
             // grpClothing
             // 
-            this.grpClothing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpClothing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpClothing.Controls.Add(this.chbxHat);
             this.grpClothing.Controls.Add(this.chbxGlasses);
-            this.grpClothing.Location = new System.Drawing.Point(12, 1517);
+            this.grpClothing.Location = new System.Drawing.Point(12, 1515);
             this.grpClothing.Name = "grpClothing";
             this.grpClothing.Size = new System.Drawing.Size(750, 180);
             this.grpClothing.TabIndex = 15;
@@ -95,11 +97,12 @@
             // 
             // grpLikelihood
             // 
-            this.grpLikelihood.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpLikelihood.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpLikelihood.Controls.Add(this.rdoMaybeBuy);
             this.grpLikelihood.Controls.Add(this.rdoNotBuy);
             this.grpLikelihood.Controls.Add(this.rdoWouldBuy);
-            this.grpLikelihood.Location = new System.Drawing.Point(12, 1242);
+            this.grpLikelihood.Location = new System.Drawing.Point(12, 1240);
             this.grpLikelihood.Name = "grpLikelihood";
             this.grpLikelihood.Size = new System.Drawing.Size(750, 253);
             this.grpLikelihood.TabIndex = 14;
@@ -144,10 +147,11 @@
             // 
             // grpVisibility
             // 
-            this.grpVisibility.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpVisibility.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpVisibility.Controls.Add(this.chbxBlurry);
             this.grpVisibility.Controls.Add(this.chbxFaceVisible);
-            this.grpVisibility.Location = new System.Drawing.Point(12, 1058);
+            this.grpVisibility.Location = new System.Drawing.Point(12, 1056);
             this.grpVisibility.Name = "grpVisibility";
             this.grpVisibility.Size = new System.Drawing.Size(750, 180);
             this.grpVisibility.TabIndex = 13;
@@ -184,29 +188,45 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(12, 1730);
+            this.btnSave.Location = new System.Drawing.Point(12, 1727);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(750, 69);
+            this.btnSave.Size = new System.Drawing.Size(338, 69);
             this.btnSave.TabIndex = 12;
             this.btnSave.Text = "[&S]ave";
             this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancel.Location = new System.Drawing.Point(424, 1727);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(338, 69);
+            this.btnCancel.TabIndex = 16;
+            this.btnCancel.Text = "[&C]ancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // PersonClassificationsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnSave;
-            this.ClientSize = new System.Drawing.Size(774, 1811);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(774, 2051);
+            this.ControlBox = false;
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.grpClothing);
             this.Controls.Add(this.grpLikelihood);
             this.Controls.Add(this.grpVisibility);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.imgPersonCrop);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "PersonClassificationsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Person Classifications";
             this.TopMost = true;
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).EndInit();
             this.grpClothing.ResumeLayout(false);
             this.grpClothing.PerformLayout();
             this.grpLikelihood.ResumeLayout(false);
@@ -219,7 +239,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox imgPersonCrop;
         private System.Windows.Forms.GroupBox grpClothing;
         private System.Windows.Forms.CheckBox chbxHat;
         private System.Windows.Forms.CheckBox chbxGlasses;
@@ -231,5 +251,6 @@
         private System.Windows.Forms.CheckBox chbxBlurry;
         private System.Windows.Forms.CheckBox chbxFaceVisible;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

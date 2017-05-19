@@ -17,25 +17,32 @@ namespace HermesDataTagger
         public BibNumberDialog(Image srcImage, TaggedPerson.BibSheet bibSheet)
         {
             InitializeComponent();
+            CropBibPhoto(srcImage, bibSheet);
+            BindEvents();
+        }
 
+        void CropBibPhoto(Image srcImage, TaggedPerson.BibSheet bibSheet)
+        {
             // Crop image to bib
             Bitmap bmp = new Bitmap(srcImage);
             // Bounding area
-            // TODO: I HAVE NO IDEA WHY X AND Y ARE INVERTED!
-            int top = bibSheet.PixelPoints.Min(pt => pt.X) - 10;
-            int btm = bibSheet.PixelPoints.Max(pt => pt.X) + 10;
-            int left = bibSheet.PixelPoints.Min(pt => pt.Y) - 10;
-            int right = bibSheet.PixelPoints.Max(pt => pt.Y) + 10;
-            int height = right - left;
-            int width = btm - top;
-            Rectangle crop = new Rectangle(top, left, width, height);
+            int startX = bibSheet.PixelPoints.Min(pt => pt.X) - 10;
+            int startY = bibSheet.PixelPoints.Min(pt => pt.Y) - 10;
+            int endX = bibSheet.PixelPoints.Max(pt => pt.X) + 10;
+            int endY = bibSheet.PixelPoints.Max(pt => pt.Y) + 10;
+            // Ensure we don't overcompensate
+            startX = startX < 0 ? 0 : startX;
+            startY = startY < 0 ? 0 : startY;
+            endX = endX > srcImage.Width ? srcImage.Width : endX;
+            endY = endY > srcImage.Height ? srcImage.Height : endY;
+            int width = endX - startX;
+            int height = endY - startY;
+            Rectangle crop = new Rectangle(startX, startY, width, height);
             // Clone cropped image
             Bitmap croppedImage = bmp.Clone(crop, bmp.PixelFormat);
             bmp.Dispose();
             // Present
             imgBibCrop.Image = croppedImage;
-
-            BindEvents();
         }
 
         void BindEvents()
