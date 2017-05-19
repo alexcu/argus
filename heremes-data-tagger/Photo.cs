@@ -178,12 +178,18 @@ namespace HermesDataTagger
             // Can only tag if all clicked!
             if (person.IsBibRegionTagged)
             {
-                BibNumberDialog bibDiag = new BibNumberDialog(pbx.Image, person.Bib);
+                BibNumberDialog bibDiag = new BibNumberDialog(person);
                 // Prevent duplicate bib numbers being entered
                 do
                 {
-                    bibDiag.ShowDialog();
-                    string diagBibNumber = bibDiag.BibNumber;
+                    DialogResult result = bibDiag.ShowDialog();
+                    if (result == DialogResult.Cancel)
+                    {
+                        // Cancel -- remove this tag!
+                        DeleteTaggedPerson(person);
+                        return;
+                    }
+                    string diagBibNumber = bibDiag.EnteredBibNumber;
                     if (TaggedBibNumbers.Contains(diagBibNumber))
                     {
                         MessageBox.Show($"The bib number {diagBibNumber} already exists in this photo!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);

@@ -12,17 +12,21 @@ namespace HermesDataTagger
 {
     public partial class BibNumberDialog : Form
     {
-        public string BibNumber { get; private set; }
-        
-        public BibNumberDialog(Image srcImage, TaggedPerson.BibSheet bibSheet)
+        public string EnteredBibNumber { get; private set; }
+        public TaggedPerson Person { get; }
+
+        public BibNumberDialog(TaggedPerson person)
         {
+            Person = person;
             InitializeComponent();
-            CropBibPhoto(srcImage, bibSheet);
+            CropBibPhoto();
             BindEvents();
         }
 
-        void CropBibPhoto(Image srcImage, TaggedPerson.BibSheet bibSheet)
+        void CropBibPhoto()
         {
+            Image srcImage = MainWindow.Singleton.MainPictureBox.Image;
+            TaggedPerson.BibSheet bibSheet = Person.Bib;
             // Crop image to bib
             Bitmap bmp = new Bitmap(srcImage);
             // Bounding area
@@ -47,33 +51,23 @@ namespace HermesDataTagger
 
         void BindEvents()
         {
-            // Prevent form from closing if empty text
-            FormClosing += (sender, e) =>
-            {
-                if (String.IsNullOrWhiteSpace(txtBibNumber.Text))
-                {
-                    e.Cancel = true;
-                }
-                else
-                {
-                    BibNumber = txtBibNumber.Text;
-                }
-            };
-
             txtBibNumber.TextChanged += (sender, e) =>
             {
                 btnEnterBibNumber.Enabled = !String.IsNullOrWhiteSpace(txtBibNumber.Text);
+                EnteredBibNumber = txtBibNumber.Text;
             };
-
-            btnEnterBibNumber.Click += (sender, e) => Close();
-
-            txtBibNumber.KeyDown += (sender, e) =>
+        }
+        
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // Escape to cancel
+            if (keyData == Keys.Escape)
             {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    Close();
-                }
-            };
+                DialogResult = DialogResult.Cancel;
+                Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

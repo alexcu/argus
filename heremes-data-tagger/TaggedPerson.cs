@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using PropertyChanged;
 
 namespace HermesDataTagger
 {
+    [ImplementPropertyChanged]
     public class TaggedPerson
     {
         #region Related Data Types
+        [ImplementPropertyChanged]
         public class PersonFace
         {
             // Reigon
@@ -27,6 +30,7 @@ namespace HermesDataTagger
             // Classifications
             public bool IsFaceVisible { get; set; }
         }
+        [ImplementPropertyChanged]
         public class BibSheet
         {
             // Bib region
@@ -40,6 +44,7 @@ namespace HermesDataTagger
             public List<Point> PixelPoints = new List<Point>(4);
 
             public string BibNumber { get; set; }
+            public bool IsNullBibNumber => BibNumber == null;
         }
         public enum LikelihoodOfPurchaseType { No = -1, Maybe = 0, Yes = 1 }
         #endregion

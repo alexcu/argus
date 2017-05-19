@@ -37,6 +37,7 @@
             // 
             // imgBibCrop
             // 
+            this.imgBibCrop.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.imgBibCrop.BackColor = System.Drawing.SystemColors.ControlDark;
             this.imgBibCrop.Location = new System.Drawing.Point(12, 12);
             this.imgBibCrop.Name = "imgBibCrop";
@@ -47,14 +48,15 @@
             // 
             // txtBibNumber
             // 
-            this.txtBibNumber.Font = new System.Drawing.Font("Lucida Console", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBibNumber.Location = new System.Drawing.Point(12, 203);
+            this.txtBibNumber.Font = new System.Drawing.Font("Lucida Console", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBibNumber.Location = new System.Drawing.Point(12, 208);
             this.txtBibNumber.Name = "txtBibNumber";
-            this.txtBibNumber.Size = new System.Drawing.Size(442, 55);
+            this.txtBibNumber.Size = new System.Drawing.Size(442, 50);
             this.txtBibNumber.TabIndex = 1;
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 146);
             this.label1.Name = "label1";
@@ -76,10 +78,10 @@
             // 
             // BibNumberDialog
             // 
+            this.AcceptButton = this.btnEnterBibNumber;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 313);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(632, 279);
             this.Controls.Add(this.btnEnterBibNumber);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBibNumber);
