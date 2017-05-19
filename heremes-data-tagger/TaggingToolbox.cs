@@ -64,7 +64,7 @@ namespace HermesDataTagger
 
             if (deleteClicked)
             {
-                Model.CurrentPhoto.TaggedPeople.RemoveAt(e.RowIndex);
+                Model.CurrentPhoto.DeleteTaggedPerson(personClicked);
             }
             if (numberClicked)
             {

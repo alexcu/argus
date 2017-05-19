@@ -52,7 +52,15 @@ namespace HermesDataTagger
                 case StepType.SelectBibRegion:
                     return "Click FOUR times on the image to mark up a new bib region in a CLOCKWISE DIRECTION (top left, top right, bottom right, bottom left)";
                 case StepType.SelectFaceRegion:
-                    return $"Drag-and-drop around the face for the runner with Bib #{Model.CurrentPhoto.SelectedPerson.BibNumber}";
+                    TaggedPerson person = Model.CurrentPhoto.SelectedPerson;
+                    if (person == null)
+                    {
+                        return "You MUST TAG BIB REGIONS (Step 2) before you can select face regions!";
+                    }
+                    else
+                    {
+                        return $"Drag-and-drop around the face for the runner with Bib #{person.BibNumber}";
+                    }
                 default:
                     return "";
             }

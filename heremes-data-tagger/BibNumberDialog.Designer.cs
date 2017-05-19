@@ -65,6 +65,7 @@
             // 
             // btnEnterBibNumber
             // 
+            this.btnEnterBibNumber.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnEnterBibNumber.Enabled = false;
             this.btnEnterBibNumber.Location = new System.Drawing.Point(460, 203);
             this.btnEnterBibNumber.Name = "btnEnterBibNumber";
@@ -77,7 +78,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 275);
+            this.ClientSize = new System.Drawing.Size(632, 313);
+            this.ControlBox = false;
             this.Controls.Add(this.btnEnterBibNumber);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBibNumber);

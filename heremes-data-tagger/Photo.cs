@@ -71,6 +71,15 @@ namespace HermesDataTagger
             TaggingStep = StepType.ImageCrowded;
         }
 
+        public void DeleteTaggedPerson(TaggedPerson person)
+        {
+            TaggedPeople.Remove(person);
+            if (person == SelectedPerson)
+            {
+                SelectedPerson = null;
+            }
+        }
+
         #region HandleEvents
         public void HandleClick(PictureBox pbx, MouseEventArgs e)
         {
