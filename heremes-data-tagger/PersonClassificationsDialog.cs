@@ -19,6 +19,9 @@ namespace HermesDataTagger
             InitializeComponent();
             Person = person;
             CropPersonPhoto();
+            BindDataToControls();
+            // TODO: Work out why the window size won't reflect the designer
+            Height += 158;
         }
 
         void CropPersonPhoto()
@@ -42,8 +45,38 @@ namespace HermesDataTagger
             imgPersonCrop.Image = croppedImage;
         }
 
-        void BindEvents()
+        void BindDataToControls()
         {
+            chbxFaceVisible.DataBindings.Add("Checked", Person.Face, "IsFaceVisible", false, DataSourceUpdateMode.OnPropertyChanged);
+            chbxGlasses.DataBindings.Add("Checked", Person.Face, "IsWearingGlasses", false, DataSourceUpdateMode.OnPropertyChanged);
+            chbxHat.DataBindings.Add("Checked", Person.Face, "IsWearingHat", false, DataSourceUpdateMode.OnPropertyChanged);
+            chbxBlurry.DataBindings.Add("Checked", Person, "IsRunnerBlurred", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Manual binding of radio buttons :(
+            rdoNotBuy.Checked = Person.LikelihoodOfPurchase == TaggedPerson.LikelihoodOfPurchaseType.No;
+            rdoMaybeBuy.Checked = Person.LikelihoodOfPurchase == TaggedPerson.LikelihoodOfPurchaseType.Maybe;
+            rdoWouldBuy.Checked = Person.LikelihoodOfPurchase == TaggedPerson.LikelihoodOfPurchaseType.Yes;
+            rdoNotBuy.CheckedChanged += (sender, e) => LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType.No, rdoNotBuy.Checked);
+            rdoMaybeBuy.CheckedChanged += (sender, e) => LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType.Maybe, rdoMaybeBuy.Checked);
+            rdoWouldBuy.CheckedChanged += (sender, e) => LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType.Yes, rdoWouldBuy.Checked);
+        }
+
+        private void LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType type, bool newValue)
+        {
+            if (newValue)
+            {
+                switch (type)
+                {
+                    case TaggedPerson.LikelihoodOfPurchaseType.Yes:
+                        Person.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Yes;
+                        break;
+                    case TaggedPerson.LikelihoodOfPurchaseType.Maybe:
+                        Person.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Maybe;
+                        break;
+                    case TaggedPerson.LikelihoodOfPurchaseType.No:
+                        Person.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No;
+                        break;
+                }
+            }
         }
     }
 }

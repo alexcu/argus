@@ -24,11 +24,11 @@ namespace HermesDataTagger
             public List<Point> PixelPoints = new List<Point>(2);
 
             // Face modifications
-            public bool IsWearingCap { get; set; }
-            public bool IsWearingSunglasses { get; set; }
+            public bool IsWearingHat { get; set; }
+            public bool IsWearingGlasses { get; set; }
 
             // Classifications
-            public bool IsFaceVisible { get; set; }
+            public bool IsFaceVisible { get; set; } = true;
         }
         [ImplementPropertyChanged]
         public class BibSheet
