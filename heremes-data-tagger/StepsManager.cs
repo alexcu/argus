@@ -16,6 +16,8 @@ namespace HermesDataTagger
 
     public static class StepTypeExtensions
     {
+        private static PhotoManager Model = PhotoManager.SharedManager;
+
         public static bool IsFirstStep(this StepType me)
         {
             return me == 0;
@@ -50,7 +52,7 @@ namespace HermesDataTagger
                 case StepType.SelectBibRegion:
                     return "Click FOUR times on the image to mark up a new bib region in a CLOCKWISE DIRECTION (top left, top right, bottom right, bottom left)";
                 case StepType.SelectFaceRegion:
-                    return "Drag-and-drop around the face for the runner with Bib #{X}";
+                    return $"Drag-and-drop around the face for the runner with Bib #{Model.CurrentPhoto.SelectedPerson.BibNumber}";
                 default:
                     return "";
             }

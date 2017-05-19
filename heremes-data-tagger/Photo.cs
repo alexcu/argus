@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -21,7 +19,9 @@ namespace HermesDataTagger
         #region TaggedItems
         public BindingList<TaggedPerson> TaggedPeople = new BindingList<TaggedPerson>();
         public TaggedPerson LastPersonTagged => TaggedPeople.FirstOrDefault();
+        public bool HasTaggedPeople => TaggedBibNumbers.Length > 0;
         private string[] TaggedBibNumbers => TaggedPeople.Select(p => p.BibNumber).ToArray();
+        public TaggedPerson SelectedPerson { get; set; }
         #endregion
 
         #region Steps
@@ -35,6 +35,11 @@ namespace HermesDataTagger
         {
             // Can only progress if photo is not crowded
             if (IsPhotoCrowded)
+            {
+                return;
+            }
+            // Can only progress to following steps if at least one person tagged
+            if (TaggingStep == StepType.SelectBibRegion && !HasTaggedPeople)
             {
                 return;
             }
@@ -66,7 +71,8 @@ namespace HermesDataTagger
             TaggingStep = StepType.ImageCrowded;
         }
 
-        public void HandleClick(PictureBox picBx, MouseEventArgs e)
+        #region HandleEvents
+        public void HandleClick(PictureBox pbx, MouseEventArgs e)
         {
             switch (TaggingStep)
             {
@@ -74,19 +80,58 @@ namespace HermesDataTagger
                     AskIfPhotoCrowded();
                     break;
                 case StepType.SelectBibRegion:
-                    AskToTagBibRegion(picBx, e.Location);
+                    AskToTagBibRegion(pbx, e.Location);
                     break;
                 default:
                     break;
             }
         }
+        public void HandleDragStart(PictureBox pbx, MouseEventArgs e)
+        {
+            switch (TaggingStep)
+            {
+                case StepType.SelectFaceRegion:
+                    RecordStartOfFaceRegion(pbx, e.Location);
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void HandleDragMove(PictureBox pbx, MouseEventArgs e)
+        {
+            switch (TaggingStep)
+            {
+                case StepType.SelectFaceRegion:
+                    UpdateEndOfFaceRegion(pbx, e.Location);
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void HandleDragStop(PictureBox pbx, MouseEventArgs e)
+        {
+            switch (TaggingStep)
+            {
+                case StepType.SelectFaceRegion:
+                    UpdateEndOfFaceRegion(pbx, e.Location);
+                    // Notify that this person has now been tagged (mouse up)
+                    TaggedPeople.ResetItem(TaggedPeople.IndexOf(SelectedPerson));
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
 
+        #region CrowdedPhoto
         public void AskIfPhotoCrowded()
         {
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             IsPhotoCrowded = result == DialogResult.Yes;
         }
+        #endregion
 
+        #region AddBibRegion
         public void AskToTagBibRegion(PictureBox pbx, Point pt)
         {
             TaggedPerson person = LastPersonTagged;
@@ -136,5 +181,37 @@ namespace HermesDataTagger
                 Debug.WriteLine($"Person #{TaggedPeople.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
             }
         }
+        #endregion
+
+        #region FaceRegion
+        public void RecordStartOfFaceRegion(PictureBox pbx, Point pt)
+        {
+            Debug.WriteLine($"Person #{SelectedPerson.BibNumber} face reigon start at {pt} ({Identifier})");
+            SetFaceReigonAtIndex(pbx, pt, 0);
+        }
+
+        public void UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
+        {
+            Debug.WriteLine($"Person #{SelectedPerson.BibNumber} face reigon end at {pt} ({Identifier})");
+            SetFaceReigonAtIndex(pbx, pt, 1);
+        }
+
+        private void SetFaceReigonAtIndex(PictureBox pbx, Point pt, int idx)
+        {
+            TaggedPerson.PersonFace face = SelectedPerson.Face;
+            Point pixelPt = pt.ToPixelPoint(pbx);
+
+            if (face.ClickPoints.Count == idx)
+            {
+                face.ClickPoints.Add(pt);
+                face.PixelPoints.Add(pixelPt);
+            }
+            else
+            {
+                face.ClickPoints[idx] = pt;
+                face.PixelPoints[idx] = pixelPt;
+            }
+        }
+        #endregion
     }
 }

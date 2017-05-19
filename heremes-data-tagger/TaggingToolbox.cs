@@ -30,8 +30,19 @@ namespace HermesDataTagger
             tblTags.AutoGenerateColumns = false;
             tblTags.DataSource = Model.CurrentPhoto.TaggedPeople;
             tblcolBibNumber.DataPropertyName = "BibNumber";
+            tblcolFaceTagged.DataPropertyName = "IsFaceRegionTagged";
+            tblTags.RowStateChanged += UpdateSelectedItem;
         }
 
+        private void UpdateSelectedItem(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if (e.StateChanged == DataGridViewElementStates.Selected)
+            {
+                Model.CurrentPhoto.SelectedPerson = (TaggedPerson)e.Row.DataBoundItem;
+                // Request update
+                MainWindow.Singleton.RequestRedrawGraphics();
+            }
+        }
 
         void BindEvents()
         {
@@ -46,9 +57,19 @@ namespace HermesDataTagger
 
         private void HandleDeleteRow(object sender, DataGridViewCellEventArgs e)
         {
-            if (tblTags.Columns[e.ColumnIndex] == tblcolBibDelete)
+            bool deleteClicked = tblTags.Columns[e.ColumnIndex] == tblcolBibDelete;
+            bool numberClicked = tblTags.Columns[e.ColumnIndex] == tblcolBibNumber;
+
+            TaggedPerson personClicked = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
+
+            if (deleteClicked)
             {
                 Model.CurrentPhoto.TaggedPeople.RemoveAt(e.RowIndex);
+            }
+            if (numberClicked)
+            {
+                Model.CurrentPhoto.AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, personClicked);
+                MainWindow.Singleton.RequestRedrawGraphics();
             }
         }
 
