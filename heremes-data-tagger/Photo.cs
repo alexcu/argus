@@ -124,8 +124,19 @@ namespace HermesDataTagger
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
                     // Show the person classification dialog
-                    PersonClassificationsDialog pcd = new PersonClassificationsDialog(SelectedPerson);
-                    pcd.ShowDialog();
+                    Form dialog = new PersonClassificationsDialog(SelectedPerson);
+                    // Cancel tagging face if falsy pcdResult, else show color tagging dialog
+                    if (dialog.ShowDialog() == DialogResult.Cancel)
+                    {
+                        SelectedPerson.Face.ClearPoints();
+                        break;
+                    }
+                    dialog = new PersonColorClassificationDialog(SelectedPerson);
+                    if (dialog.ShowDialog() == DialogResult.Cancel)
+                    {
+                        SelectedPerson.Face.ClearPoints();
+                        break;
+                    }
                     // Notify that this person has now been tagged (mouse up)
                     TaggedPeople.ResetItem(TaggedPeople.IndexOf(SelectedPerson));
                     break;

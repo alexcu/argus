@@ -23,6 +23,13 @@ namespace HermesDataTagger
             public List<Point> ClickPoints = new List<Point>(2);
             public List<Point> PixelPoints = new List<Point>(2);
 
+            // Clear functions
+            public void ClearPoints()
+            {
+                ClickPoints.Clear();
+                PixelPoints.Clear();
+            }
+
             // Face modifications
             public bool IsWearingHat { get; set; }
             public bool IsWearingGlasses { get; set; }
@@ -69,26 +76,11 @@ namespace HermesDataTagger
         private Point[] AllPixelPoints => Face.PixelPoints.Concat(Bib.PixelPoints).ToArray();
         public int LeftmostPixelX => AllPixelPoints.Min(pt => pt.X);
         public int RightmostPixelX => AllPixelPoints.Max(pt => pt.X);
-    
+
         // Colors
-        private Color _shirtColor = Color.Black;
-        private Color _shortsColor = Color.Black;
-        private Color _shoesColor = Color.Black;
-        public Color ShirtColor
-        {
-            get { return _shirtColor; }
-            set { _shirtColor = Utils.GetNearestWebColor(value); }
-        }
-        public Color ShortsColor
-        {
-            get { return _shortsColor; }
-            set { _shortsColor = Utils.GetNearestWebColor(value); }
-        }
-        public Color ShoesColor
-        {
-            get { return _shoesColor; }
-            set { _shoesColor = Utils.GetNearestWebColor(value); }
-        }
+        public Color ShirtColor { get; set; }
+        public Color ShortsColor { get; set; }
+        public Color ShoesColor { get; set; }
 
         public TaggedPerson(Photo srcPhoto)
         {
