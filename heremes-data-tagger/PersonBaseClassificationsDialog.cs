@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace HermesDataTagger
 {
-    public partial class PersonClassificationsDialog : Form
+    public partial class PersonBaseClassificationDialog : Form
     {
         public TaggedPerson Person { get; private set; }
 
-        public PersonClassificationsDialog(TaggedPerson person)
+        public PersonBaseClassificationDialog(TaggedPerson person)
         {
             InitializeComponent();
             Person = person;

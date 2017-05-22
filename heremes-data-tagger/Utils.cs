@@ -36,6 +36,12 @@ namespace HermesDataTagger
             pt = pt.ToPixelPoint(me);
             return pt.X <= me.Image.Width && pt.X >= 0 && pt.Y >= 0 && pt.Y <= me.Image.Height;
         }
+        
+        public static Color LabelForeColorForBackColor(Color c)
+        {
+            double val = Math.Sqrt(c.R * c.R * .241 + c.G * c.G * .691 + c.B * c.B * .068);
+            return val > 130 ? Color.Black : Color.White;
+        }
 
         public static Point MousePointToPixelPoint(PictureBox picBx, Point pt)
         {

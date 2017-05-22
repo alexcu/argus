@@ -62,9 +62,21 @@ namespace HermesDataTagger
         // Classifications
         public bool IsRunnerBlurred { get; set; }
         public LikelihoodOfPurchaseType LikelihoodOfPurchase { get; set; }
+        public string LikelihoodOfPurchaseName
+        {
+            get { return LikelihoodOfPurchase.ToString(); }
+            set {
+                Enum.TryParse(value, out LikelihoodOfPurchaseType type);
+                System.Diagnostics.Debug.WriteLine($"Person set to {type}");
+                LikelihoodOfPurchase = type;
+            }
+        }
 
-        // Bib Number
+        // Extension bindings
         public string BibNumber => Bib.BibNumber ?? "N/A";
+        public bool IsFaceVisible { get { return Face.IsFaceVisible; } set { Face.IsFaceVisible = value; } }
+        public bool IsWearingHat { get { return Face.IsWearingHat; } set { Face.IsWearingHat = value; } }
+        public bool IsWearingGlasses { get { return Face.IsWearingGlasses; } set { Face.IsWearingGlasses = value; } }
 
         // Reigons
         public BibSheet Bib = new BibSheet();
@@ -80,7 +92,10 @@ namespace HermesDataTagger
         // Colors
         public Color ShirtColor { get; set; }
         public Color ShortsColor { get; set; }
-        public Color ShoesColor { get; set; }
+        public Color ShoeColor { get; set; }
+        public string ShirtColorName => ShirtColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShirtColor).Name;
+        public string ShortsColorName => ShortsColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShortsColor).Name;
+        public string ShoeColorName => ShoeColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShoeColor).Name;
 
         public TaggedPerson(Photo srcPhoto)
         {

@@ -123,22 +123,11 @@ namespace HermesDataTagger
             {
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
-                    // Show the person classification dialog
-                    Form dialog = new PersonClassificationsDialog(SelectedPerson);
-                    // Cancel tagging face if falsy pcdResult, else show color tagging dialog
-                    if (dialog.ShowDialog() == DialogResult.Cancel)
+                    bool didSetBothClassifications = AskForBaseClassificationsOfPerson(SelectedPerson) && AskForColorClassificationsOfPerson(SelectedPerson);
+                    if (!didSetBothClassifications)
                     {
                         SelectedPerson.Face.ClearPoints();
-                        break;
                     }
-                    dialog = new PersonColorClassificationDialog(SelectedPerson);
-                    if (dialog.ShowDialog() == DialogResult.Cancel)
-                    {
-                        SelectedPerson.Face.ClearPoints();
-                        break;
-                    }
-                    // Notify that this person has now been tagged (mouse up)
-                    TaggedPeople.ResetItem(TaggedPeople.IndexOf(SelectedPerson));
                     break;
                 default:
                     break;
@@ -248,5 +237,28 @@ namespace HermesDataTagger
             }
         }
         #endregion
+
+        #region Classifications
+        public bool AskForBaseClassificationsOfPerson(TaggedPerson person)
+        {
+            Form dialog = new PersonBaseClassificationDialog(person);
+            bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
+            if (didSet)
+            {
+                TaggedPeople.ResetItem(TaggedPeople.IndexOf(person));
+            }
+            return didSet;
+        }
+        public bool AskForColorClassificationsOfPerson(TaggedPerson person)
+        {
+            Form dialog = new PersonColorClassificationsDialog(person);
+            bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
+            if (didSet)
+            {
+                TaggedPeople.ResetItem(TaggedPeople.IndexOf(person));
+            }
+            return didSet;            
+        }
+        #endregion Classifications
     }
 }

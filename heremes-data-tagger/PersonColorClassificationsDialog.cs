@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace HermesDataTagger
 {
-    public partial class PersonColorClassificationDialog : Form
+    public partial class PersonColorClassificationsDialog : Form
     {
         public TaggedPerson Person { get; private set; }
         private bool _isSettingShirtColor = true;
         private bool _isSettingShortsColor = false;
-        private bool _isSettingShoesColor = false;
+        private bool _isSettingShoeColor = false;
 
-        public PersonColorClassificationDialog(TaggedPerson person)
+        public PersonColorClassificationsDialog(TaggedPerson person)
         {
             InitializeComponent();
             Person = person;
@@ -26,7 +26,7 @@ namespace HermesDataTagger
             BindEvents();
             UpdateInstructionsLabel();
             // TODO: Work out why the window size won't reflect the designer
-            Height += 158;
+            Height += 100;
         }
 
         void CropPersonPhoto()
@@ -54,7 +54,7 @@ namespace HermesDataTagger
         {
             pnlShirtColor.DataBindings.Add("BackColor", Person, "ShirtColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
             pnlShortsColor.DataBindings.Add("BackColor", Person, "ShortsColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
-            pnlShoesColor.DataBindings.Add("BackColor", Person, "ShoesColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
+            pnlShoesColor.DataBindings.Add("BackColor", Person, "ShoeColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
         }
 
         void BindEvents()
@@ -68,7 +68,7 @@ namespace HermesDataTagger
             };
             rdoSettingShoesColor.CheckedChanged += (sender, e) =>
             {
-                _isSettingShoesColor = !_isSettingShoesColor;
+                _isSettingShoeColor = !_isSettingShoeColor;
                 UpdateInstructionsLabel();
             };
             rdoSettingShortsColor.CheckedChanged += (sender, e) =>
@@ -79,7 +79,7 @@ namespace HermesDataTagger
             // Clear buttons
             btnClearShirtColor.Click += (sender, e) => Person.ShirtColor = Color.Empty;
             btnClearShortsColor.Click += (sender, e) => Person.ShortsColor = Color.Empty;
-            btnClearShoesColor.Click += (sender, e) => Person.ShoesColor = Color.Empty;
+            btnClearShoesColor.Click += (sender, e) => Person.ShoeColor = Color.Empty;
         }
 
         void UpdateInstructionsLabel()
@@ -92,7 +92,7 @@ namespace HermesDataTagger
             {
                 lblInstructions.Text = "Please click on the shorts of the runner to set the color, or skip if not visible";
             }
-            if (_isSettingShoesColor)
+            if (_isSettingShoeColor)
             {
                 lblInstructions.Text = "Please click on the shoe of the runner to set the color, or skip if not visible";
             }
@@ -122,7 +122,7 @@ namespace HermesDataTagger
             }
             else
             {
-                Person.ShoesColor = pixelColor;
+                Person.ShoeColor = pixelColor;
             }
         }
     }

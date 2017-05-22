@@ -30,8 +30,56 @@ namespace HermesDataTagger
             tblTags.AutoGenerateColumns = false;
             tblTags.DataSource = Model.CurrentPhoto.TaggedPeople;
             tblcolBibNumber.DataPropertyName = "BibNumber";
-            tblcolFaceTagged.DataPropertyName = "IsFaceRegionTagged";
+            tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
+            tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
+            tblcolWearingGlasses.DataPropertyName = "IsWearingGlasses";
+            tblcolWearingHat.DataPropertyName = "IsWearingHat";
+            tblcolLikelihoodPurchase.DataPropertyName = "LikelihoodOfPurchaseName";
             tblTags.RowStateChanged += UpdateSelectedItem;
+            // Bind colour and name
+            tblcolShirtColor.DataPropertyName = "ShirtColorName";
+            tblcolShortsColor.DataPropertyName = "ShortsColorName";
+            tblcolShoeColor.DataPropertyName = "ShoeColorName";
+            // Bind the background color
+            tblTags.CellFormatting += BackgroundForSelectedColors;
+        }
+
+        private void BackgroundForSelectedColors(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            TaggedPerson person = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
+            string col = tblTags.Columns[e.ColumnIndex].Name;
+            switch (col)
+            {
+                case "tblcolShoeColor":
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Utils.LabelForeColorForBackColor(person.ShoeColor);
+                    break;
+                case "tblcolShortsColor":
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Utils.LabelForeColorForBackColor(person.ShortsColor);
+                    break;
+                case "tblcolShirtColor":
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Utils.LabelForeColorForBackColor(person.ShirtColor);
+                    break;
+            }
+        }
+
+        private void SetCursorForCell(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string col = tblTags.Columns[e.ColumnIndex].Name;
+            switch (col)
+            {
+                case "tblcolBibNumber":
+                case "tblcolShoeColor":
+                case "tblcolShirtColor":
+                case "tblcolShortsColor":
+                    Cursor.Current = Cursors.Hand;
+                    break;
+                default:
+                    Cursor.Current = Cursors.Default;
+                    break;
+            }
         }
 
         private void UpdateSelectedItem(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -52,13 +100,22 @@ namespace HermesDataTagger
             KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
             // Switch to most recently added in bind list
             tblTags.RowsAdded += NewTagAdded;
-            tblTags.CellContentClick += HandleDeleteRow;
+            tblTags.CellContentClick += HandleClickRow;
+            // Mouse in/out to show status
+            tblTags.CellMouseEnter += (sender, e) => lblTooltip.Text = tblTags.Columns[e.ColumnIndex].ToolTipText;
+            tblTags.MouseEnter += (sender, e) => statusStrip.Visible = true;
+            tblTags.MouseLeave += (sender, e) => statusStrip.Visible = false;
+            // Pointer cursor
+            tblTags.CellMouseMove += SetCursorForCell;
         }
 
-        private void HandleDeleteRow(object sender, DataGridViewCellEventArgs e)
+        private void HandleClickRow(object sender, DataGridViewCellEventArgs e)
         {
-            bool deleteClicked = tblTags.Columns[e.ColumnIndex] == tblcolBibDelete;
-            bool numberClicked = tblTags.Columns[e.ColumnIndex] == tblcolBibNumber;
+            var col = tblTags.Columns[e.ColumnIndex];
+
+            bool deleteClicked = col == tblcolBibDelete;
+            bool numberClicked = col == tblcolBibNumber;
+            bool colorClicked = col == tblcolShirtColor || col == tblcolShoeColor || col == tblcolShortsColor;
 
             TaggedPerson personClicked = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
 
@@ -70,6 +127,10 @@ namespace HermesDataTagger
             {
                 Model.CurrentPhoto.AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, personClicked);
                 MainWindow.Singleton.RequestRedrawGraphics();
+            }
+            if (colorClicked)
+            {
+                Model.CurrentPhoto.AskForColorClassificationsOfPerson(personClicked);
             }
         }
 

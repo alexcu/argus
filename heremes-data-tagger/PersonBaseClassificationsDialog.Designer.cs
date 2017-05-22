@@ -1,6 +1,6 @@
 ﻿namespace HermesDataTagger
 {
-    partial class PersonClassificationsDialog
+    partial class PersonBaseClassificationDialog
     {
         /// <summary>
         /// Required designer variable.
