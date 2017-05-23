@@ -43,7 +43,7 @@ namespace HermesDataTagger
         }
 
         #region Form
-
+        #region Events
         void BindFormEvents()
         {
             MouseWheel += SelectedRunnerChangedByMouse;
@@ -62,20 +62,11 @@ namespace HermesDataTagger
                 Model.CurrentPhoto.SelectNextRunner();
             }
         }
-
         #endregion
-
-        #region Main Picture Box
-
-        void BindDataToMainImageControls()
-        {
-            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
-        }
-
         #endregion
 
         #region Top Panel
-
+        #region Bind Data
         void BindDataToTopPanelControls()
         {
             // Labels
@@ -85,18 +76,19 @@ namespace HermesDataTagger
             btnPrevImage.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
             btnNextImage.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
         }
-
+        #endregion
+        #region Events
         void BindTopPanelEvents()
         {
             // Click events
             btnPrevImage.Click += (sender, e) => Model.GetPrevPhoto();
             btnNextImage.Click += (sender, e) => Model.GetNextPhoto();
         }
-
+        #endregion
         #endregion
 
         #region Main Menu
-
+        #region Bind Data
         void BindDataToMenuControls()
         {
             // View menu
@@ -131,7 +123,8 @@ namespace HermesDataTagger
                 }
             };
         }
-
+        #endregion
+        #region Events
         void BindMainMenuEvents()
         {
             // File menu
@@ -161,11 +154,11 @@ namespace HermesDataTagger
             mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
         }
-        
+        #endregion
         #endregion
 
         #region Step Panel
-
+        #region Bind Data
         void BindDataToStepPanelControls()
         {
             // Crowded
@@ -193,11 +186,11 @@ namespace HermesDataTagger
             // Bind the step list
             PopulateStepList();
         }
-
+        #endregion
         #endregion
 
         #region Tagged Data Grid
-
+        #region Bind Data
         void BindDataToTaggedDataGrid()
         {
             // Enable bib panel if not in crowded step
@@ -216,10 +209,30 @@ namespace HermesDataTagger
             tblcolShirtColor.DataPropertyName = "ShirtColorName";
             tblcolShortsColor.DataPropertyName = "ShortsColorName";
             tblcolShoeColor.DataPropertyName = "ShoeColorName";
+
+        }
+        #endregion
+        #region Events
+        void BindTaggedDataGridEvents()
+        {
+            // Update highlighted row on state change
+            tblTags.RowStateChanged += UpdateSelectedItem;
+            // Switch to most recently added in bind list
+            tblTags.RowsAdded += NewTagAdded;
+            tblTags.CellContentClick += HandleClickRow;
+            // Mouse in/out to show status
+            tblTags.CellMouseEnter += (sender, e) => lblTooltip.Text = tblTags.Columns[e.ColumnIndex].ToolTipText;
+            tblTags.MouseEnter += (sender, e) => lblTooltip.Visible = true;
+            tblTags.MouseLeave += (sender, e) => lblTooltip.Visible = false;
+            // Pointer cursor
+            tblTags.CellMouseMove += SetCursorForCell;
+            // Update selected runner
+            Model.CurrentPhoto.SelectedRunnerUpdated += UpdateSelectedRunnerRow;
+
             // Bind the background color
             tblTags.CellFormatting += BackgroundForSelectedColors;
         }
-
+        
         void BackgroundForSelectedColors(object sender, DataGridViewCellFormattingEventArgs e)
         {
             TaggedPerson person = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
@@ -256,23 +269,6 @@ namespace HermesDataTagger
                     Cursor.Current = Cursors.Default;
                     break;
             }
-        }
-
-        void BindTaggedDataGridEvents()
-        {
-            // Update highlighted row on state change
-            tblTags.RowStateChanged += UpdateSelectedItem;
-            // Switch to most recently added in bind list
-            tblTags.RowsAdded += NewTagAdded;
-            tblTags.CellContentClick += HandleClickRow;
-            // Mouse in/out to show status
-            tblTags.CellMouseEnter += (sender, e) => lblTooltip.Text = tblTags.Columns[e.ColumnIndex].ToolTipText;
-            tblTags.MouseEnter += (sender, e) => lblTooltip.Visible = true;
-            tblTags.MouseLeave += (sender, e) => lblTooltip.Visible = false;
-            // Pointer cursor
-            tblTags.CellMouseMove += SetCursorForCell;
-            // Update selected runner
-            Model.CurrentPhoto.SelectedRunnerUpdated += UpdateSelectedRunnerRow;
         }
 
         void UpdateSelectedItem(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -325,11 +321,17 @@ namespace HermesDataTagger
         {
             tblTags.Rows[0].Selected = true;
         }
-
+        #endregion
         #endregion
 
-        #region MainPictureBox
-
+        #region Main Picture Box
+        #region Bind Data
+        void BindDataToMainImageControls()
+        {
+            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
+        }
+        #endregion
+        #region Events
         void BindMainImageEvents()
         {
             // Mouse move event
@@ -401,6 +403,9 @@ namespace HermesDataTagger
             }
         }
 
+        #endregion
+        #region Graphics Rendering
+        
         public void RequestRedrawGraphics()
         {
             imgPhoto.Invalidate();
@@ -462,7 +467,7 @@ namespace HermesDataTagger
                 }
             }
         }
-
+        #endregion
         #endregion
     }
 }
