@@ -144,9 +144,9 @@ namespace HermesDataTagger
             set
             {
                 _isPhotoCrowded = value;
+                TaggingStep = StepType.ImageCrowded;
                 if (_isPhotoCrowded)
                 {
-                    TaggingStep = StepType.ImageCrowded;
                     // TODO: Reset all people tagged?
                     SelectedRunner = null;
                     MainWindow.Singleton.RequestRedrawGraphics();
@@ -285,10 +285,13 @@ namespace HermesDataTagger
                 do
                 {
                     DialogResult result = bibDiag.ShowDialog();
-                    if (result == DialogResult.Cancel && shouldDeleteIfCancel)
+                    if (result == DialogResult.Cancel)
                     {
                         // Cancel -- remove this tag!
-                        DeleteTaggedPerson(person);
+                        if (shouldDeleteIfCancel)
+                        {
+                            DeleteTaggedPerson(person);
+                        }
                         return;
                     }
                     string diagBibNumber = bibDiag.EnteredBibNumber;

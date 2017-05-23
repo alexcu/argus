@@ -48,9 +48,9 @@ namespace HermesDataTagger
             switch (me)
             {
                 case StepType.ImageCrowded:
-                    return "Does this image have more than 5 people? Use CTRL+C to toggle if the image is crowded.";
+                    return "Does this image have more than 5 people? Use F1 to toggle.";
                 case StepType.SelectBibRegion:
-                    return "Click FOUR times on the image to mark up a new bib region in a CLOCKWISE DIRECTION (top left, top right, bottom right, bottom left)";
+                    return "Click FOUR times on the image to mark up a new bib region";
                 case StepType.SelectFaceRegion:
                     TaggedPerson person = Model.CurrentPhoto.SelectedRunner;
                     if (person == null)

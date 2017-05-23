@@ -12,7 +12,6 @@ namespace HermesDataTagger
     {
         public static MainWindow Singleton;
         public PictureBox MainPictureBox => imgPhoto;
-
         private PhotoManager Model = PhotoManager.SharedManager;
 
         public MainWindow()
@@ -99,18 +98,19 @@ namespace HermesDataTagger
             //mnuEditRedo.DataBindings.Add("Enabled", Model, "CanRedoLastAction", false, DataSourceUpdateMode.OnPropertyChanged);
             // Photo menu
             mnuPhotoMarkCrowded.DataBindings.Add("Checked", Model.CurrentPhoto, "IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs", false, DataSourceUpdateMode.OnPropertyChanged);
-            mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces", false, DataSourceUpdateMode.OnPropertyChanged);
+            //mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs", false, DataSourceUpdateMode.OnPropertyChanged);
+            //mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces", false, DataSourceUpdateMode.OnPropertyChanged);
             //mnuPhotoSelectNextRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner", false, DataSourceUpdateMode.OnPropertyChanged);
             //mnuPhotoSelectPrevRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner", false, DataSourceUpdateMode.OnPropertyChanged);
             // Selected runner menu
             mnuSelectedRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "IsRunnerSelected", false, DataSourceUpdateMode.OnPropertyChanged);
-            mnuSelectedRunner.CheckedChanged += (sender, e) =>
+            mnuSelectedRunner.EnabledChanged += (sender, e) =>
             {
-                if (Model.CurrentPhoto.IsRunnerSelected)
+                // Only bind if no bindings were set
+                if (Model.CurrentPhoto.IsRunnerSelected && mnuRunnerStaticNumberValue.DataBindings.Count == 0)
                 {
                     mnuRunnerStaticNumberValue.DataBindings.Add("Text", Model.CurrentPhoto, "SelectedRunnerNumber", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerMarkBlurry.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsRunnerBlurry", false, DataSourceUpdateMode.OnPropertyChanged);
+                    mnuRunnerMarkBlurry.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsRunnerBlurred", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerMarkFaceVisible.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsFaceVisible", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerMarkGlasses.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsWearingGlasses", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerMarkHat.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsWearingHat", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -176,7 +176,7 @@ namespace HermesDataTagger
                 for (int i = 0; i < stepArray.Length; i++)
                 {
                     StepType step = (StepType)stepArray.GetValue(i);
-                    string stepLabel = $"[Step {i + 1}] {step.ToStepNameString()}";
+                    string stepLabel = $"[F{i + 1}] {step.ToStepNameString()}";
                     resultingList.Add(stepLabel);
                 }
                 lstSteps.DataSource = resultingList;
@@ -448,7 +448,7 @@ namespace HermesDataTagger
                 // Number has been assigned? Draw that number
                 if (person.Bib.BibNumber != null)
                 {
-                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft);
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft.X, person.Bib.TopLeft.Y - 50);
                 }
                 // Draw face
                 if (person.Face.ClickPoints.Count == 2)
@@ -460,7 +460,7 @@ namespace HermesDataTagger
                     int width = Math.Abs(startX - endPt.X);
                     int height = Math.Abs(startY - endPt.Y);
                     graphics.DrawRectangle(facePen, startX, startY, width, height);
-                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.FaceBrush, person.Face.TopLeft.X, person.Face.TopLeft.Y - 10);
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.FaceBrush, person.Face.TopLeft.X, person.Face.TopLeft.Y - 50);
                     // Draw line between face and bib number
                     graphics.DrawLine(Utils.RedPen, startX, startY + height, person.Bib.TopLeft.X, person.Bib.TopLeft.Y);
                     graphics.DrawLine(Utils.RedPen, person.Face.BtmRight, person.Bib.TopRight);
