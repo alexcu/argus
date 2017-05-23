@@ -22,77 +22,36 @@ namespace HermesDataTagger
             Model.LoadFiles();
             BindDataToControls();
             BindEvents();
-            BringToFront();
         }
 
-        private void BindDataToControls()
+        void BindDataToControls()
         {
             BindDataToMainImageControls();
             BindDataToTopPanelControls();
             BindDataToMenuControls();
             BindDataToStepPanelControls();
-            BindDataToDataGridTagControls();
+            BindDataToTaggedDataGrid();
         }
 
-        void BindDataToMainImageControls()
-        {
-            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
-        }
-
-        void BindDataToTopPanelControls()
-        {
-            // Labels
-            lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepName", false, DataSourceUpdateMode.OnPropertyChanged);
-            lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
-            // Buttons
-            btnPrevImage.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
-            btnNextImage.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
-        }
-
-        void BindDataToStepPanelControls()
-        {
-            // Crowded
-            chbxIsCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            // Disable next button & steps if crowded
-            btnNextStep.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            lstSteps.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            // Selected index of steps
-            lstSteps.DataBindings.Add("SelectedIndex", Model, "CurrentPhoto.TaggingStep", false, DataSourceUpdateMode.OnPropertyChanged);
-
-            void PopulateStepList()
-            {
-                List<string> resultingList = new List<string>();
-                Array stepArray = Enum.GetValues(typeof(StepType));
-                for (int i = 0; i < stepArray.Length; i++)
-                {
-                    StepType step = (StepType)stepArray.GetValue(i);
-                    string stepLabel = $"[Step {i + 1}] {step.ToStepNameString()}";
-                    resultingList.Add(stepLabel);
-                }
-                lstSteps.DataSource = resultingList;
-                lstSteps.SelectedIndexChanged += (sender, e) => Model.CurrentPhoto.TaggingStep = (StepType)lstSteps.SelectedIndex;
-            }
-
-            // Bind the step list
-            PopulateStepList();
-        }
-
-        private void BindEvents()
+        void BindEvents()
         {
             BindFormEvents();
             BindTopPanelEvents();
             BindMainImageEvents();
-            BindModelDataEvents();
             BindMainMenuEvents();
-            BindDataGridTagsEvents();
+            BindTaggedDataGridEvents();
         }
+
+        #region Form
 
         void BindFormEvents()
         {
             MouseWheel += SelectedRunnerChangedByMouse;
+            Model.CurrentPhoto.TaggedRunners.ListChanged += ModelListChanged;
+            Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestRedrawGraphics();
         }
 
-        private void SelectedRunnerChangedByMouse(object sender, MouseEventArgs e)
+        void SelectedRunnerChangedByMouse(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
             {
@@ -104,29 +63,27 @@ namespace HermesDataTagger
             }
         }
 
-        void BindModelDataEvents()
+        #endregion
+
+        #region Main Picture Box
+
+        void BindDataToMainImageControls()
         {
-            Model.CurrentPhoto.TaggedRunners.ListChanged += ModelListChanged;
-            Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestRedrawGraphics();
+            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        void BindMainImageEvents()
+        #endregion
+
+        #region Top Panel
+
+        void BindDataToTopPanelControls()
         {
-            // Mouse move event
-            imgPhoto.MouseMove += UpdateCoordinatesLabel;
-            imgPhoto.MouseEnter += (sender, e) => lblMousePos.Visible = true;
-            imgPhoto.MouseLeave += (sender, e) => lblMousePos.Visible = false;
-
-            // Mouse click event
-            imgPhoto.MouseClick += ClickPhoto;
-
-            // Drag and drop events
-            imgPhoto.MouseDown += MouseDragStart;
-            imgPhoto.MouseMove += MouseDragMove;
-            imgPhoto.MouseUp += MouseDragStop;
-
-            // Paint event
-            imgPhoto.Paint += RenderGraphics;
+            // Labels
+            lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepName", false, DataSourceUpdateMode.OnPropertyChanged);
+            lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Buttons
+            btnPrevImage.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
+            btnNextImage.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         void BindTopPanelEvents()
@@ -136,37 +93,11 @@ namespace HermesDataTagger
             btnNextImage.Click += (sender, e) => Model.GetNextPhoto();
         }
 
-        void BindMainMenuEvents()
-        {
-            // File menu
-            mnuFileLoadImages.Click += (sender, e) => Model.AttemptLoadFiles();
-            mnuFileExit.Click += (sender, e) => Close();
-            // Edit menu
-            mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
-            mnuEditRedo.Click += (sender, e) => Model.CurrentPhoto.RedoLastAction();
-            // View menu
-            mnuViewNextPhoto.Click += (sender, e) => Model.GetNextPhoto();
-            mnuViewPreviousPhoto.Click += (sender, e) => Model.GetPrevPhoto();
-            // Photo menu
-            mnuPhotoSelectNextRunner.Click += (sender, e) => Model.CurrentPhoto.SelectNextRunner();
-            mnuPhotoSelectPrevRunner.Click += (sender, e) => Model.CurrentPhoto.SelectPrevRunner();
-            mnuPhotoMarkFaces.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion;
-            mnuPhotoMarkBibs.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion;
-            mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
-            // Selected runner menu
-            mnuRunnerMarkBib.Click += (sender, e) => Model.CurrentPhoto.AskToTagBibNumber(imgPhoto, Model.CurrentPhoto.SelectedRunner);
-            mnuRunnerMarkBlurry.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred = !Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred;
-            mnuRunnerMarkFaceVisible.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsFaceVisible = !Model.CurrentPhoto.SelectedRunner.IsFaceVisible;
-            mnuRunnerMarkGlasses.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsWearingGlasses = !Model.CurrentPhoto.SelectedRunner.IsWearingGlasses;
-            mnuRunnerMarkHat.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsWearingHat = !Model.CurrentPhoto.SelectedRunner.IsWearingHat;
-            mnuRunnerLikelihoodPurchaseYes.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Yes;
-            mnuRunnerLikelihoodPurchaseMaybe.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Maybe;
-            mnuRunnerLikelihoodPurchaseNo.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No;
-            mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
-            mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
-        }
+        #endregion
 
-        private void BindDataToMenuControls()
+        #region Main Menu
+
+        void BindDataToMenuControls()
         {
             // View menu
             mnuViewPreviousPhoto.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -201,7 +132,224 @@ namespace HermesDataTagger
             };
         }
 
-        private void MouseDragStop(object sender, MouseEventArgs e)
+        void BindMainMenuEvents()
+        {
+            // File menu
+            mnuFileLoadImages.Click += (sender, e) => Model.AttemptLoadFiles();
+            mnuFileExit.Click += (sender, e) => Close();
+            // Edit menu
+            mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
+            mnuEditRedo.Click += (sender, e) => Model.CurrentPhoto.RedoLastAction();
+            // View menu
+            mnuViewNextPhoto.Click += (sender, e) => Model.GetNextPhoto();
+            mnuViewPreviousPhoto.Click += (sender, e) => Model.GetPrevPhoto();
+            // Photo menu
+            mnuPhotoSelectNextRunner.Click += (sender, e) => Model.CurrentPhoto.SelectNextRunner();
+            mnuPhotoSelectPrevRunner.Click += (sender, e) => Model.CurrentPhoto.SelectPrevRunner();
+            mnuPhotoMarkFaces.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion;
+            mnuPhotoMarkBibs.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion;
+            mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
+            // Selected runner menu
+            mnuRunnerMarkBib.Click += (sender, e) => Model.CurrentPhoto.AskToTagBibNumber(imgPhoto, Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerMarkBlurry.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred = !Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred;
+            mnuRunnerMarkFaceVisible.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsFaceVisible = !Model.CurrentPhoto.SelectedRunner.IsFaceVisible;
+            mnuRunnerMarkGlasses.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsWearingGlasses = !Model.CurrentPhoto.SelectedRunner.IsWearingGlasses;
+            mnuRunnerMarkHat.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsWearingHat = !Model.CurrentPhoto.SelectedRunner.IsWearingHat;
+            mnuRunnerLikelihoodPurchaseYes.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Yes;
+            mnuRunnerLikelihoodPurchaseMaybe.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Maybe;
+            mnuRunnerLikelihoodPurchaseNo.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No;
+            mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+        }
+        
+        #endregion
+
+        #region Step Panel
+
+        void BindDataToStepPanelControls()
+        {
+            // Crowded
+            chbxIsCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Disable next button & steps if crowded
+            btnNextStep.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            lstSteps.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Selected index of steps
+            lstSteps.DataBindings.Add("SelectedIndex", Model, "CurrentPhoto.TaggingStep", false, DataSourceUpdateMode.OnPropertyChanged);
+
+            void PopulateStepList()
+            {
+                List<string> resultingList = new List<string>();
+                Array stepArray = Enum.GetValues(typeof(StepType));
+                for (int i = 0; i < stepArray.Length; i++)
+                {
+                    StepType step = (StepType)stepArray.GetValue(i);
+                    string stepLabel = $"[Step {i + 1}] {step.ToStepNameString()}";
+                    resultingList.Add(stepLabel);
+                }
+                lstSteps.DataSource = resultingList;
+                lstSteps.SelectedIndexChanged += (sender, e) => Model.CurrentPhoto.TaggingStep = (StepType)lstSteps.SelectedIndex;
+            }
+
+            // Bind the step list
+            PopulateStepList();
+        }
+
+        #endregion
+
+        #region Tagged Data Grid
+
+        void BindDataToTaggedDataGrid()
+        {
+            // Enable bib panel if not in crowded step
+            tblTags.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            // Set up table for bib # identified
+            tblTags.AutoGenerateColumns = false;
+            tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
+            tblcolBibNumber.DataPropertyName = "BibNumber";
+            tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
+            tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
+            tblcolWearingGlasses.DataPropertyName = "IsWearingGlasses";
+            tblcolWearingHat.DataPropertyName = "IsWearingHat";
+            tblcolLikelihoodPurchase.DataPropertyName = "LikelihoodOfPurchaseName";
+
+            // Bind colour and name
+            tblcolShirtColor.DataPropertyName = "ShirtColorName";
+            tblcolShortsColor.DataPropertyName = "ShortsColorName";
+            tblcolShoeColor.DataPropertyName = "ShoeColorName";
+            // Bind the background color
+            tblTags.CellFormatting += BackgroundForSelectedColors;
+        }
+
+        void BackgroundForSelectedColors(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            TaggedPerson person = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
+            string col = tblTags.Columns[e.ColumnIndex].Name;
+            switch (col)
+            {
+                case "tblcolShoeColor":
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor.IsEmpty ? Color.White : person.ShoeColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShoeColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShoeColor);
+                    break;
+                case "tblcolShortsColor":
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor.IsEmpty ? Color.White : person.ShortsColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShortsColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShortsColor);
+                    break;
+                case "tblcolShirtColor":
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.ShirtColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShirtColor);
+                    break;
+            }
+        }
+
+        void SetCursorForCell(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string col = tblTags.Columns[e.ColumnIndex].Name;
+            switch (col)
+            {
+                case "tblcolBibNumber":
+                case "tblcolShoeColor":
+                case "tblcolShirtColor":
+                case "tblcolShortsColor":
+                    Cursor.Current = Cursors.Hand;
+                    break;
+                default:
+                    Cursor.Current = Cursors.Default;
+                    break;
+            }
+        }
+
+        void BindTaggedDataGridEvents()
+        {
+            // Update highlighted row on state change
+            tblTags.RowStateChanged += UpdateSelectedItem;
+            // Switch to most recently added in bind list
+            tblTags.RowsAdded += NewTagAdded;
+            tblTags.CellContentClick += HandleClickRow;
+            // Mouse in/out to show status
+            tblTags.CellMouseEnter += (sender, e) => lblTooltip.Text = tblTags.Columns[e.ColumnIndex].ToolTipText;
+            tblTags.MouseEnter += (sender, e) => lblTooltip.Visible = true;
+            tblTags.MouseLeave += (sender, e) => lblTooltip.Visible = false;
+            // Pointer cursor
+            tblTags.CellMouseMove += SetCursorForCell;
+            // Update selected runner
+            Model.CurrentPhoto.SelectedRunnerUpdated += UpdateSelectedRunnerRow;
+        }
+
+        void UpdateSelectedItem(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if (e.StateChanged == DataGridViewElementStates.Selected)
+            {
+                Model.CurrentPhoto.SelectedRunner = (TaggedPerson)e.Row.DataBoundItem;
+            }
+        }
+
+        void UpdateSelectedRunnerRow(object sender, EventArgs e)
+        {
+            TaggedPerson runner = Model.CurrentPhoto.SelectedRunner;
+            int rowIdx = Model.CurrentPhoto.TaggedRunners.IndexOf(runner);
+            tblTags.ClearSelection();
+            tblTags.Rows[rowIdx].Selected = true;
+        }
+
+        void HandleClickRow(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+
+            var col = tblTags.Columns[e.ColumnIndex];
+
+            bool deleteClicked = col == tblcolBibDelete;
+            bool numberClicked = col == tblcolBibNumber;
+            bool colorClicked = col == tblcolShirtColor || col == tblcolShoeColor || col == tblcolShortsColor;
+
+            TaggedPerson personClicked = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
+
+            if (deleteClicked)
+            {
+                Model.CurrentPhoto.DeleteTaggedPerson(personClicked);
+            }
+            if (numberClicked)
+            {
+                Model.CurrentPhoto.AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, personClicked);
+                MainWindow.Singleton.RequestRedrawGraphics();
+            }
+            if (colorClicked)
+            {
+                Model.CurrentPhoto.AskForColorClassificationsOfPerson(personClicked);
+            }
+        }
+
+        void NewTagAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            tblTags.Rows[0].Selected = true;
+        }
+
+        #endregion
+
+        #region MainPictureBox
+
+        void BindMainImageEvents()
+        {
+            // Mouse move event
+            imgPhoto.MouseMove += UpdateCoordinatesLabel;
+            imgPhoto.MouseEnter += (sender, e) => lblMousePos.Visible = true;
+            imgPhoto.MouseLeave += (sender, e) => lblMousePos.Visible = false;
+
+            // Mouse click event
+            imgPhoto.MouseClick += ClickPhoto;
+
+            // Drag and drop events
+            imgPhoto.MouseDown += MouseDragStart;
+            imgPhoto.MouseMove += MouseDragMove;
+            imgPhoto.MouseUp += MouseDragStop;
+
+            // Paint event
+            imgPhoto.Paint += RenderGraphics;
+        }
+
+        void MouseDragStop(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -210,7 +358,7 @@ namespace HermesDataTagger
             }
         }
 
-        private void MouseDragMove(object sender, MouseEventArgs e)
+        void MouseDragMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -219,7 +367,7 @@ namespace HermesDataTagger
             }
         }
 
-        private void MouseDragStart(object sender, MouseEventArgs e)
+        void MouseDragStart(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -228,12 +376,12 @@ namespace HermesDataTagger
             }
         }
 
-        private void ClickPhoto(object sender, MouseEventArgs e)
+        void ClickPhoto(object sender, MouseEventArgs e)
         {
             Model.CurrentPhoto.HandleClick(imgPhoto, e);
         }
 
-        private void UpdateCoordinatesLabel(object sender, MouseEventArgs e)
+        void UpdateCoordinatesLabel(object sender, MouseEventArgs e)
         {
             if (imgPhoto.Image != null)
             {
@@ -242,7 +390,7 @@ namespace HermesDataTagger
             }
         }
 
-        private void ModelListChanged(object sender, ListChangedEventArgs e)
+        void ModelListChanged(object sender, ListChangedEventArgs e)
         {
             // Redraw graphics whenever we delete or select a new item
             switch (e.ListChangedType)
@@ -258,7 +406,7 @@ namespace HermesDataTagger
             imgPhoto.Invalidate();
         }
 
-        private void RenderGraphics(object sender, PaintEventArgs e)
+        void RenderGraphics(object sender, PaintEventArgs e)
         {
             // Don't render if crowded image
             if (Model.CurrentPhoto.IsPhotoCrowded)
@@ -315,134 +463,6 @@ namespace HermesDataTagger
             }
         }
 
-        void BindDataToDataGridTagControls()
-        {
-            // Enable bib panel if not in crowded step
-            tblTags.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            // Set up table for bib # identified
-            tblTags.AutoGenerateColumns = false;
-            tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
-            tblcolBibNumber.DataPropertyName = "BibNumber";
-            tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
-            tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
-            tblcolWearingGlasses.DataPropertyName = "IsWearingGlasses";
-            tblcolWearingHat.DataPropertyName = "IsWearingHat";
-            tblcolLikelihoodPurchase.DataPropertyName = "LikelihoodOfPurchaseName";
-            tblTags.RowStateChanged += UpdateSelectedItem;
-            // Bind colour and name
-            tblcolShirtColor.DataPropertyName = "ShirtColorName";
-            tblcolShortsColor.DataPropertyName = "ShortsColorName";
-            tblcolShoeColor.DataPropertyName = "ShoeColorName";
-            // Bind the background color
-            tblTags.CellFormatting += BackgroundForSelectedColors;
-        }
-
-        private void BackgroundForSelectedColors(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            TaggedPerson person = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
-            string col = tblTags.Columns[e.ColumnIndex].Name;
-            switch (col)
-            {
-                case "tblcolShoeColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor.IsEmpty ? Color.White : person.ShoeColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShoeColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShoeColor);
-                    break;
-                case "tblcolShortsColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor.IsEmpty ? Color.White : person.ShortsColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShortsColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShortsColor);
-                    break;
-                case "tblcolShirtColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.ShirtColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShirtColor);
-                    break;
-            }
-        }
-
-        private void SetCursorForCell(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            string col = tblTags.Columns[e.ColumnIndex].Name;
-            switch (col)
-            {
-                case "tblcolBibNumber":
-                case "tblcolShoeColor":
-                case "tblcolShirtColor":
-                case "tblcolShortsColor":
-                    Cursor.Current = Cursors.Hand;
-                    break;
-                default:
-                    Cursor.Current = Cursors.Default;
-                    break;
-            }
-        }
-
-        private void UpdateSelectedItem(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-            if (e.StateChanged == DataGridViewElementStates.Selected)
-            {
-                Model.CurrentPhoto.SelectedRunner = (TaggedPerson)e.Row.DataBoundItem;
-            }
-        }
-
-        void BindDataGridTagsEvents()
-        {
-            // Prevent form from closing
-            FormClosing += (sender, e) => e.Cancel = true;
-            // KBD Shortcuts
-            KeyboardShortcutManager.SharedManager.BindKeyboardShortcuts(this);
-            // Switch to most recently added in bind list
-            tblTags.RowsAdded += NewTagAdded;
-            tblTags.CellContentClick += HandleClickRow;
-            // Mouse in/out to show status
-            tblTags.CellMouseEnter += (sender, e) => lblTooltip.Text = tblTags.Columns[e.ColumnIndex].ToolTipText;
-            tblTags.MouseEnter += (sender, e) => lblTooltip.Visible = true;
-            tblTags.MouseLeave += (sender, e) => lblTooltip.Visible = false;
-            // Pointer cursor
-            tblTags.CellMouseMove += SetCursorForCell;
-            // Update selected runner
-            Model.CurrentPhoto.SelectedRunnerUpdated += UpdateSelectedRunnerRow;
-        }
-
-        private void UpdateSelectedRunnerRow(object sender, EventArgs e)
-        {
-            TaggedPerson runner = Model.CurrentPhoto.SelectedRunner;
-            int rowIdx = Model.CurrentPhoto.TaggedRunners.IndexOf(runner);
-            tblTags.ClearSelection();
-            tblTags.Rows[rowIdx].Selected = true;
-        }
-
-        private void HandleClickRow(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex == -1)
-            {
-                return;
-            }
-
-            var col = tblTags.Columns[e.ColumnIndex];
-
-            bool deleteClicked = col == tblcolBibDelete;
-            bool numberClicked = col == tblcolBibNumber;
-            bool colorClicked = col == tblcolShirtColor || col == tblcolShoeColor || col == tblcolShortsColor;
-
-            TaggedPerson personClicked = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
-
-            if (deleteClicked)
-            {
-                Model.CurrentPhoto.DeleteTaggedPerson(personClicked);
-            }
-            if (numberClicked)
-            {
-                Model.CurrentPhoto.AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, personClicked);
-                MainWindow.Singleton.RequestRedrawGraphics();
-            }
-            if (colorClicked)
-            {
-                Model.CurrentPhoto.AskForColorClassificationsOfPerson(personClicked);
-            }
-        }
-
-        private void NewTagAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            tblTags.Rows[0].Selected = true;
-        }
+        #endregion
     }
 }
