@@ -119,6 +119,11 @@ namespace HermesDataTagger
 
         private void HandleClickRow(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+
             var col = tblTags.Columns[e.ColumnIndex];
 
             bool deleteClicked = col == tblcolBibDelete;

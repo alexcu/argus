@@ -19,13 +19,14 @@ namespace HermesDataTagger
         #region TaggedItems
         public event EventHandler SelectedRunnerUpdated;
         public BindingList<TaggedPerson> TaggedRunners = new BindingList<TaggedPerson>();
+        public List<TaggedPerson> OrderedTaggedRunners => TaggedRunners.OrderBy(p => p.LeftmostClickX).ToList();
         public TaggedPerson LastRunnerTagged => TaggedRunners.FirstOrDefault();
         public bool HasTaggedARunner => TaggedBibNumbers.Length > 0;
         private string[] TaggedBibNumbers => TaggedRunners.Select(p => p.BibNumber).ToArray();
         private TaggedPerson _selectedRunner;
         public bool IsRunnerSelected => SelectedRunner != null;
-        public bool CanSelectNextRunner => HasTaggedARunner && SelectedRunner != TaggedRunners.Last();
-        public bool CanSelectPrevRunner => HasTaggedARunner && SelectedRunner != TaggedRunners.First();
+        public bool CanSelectNextRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.Last();
+        public bool CanSelectPrevRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.First();
         public string SelectedRunnerNumber => IsRunnerSelected ? $"Selected Runner: {SelectedRunner.BibNumber}" : "";
         public TaggedPerson SelectedRunner
         {
@@ -42,22 +43,22 @@ namespace HermesDataTagger
         {
             if (CanSelectNextRunner)
             {
-                SelectedRunner = TaggedRunners[TaggedRunners.IndexOf(SelectedRunner) + 1];
+                SelectedRunner = OrderedTaggedRunners[OrderedTaggedRunners.IndexOf(SelectedRunner) + 1];
             }
             else if (HasTaggedARunner)
             {
-                SelectedRunner = TaggedRunners.First();
+                SelectedRunner = OrderedTaggedRunners.First();
             }
         }
         public void SelectPrevRunner()
         {
             if (CanSelectPrevRunner)
             {
-                SelectedRunner = TaggedRunners[TaggedRunners.IndexOf(SelectedRunner) - 1];
+                SelectedRunner = OrderedTaggedRunners[OrderedTaggedRunners.IndexOf(SelectedRunner) - 1];
             }
             else if (HasTaggedARunner)
             {
-                SelectedRunner = TaggedRunners.Last();
+                SelectedRunner = OrderedTaggedRunners.Last();
             }
         }
 

@@ -91,6 +91,9 @@ namespace HermesDataTagger
         private Point[] AllPixelPoints => Face.PixelPoints.Concat(Bib.PixelPoints).ToArray();
         public int LeftmostPixelX => AllPixelPoints.Min(pt => pt.X);
         public int RightmostPixelX => AllPixelPoints.Max(pt => pt.X);
+        private Point[] AllClickPoints => Face.ClickPoints.Concat(Bib.ClickPoints).ToArray();
+        public int LeftmostClickX => AllClickPoints.Min(pt => pt.X);
+        public int RightmostClickX => AllClickPoints.Max(pt => pt.X);
 
         // Colors
         public Color ShirtColor { get; set; }

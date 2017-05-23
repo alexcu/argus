@@ -23,7 +23,7 @@ namespace HermesDataTagger
             BindDataToControls();
             PopulateStepList();
         }
-
+        
         void BindDataToControls()
         {
             // UI Basics

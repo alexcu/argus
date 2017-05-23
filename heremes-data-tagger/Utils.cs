@@ -12,14 +12,15 @@ namespace HermesDataTagger
 {
 	public static class Utils
 	{
-        public static Pen BibPen = new Pen(Color.Lime, 2);
-        public static Pen SelectedBibPen = new Pen(Color.Lime, 4);
+        public static Pen BibPen = new Pen(Color.Lime, 4);
+        public static Pen SelectedBibPen = new Pen(Color.Lime, 6);
         public static Brush BibBrush = Brushes.Lime;
-        public static Font StdFont = new Font("Courier", 9, FontStyle.Bold);
-        public static Pen SelectedFacePen = new Pen(Color.Aqua, 4);
-        public static Pen FacePen = new Pen(Color.Aqua, 2);
+        public static Font StdFont = new Font("Courier", 12, FontStyle.Bold);
+        public static Pen SelectedFacePen = new Pen(Color.Aqua, 6);
+        public static Pen FacePen = new Pen(Color.Aqua, 4);
         public static Brush FaceBrush = Brushes.Aqua;
         public static Pen RedPen = new Pen(Color.Red, 2);
+        public static Pen GuidelinePen = new Pen(Color.Cyan, 2);
 
         public static bool AtCapacity<T>(this List<T> me)
         {
