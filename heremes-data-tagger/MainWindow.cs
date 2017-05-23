@@ -47,7 +47,7 @@ namespace HermesDataTagger
         {
             MouseWheel += SelectedRunnerChangedByMouse;
             Model.CurrentPhoto.TaggedRunners.ListChanged += ModelListChanged;
-            Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestRedrawGraphics();
+            Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestUpdateSelectedRunner();
         }
 
         void SelectedRunnerChangedByMouse(object sender, MouseEventArgs e)
@@ -59,6 +59,15 @@ namespace HermesDataTagger
             else
             {
                 Model.CurrentPhoto.SelectNextRunner();
+            }
+        }
+        public void RequestUpdateSelectedRunner()
+        {
+            TaggedPerson person = Model.CurrentPhoto.SelectedRunner;
+            if (person != null)
+            {
+                mnuRunnerStaticNumberValue.Text = $"Selected Runner: {person.BibNumber}";
+                RequestRedrawGraphics();
             }
         }
         #endregion
@@ -107,9 +116,10 @@ namespace HermesDataTagger
             mnuSelectedRunner.EnabledChanged += (sender, e) =>
             {
                 // Only bind if no bindings were set
-                if (Model.CurrentPhoto.IsRunnerSelected && mnuRunnerStaticNumberValue.DataBindings.Count == 0)
+                bool mnuBindingsSet = mnuRunnerMarkBib.DataBindings.Count > 0;
+                if (Model.CurrentPhoto.IsRunnerSelected && !mnuBindingsSet)
                 {
-                    mnuRunnerStaticNumberValue.DataBindings.Add("Text", Model.CurrentPhoto, "SelectedRunnerNumber", false, DataSourceUpdateMode.OnPropertyChanged);
+                    //mnuRunnerStaticNumberValue.DataBindings.Add("Text", Model.CurrentPhoto, "SelectedRunnerNumber", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerMarkBlurry.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsRunnerBlurred", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerMarkFaceVisible.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsFaceVisible", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerMarkGlasses.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsWearingGlasses", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -118,8 +128,8 @@ namespace HermesDataTagger
                     mnuRunnerLikelihoodPurchaseMaybe.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsLikelihoodOfPurchaseMaybe", false, DataSourceUpdateMode.OnPropertyChanged);
                     mnuRunnerLikelihoodPurchaseNo.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsLikelihoodOfPurchaseNo", false, DataSourceUpdateMode.OnPropertyChanged);
                     // Can only run wizards once face tagged
-                    mnuRunnerOpenColorClassificationsWizard.DataBindings.Add("Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerOpenClassificationsWizard.DataBindings.Add("Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged", false, DataSourceUpdateMode.OnPropertyChanged);
+                    //mnuRunnerOpenColorClassificationsWizard.DataBindings.Add("Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged", false, DataSourceUpdateMode.OnPropertyChanged);
+                    //mnuRunnerOpenClassificationsWizard.DataBindings.Add("Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged", false, DataSourceUpdateMode.OnPropertyChanged);
                 }
             };
         }
@@ -448,7 +458,7 @@ namespace HermesDataTagger
                 // Number has been assigned? Draw that number
                 if (person.Bib.BibNumber != null)
                 {
-                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft.X, person.Bib.TopLeft.Y - 50);
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft.X, person.Bib.TopLeft.Y - 25);
                 }
                 // Draw face
                 if (person.Face.ClickPoints.Count == 2)
@@ -460,7 +470,7 @@ namespace HermesDataTagger
                     int width = Math.Abs(startX - endPt.X);
                     int height = Math.Abs(startY - endPt.Y);
                     graphics.DrawRectangle(facePen, startX, startY, width, height);
-                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.FaceBrush, person.Face.TopLeft.X, person.Face.TopLeft.Y - 50);
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.FaceBrush, person.Face.TopLeft.X, person.Face.TopLeft.Y - 25);
                     // Draw line between face and bib number
                     graphics.DrawLine(Utils.RedPen, startX, startY + height, person.Bib.TopLeft.X, person.Bib.TopLeft.Y);
                     graphics.DrawLine(Utils.RedPen, person.Face.BtmRight, person.Bib.TopRight);

@@ -45,38 +45,38 @@ namespace HermesDataTagger
 
         #region File Loading
         public void LoadFiles()
-                {
-                    FolderBrowserDialog diag = new FolderBrowserDialog();
-                    DialogResult diagResult = diag.ShowDialog();
-                    SrcDirectory = diag.SelectedPath;
-                    bool openedDialog = diagResult == DialogResult.OK && !String.IsNullOrWhiteSpace(SrcDirectory);
-                    if (openedDialog)
+        {
+            FolderBrowserDialog diag = new FolderBrowserDialog();
+            DialogResult diagResult = diag.ShowDialog();
+            SrcDirectory = diag.SelectedPath;
+            bool openedDialog = diagResult == DialogResult.OK && !String.IsNullOrWhiteSpace(SrcDirectory);
+            if (openedDialog)
+            {
+                Photos = 
+                    Directory.GetFiles(SrcDirectory)
+                    .Where((file) =>
                     {
-                        Photos = 
-                            Directory.GetFiles(SrcDirectory)
-                            .Where((file) =>
-                            {
-                                string ext = Path.GetExtension(file).ToLower();
-                                return ext == ".jpg" || ext == ".jpeg" || ext == ".png";
-                            })
-                            .Select(file => new Photo(file))
-                            .ToArray();
-                        PhotoIdx = 0;
-                    }
-                    if (Photos == null || Photos.Length == 0)
-                    {
-                        MessageBox.Show($"No Image Files Loaded! Check that JPEG or PNGs exist in the directory {SrcDirectory}. Aborting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Environment.Exit(1);
-                    }
-                    Debug.WriteLine($"{Photos.Length} files were loaded in");
-                }
+                        string ext = Path.GetExtension(file).ToLower();
+                        return ext == ".jpg" || ext == ".jpeg" || ext == ".png";
+                    })
+                    .Select(file => new Photo(file))
+                    .ToArray();
+                PhotoIdx = 0;
+            }
+            if (Photos == null || Photos.Length == 0)
+            {
+                MessageBox.Show($"No Image Files Loaded! Check that JPEG or PNGs exist in the directory {SrcDirectory}. Aborting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
+            Debug.WriteLine($"{Photos.Length} files were loaded in");
+        }
         public void AttemptLoadFiles()
-                {
-                    if (MessageBox.Show($"Quit assessing photos from {SrcDirectory}?", "Load Photos", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-                    {
-                        LoadFiles();
-                    }
-                }
+        {
+            if (MessageBox.Show($"Quit assessing photos from {SrcDirectory}?", "Load Photos", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+            {
+                LoadFiles();
+            }
+        }
         #endregion
     }
 }

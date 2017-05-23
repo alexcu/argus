@@ -25,9 +25,9 @@ namespace HermesDataTagger
         private string[] TaggedBibNumbers => TaggedRunners.Select(p => p.BibNumber).ToArray();
         private TaggedPerson _selectedRunner;
         public bool IsRunnerSelected => SelectedRunner != null;
+        public bool CanOpenRunnerMenu => IsRunnerSelected && SelectedRunner.IsBibRegionTagged;
         public bool CanSelectNextRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.Last();
         public bool CanSelectPrevRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.First();
-        public string SelectedRunnerNumber => IsRunnerSelected ? $"Selected Runner: {SelectedRunner.BibNumber}" : "";
         public TaggedPerson SelectedRunner
         {
             get => _selectedRunner;
@@ -278,38 +278,44 @@ namespace HermesDataTagger
         public void AskToTagBibNumber(PictureBox pbx, TaggedPerson person, bool shouldDeleteIfCancel = false)
         {
             // Can only tag if all clicked!
-            if (person.IsBibRegionTagged)
+            if (person == null)
             {
-                BibNumberDialog bibDiag = new BibNumberDialog(person);
-                // Prevent duplicate bib numbers being entered
-                do
-                {
-                    DialogResult result = bibDiag.ShowDialog();
-                    if (result == DialogResult.Cancel)
-                    {
-                        // Cancel -- remove this tag!
-                        if (shouldDeleteIfCancel)
-                        {
-                            DeleteTaggedPerson(person);
-                        }
-                        return;
-                    }
-                    string diagBibNumber = bibDiag.EnteredBibNumber;
-                    if (TaggedBibNumbers.Contains(diagBibNumber) && person.BibNumber != diagBibNumber)
-                    {
-                        MessageBox.Show($"The bib number {diagBibNumber} already exists in this photo!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        person.Bib.BibNumber = diagBibNumber;
-                        break;
-                    }
-                } while (true);
-                // Notify that bindings should be updated to display tag
-                TaggedRunners.ResetItem(0);
-                MainWindow.Singleton.RequestRedrawGraphics();
-                Debug.WriteLine($"Person #{TaggedRunners.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
+                MessageBox.Show("Unable to set tag of a person not selected", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
+            if (!person.IsBibRegionTagged)
+            {
+                MessageBox.Show("Unable to set tag number - the tag region is not yet specified", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            BibNumberDialog bibDiag = new BibNumberDialog(person);
+            // Prevent duplicate bib numbers being entered
+            do
+            {
+                DialogResult result = bibDiag.ShowDialog();
+                if (result == DialogResult.Cancel)
+                {
+                    // Cancel -- remove this tag!
+                    if (shouldDeleteIfCancel)
+                    {
+                        DeleteTaggedPerson(person);
+                    }
+                    return;
+                }
+                string diagBibNumber = bibDiag.EnteredBibNumber;
+                if (TaggedBibNumbers.Contains(diagBibNumber) && person.BibNumber != diagBibNumber)
+                {
+                    MessageBox.Show($"The bib number {diagBibNumber} already exists in this photo!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    person.Bib.BibNumber = diagBibNumber;
+                    break;
+                }
+            } while (true);
+            // Notify that bindings should be updated to display tag
+            TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
+            Debug.WriteLine($"Person #{TaggedRunners.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
         }
         #endregion
 
@@ -347,6 +353,11 @@ namespace HermesDataTagger
         #region Classifications
         public bool AskForBaseClassificationsOfPerson(TaggedPerson person)
         {
+            if (!CanMarkFaces)
+            {
+                MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
             Form dialog = new PersonBaseClassificationDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
@@ -357,6 +368,11 @@ namespace HermesDataTagger
         }
         public bool AskForColorClassificationsOfPerson(TaggedPerson person)
         {
+            if (!CanMarkFaces)
+            {
+                MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
             Form dialog = new PersonColorClassificationsDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)

@@ -50,7 +50,16 @@ namespace HermesDataTagger
             public List<Point> ClickPoints = new List<Point>(4);
             public List<Point> PixelPoints = new List<Point>(4);
 
-            public string BibNumber { get; set; }
+            private string _bibNumber;
+            public string BibNumber
+            {
+                get => _bibNumber;
+                set
+                {
+                    _bibNumber = value;
+                    MainWindow.Singleton.RequestUpdateSelectedRunner();
+                }
+            }
             public bool IsNullBibNumber => BibNumber == null;
         }
         public enum LikelihoodOfPurchaseType { No = -1, Maybe = 0, Yes = 1 }
@@ -82,9 +91,9 @@ namespace HermesDataTagger
         public bool IsWearingGlasses { get { return Face.IsWearingGlasses; } set { Face.IsWearingGlasses = value; } }
 
         // Reigons
-        public BibSheet Bib = new BibSheet();
+        public BibSheet Bib { get; } = new BibSheet();
         public bool IsBibRegionTagged => Bib.ClickPoints.AtCapacity();
-        public PersonFace Face = new PersonFace();
+        public PersonFace Face { get; } = new PersonFace();
         public bool IsFaceRegionTagged => Face.ClickPoints.AtCapacity();
 
         // Bounds of person within photo
