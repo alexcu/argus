@@ -55,6 +55,9 @@
     <Compile Include="BibNumberDialog.Designer.cs">
       <DependentUpon>BibNumberDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="BindableToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="KeyboardShortcutManager.cs" />
     <Compile Include="PersonBaseClassificationsDialog.cs">
       <SubType>Form</SubType>

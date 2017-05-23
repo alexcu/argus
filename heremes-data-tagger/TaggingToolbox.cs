@@ -28,7 +28,7 @@ namespace HermesDataTagger
             tblTags.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
             // Set up table for bib # identified
             tblTags.AutoGenerateColumns = false;
-            tblTags.DataSource = Model.CurrentPhoto.TaggedPeople;
+            tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
             tblcolBibNumber.DataPropertyName = "BibNumber";
             tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
             tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
@@ -51,16 +51,16 @@ namespace HermesDataTagger
             switch (col)
             {
                 case "tblcolShoeColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Utils.LabelForeColorForBackColor(person.ShoeColor);
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor.IsEmpty ? Color.White : person.ShoeColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShoeColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShoeColor);
                     break;
                 case "tblcolShortsColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Utils.LabelForeColorForBackColor(person.ShortsColor);
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor.IsEmpty ? Color.White : person.ShortsColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShortsColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShortsColor);
                     break;
                 case "tblcolShirtColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Utils.LabelForeColorForBackColor(person.ShirtColor);
+                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.ShirtColor;
+                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShirtColor);
                     break;
             }
         }
@@ -86,9 +86,7 @@ namespace HermesDataTagger
         {
             if (e.StateChanged == DataGridViewElementStates.Selected)
             {
-                Model.CurrentPhoto.SelectedPerson = (TaggedPerson)e.Row.DataBoundItem;
-                // Request update
-                MainWindow.Singleton.RequestRedrawGraphics();
+                Model.CurrentPhoto.SelectedRunner = (TaggedPerson)e.Row.DataBoundItem;
             }
         }
 
@@ -107,6 +105,16 @@ namespace HermesDataTagger
             tblTags.MouseLeave += (sender, e) => statusStrip.Visible = false;
             // Pointer cursor
             tblTags.CellMouseMove += SetCursorForCell;
+            // Update selected runner
+            Model.CurrentPhoto.SelectedRunnerUpdated += UpdateSelectedRunnerRow;
+        }
+
+        private void UpdateSelectedRunnerRow(object sender, EventArgs e)
+        {
+            TaggedPerson runner = Model.CurrentPhoto.SelectedRunner;
+            int rowIdx = Model.CurrentPhoto.TaggedRunners.IndexOf(runner);
+            tblTags.ClearSelection();
+            tblTags.Rows[rowIdx].Selected = true;
         }
 
         private void HandleClickRow(object sender, DataGridViewCellEventArgs e)

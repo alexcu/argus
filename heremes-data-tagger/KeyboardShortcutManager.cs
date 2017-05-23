@@ -24,7 +24,7 @@ namespace HermesDataTagger
         {
             if (e.KeyCode == Keys.C)
             {
-                Model.CurrentPhoto.IsPhotoCrowded = !Model.CurrentPhoto.IsPhotoCrowded;
+                Model.CurrentPhoto.ToggleCrowdedPhoto();
             }
         }
 

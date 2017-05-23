@@ -58,7 +58,7 @@ namespace HermesDataTagger
             Model.CurrentPhoto.TaggingStep = newStep;
 
             // Switching to new panel?
-            switch (newStep)
+            switch (Model.CurrentPhoto.TaggingStep)
             {
                 case StepType.SelectBibRegion:
                 case StepType.SelectFaceRegion:

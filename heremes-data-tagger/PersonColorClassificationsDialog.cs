@@ -16,6 +16,7 @@ namespace HermesDataTagger
         private bool _isSettingShirtColor = true;
         private bool _isSettingShortsColor = false;
         private bool _isSettingShoeColor = false;
+        private bool _dragingModeEnabled = false;
 
         public PersonColorClassificationsDialog(TaggedPerson person)
         {
@@ -26,7 +27,7 @@ namespace HermesDataTagger
             BindEvents();
             UpdateInstructionsLabel();
             // TODO: Work out why the window size won't reflect the designer
-            Height += 100;
+            Height += 30;
         }
 
         void CropPersonPhoto()
@@ -60,6 +61,25 @@ namespace HermesDataTagger
         void BindEvents()
         {
             imgPersonCrop.MouseClick += OnClickImage;
+            imgPersonCrop.MouseDown += (sender, e) => _dragingModeEnabled = true;
+            imgPersonCrop.MouseMove += (sender, e) => { if (_dragingModeEnabled) { OnClickImage(sender, e); } };
+            imgPersonCrop.MouseUp += (sender, e) =>
+            {
+                _dragingModeEnabled = false;
+                if (_isSettingShirtColor)
+                {
+                    rdoSettingShortsColor.Checked = true;
+                }
+                else if (_isSettingShortsColor)
+                {
+                    rdoSettingShoesColor.Checked = true;
+                }
+                else
+                {
+                    btnSave.Focus();
+                }
+            };
+
             // Manually bind radio change events
             rdoSettingShirtColor.CheckedChanged += (sender, e) =>
             {
@@ -112,13 +132,10 @@ namespace HermesDataTagger
             if (_isSettingShirtColor)
             {
                 Person.ShirtColor = pixelColor;
-                rdoSettingShortsColor.Checked = true;
             }
             else if (_isSettingShortsColor)
             {
                 Person.ShortsColor = pixelColor;
-                rdoSettingShoesColor.Checked = true;
-
             }
             else
             {

@@ -71,6 +71,9 @@ namespace HermesDataTagger
                 LikelihoodOfPurchase = type;
             }
         }
+        public bool IsLikelihoodOfPurchaseYes => LikelihoodOfPurchase == LikelihoodOfPurchaseType.Yes;
+        public bool IsLikelihoodOfPurchaseMaybe => LikelihoodOfPurchase == LikelihoodOfPurchaseType.Maybe;
+        public bool IsLikelihoodOfPurchaseNo => LikelihoodOfPurchase == LikelihoodOfPurchaseType.No;
 
         // Extension bindings
         public string BibNumber => Bib.BibNumber ?? "N/A";
