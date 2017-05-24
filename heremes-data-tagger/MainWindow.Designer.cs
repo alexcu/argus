@@ -160,7 +160,7 @@
             this.mnuSelectedRunner});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2900, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(2900, 40);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -171,7 +171,7 @@
             this.toolStripSeparator1,
             this.mnuFileExit});
             this.mnuFile.Name = "mnuFile";
-            this.mnuFile.Size = new System.Drawing.Size(64, 38);
+            this.mnuFile.Size = new System.Drawing.Size(64, 36);
             this.mnuFile.Text = "&File";
             // 
             // mnuFileLoadImages
@@ -197,7 +197,7 @@
             this.mnuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuEditUndo});
             this.mnuEdit.Name = "mnuEdit";
-            this.mnuEdit.Size = new System.Drawing.Size(67, 38);
+            this.mnuEdit.Size = new System.Drawing.Size(67, 36);
             this.mnuEdit.Text = "&Edit";
             // 
             // mnuEditUndo
@@ -213,7 +213,7 @@
             this.mnuViewPreviousPhoto,
             this.mnuViewNextPhoto});
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(78, 38);
+            this.mnuView.Size = new System.Drawing.Size(78, 36);
             this.mnuView.Text = "&View";
             // 
             // mnuViewPreviousPhoto
@@ -243,7 +243,7 @@
             this.mnuPhotoSelectNextRunner});
             this.mnuPhoto.Name = "mnuPhoto";
             this.mnuPhoto.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.mnuPhoto.Size = new System.Drawing.Size(90, 38);
+            this.mnuPhoto.Size = new System.Drawing.Size(90, 36);
             this.mnuPhoto.Text = "&Photo";
             // 
             // mnuPhotoMarkCrowded
@@ -312,7 +312,7 @@
             this.mnuRunnerMarkHat,
             this.mnuRunnerMarkGlasses});
             this.mnuSelectedRunner.Name = "mnuSelectedRunner";
-            this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 38);
+            this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 36);
             this.mnuSelectedRunner.Text = "Selected &Runner";
             // 
             // mnuRunnerStaticNumberValue
@@ -368,9 +368,9 @@
             // mnuRunnerLikelihoodPurchase
             // 
             this.mnuRunnerLikelihoodPurchase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuRunnerLikelihoodPurchaseNo,
+            this.mnuRunnerLikelihoodPurchaseYes,
             this.mnuRunnerLikelihoodPurchaseMaybe,
-            this.mnuRunnerLikelihoodPurchaseYes});
+            this.mnuRunnerLikelihoodPurchaseNo});
             this.mnuRunnerLikelihoodPurchase.Name = "mnuRunnerLikelihoodPurchase";
             this.mnuRunnerLikelihoodPurchase.Size = new System.Drawing.Size(516, 38);
             this.mnuRunnerLikelihoodPurchase.Text = "Likelihood Of &Purchase";
@@ -378,7 +378,7 @@
             // mnuRunnerLikelihoodPurchaseNo
             // 
             this.mnuRunnerLikelihoodPurchaseNo.Name = "mnuRunnerLikelihoodPurchaseNo";
-            this.mnuRunnerLikelihoodPurchaseNo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.mnuRunnerLikelihoodPurchaseNo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
             this.mnuRunnerLikelihoodPurchaseNo.Size = new System.Drawing.Size(547, 38);
             this.mnuRunnerLikelihoodPurchaseNo.Text = "I would &Not buy this photo";
             // 
@@ -392,7 +392,7 @@
             // mnuRunnerLikelihoodPurchaseYes
             // 
             this.mnuRunnerLikelihoodPurchaseYes.Name = "mnuRunnerLikelihoodPurchaseYes";
-            this.mnuRunnerLikelihoodPurchaseYes.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.mnuRunnerLikelihoodPurchaseYes.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
             this.mnuRunnerLikelihoodPurchaseYes.Size = new System.Drawing.Size(547, 38);
             this.mnuRunnerLikelihoodPurchaseYes.Text = "I would &Definitely buy this photo";
             // 
@@ -421,7 +421,7 @@
             this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNextImage.Location = new System.Drawing.Point(2758, 3);
             this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.Size = new System.Drawing.Size(139, 182);
+            this.btnNextImage.Size = new System.Drawing.Size(139, 183);
             this.btnNextImage.TabIndex = 9;
             this.btnNextImage.Text = "Next Photo [F12] ▶";
             this.btnNextImage.UseVisualStyleBackColor = true;
@@ -432,7 +432,7 @@
             this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrevImage.Location = new System.Drawing.Point(3, 3);
             this.btnPrevImage.Name = "btnPrevImage";
-            this.btnPrevImage.Size = new System.Drawing.Size(139, 182);
+            this.btnPrevImage.Size = new System.Drawing.Size(139, 183);
             this.btnPrevImage.TabIndex = 10;
             this.btnPrevImage.Text = "Prev Photo ◀ [F11] ";
             this.btnPrevImage.UseVisualStyleBackColor = true;
@@ -454,13 +454,13 @@
             this.tblMainGrid.Controls.Add(this.btnPrevImage, 0, 0);
             this.tblMainGrid.Controls.Add(this.pnlLeft, 0, 1);
             this.tblMainGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblMainGrid.Location = new System.Drawing.Point(0, 42);
+            this.tblMainGrid.Location = new System.Drawing.Point(0, 40);
             this.tblMainGrid.Name = "tblMainGrid";
             this.tblMainGrid.RowCount = 3;
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblMainGrid.Size = new System.Drawing.Size(2900, 1889);
+            this.tblMainGrid.Size = new System.Drawing.Size(2900, 1891);
             this.tblMainGrid.TabIndex = 18;
             // 
             // pnlRight
@@ -470,16 +470,16 @@
             this.pnlRight.Controls.Add(this.grpPhotoClass);
             this.pnlRight.Controls.Add(this.grpSteps);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRight.Location = new System.Drawing.Point(2323, 191);
+            this.pnlRight.Location = new System.Drawing.Point(2323, 192);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(574, 1316);
+            this.pnlRight.Size = new System.Drawing.Size(574, 1317);
             this.pnlRight.TabIndex = 33;
             // 
             // grpPhotoClass
             // 
             this.grpPhotoClass.Controls.Add(this.tableLayoutPanel1);
             this.grpPhotoClass.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grpPhotoClass.Location = new System.Drawing.Point(0, 948);
+            this.grpPhotoClass.Location = new System.Drawing.Point(0, 949);
             this.grpPhotoClass.Name = "grpPhotoClass";
             this.grpPhotoClass.Padding = new System.Windows.Forms.Padding(10);
             this.grpPhotoClass.Size = new System.Drawing.Size(574, 368);
@@ -589,7 +589,7 @@
             this.tblcolBibDelete});
             this.tblMainGrid.SetColumnSpan(this.tblTags, 5);
             this.tblTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblTags.Location = new System.Drawing.Point(3, 1513);
+            this.tblTags.Location = new System.Drawing.Point(3, 1515);
             this.tblTags.MultiSelect = false;
             this.tblTags.Name = "tblTags";
             this.tblTags.RowHeadersVisible = false;
@@ -608,7 +608,7 @@
             this.pnlInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlInstructions.Location = new System.Drawing.Point(148, 3);
             this.pnlInstructions.Name = "pnlInstructions";
-            this.pnlInstructions.Size = new System.Drawing.Size(2604, 182);
+            this.pnlInstructions.Size = new System.Drawing.Size(2604, 183);
             this.pnlInstructions.TabIndex = 28;
             // 
             // lblStepName
@@ -630,7 +630,7 @@
             this.lstPhotos.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lstPhotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstPhotos.ForeColor = System.Drawing.Color.Red;
-            this.lstPhotos.Location = new System.Drawing.Point(0, 101);
+            this.lstPhotos.Location = new System.Drawing.Point(0, 102);
             this.lstPhotos.Name = "lstPhotos";
             this.lstPhotos.Size = new System.Drawing.Size(2604, 81);
             this.lstPhotos.TabIndex = 38;
@@ -642,9 +642,9 @@
             this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
             this.imgPhoto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgPhoto.Location = new System.Drawing.Point(438, 191);
+            this.imgPhoto.Location = new System.Drawing.Point(438, 192);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1879, 1316);
+            this.imgPhoto.Size = new System.Drawing.Size(1879, 1317);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 25;
             this.imgPhoto.TabStop = false;
@@ -655,9 +655,9 @@
             this.tblMainGrid.SetColumnSpan(this.pnlLeft, 2);
             this.pnlLeft.Controls.Add(this.grpFiles);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLeft.Location = new System.Drawing.Point(3, 191);
+            this.pnlLeft.Location = new System.Drawing.Point(3, 192);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(429, 1316);
+            this.pnlLeft.Size = new System.Drawing.Size(429, 1317);
             this.pnlLeft.TabIndex = 29;
             // 
             // grpFiles
@@ -667,7 +667,7 @@
             this.grpFiles.Location = new System.Drawing.Point(0, 0);
             this.grpFiles.Name = "grpFiles";
             this.grpFiles.Padding = new System.Windows.Forms.Padding(10);
-            this.grpFiles.Size = new System.Drawing.Size(429, 1316);
+            this.grpFiles.Size = new System.Drawing.Size(429, 1317);
             this.grpFiles.TabIndex = 26;
             this.grpFiles.TabStop = false;
             this.grpFiles.Text = "Photo Files";
@@ -683,7 +683,7 @@
             ""});
             this.lstFiles.Location = new System.Drawing.Point(10, 34);
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(409, 1272);
+            this.lstFiles.Size = new System.Drawing.Size(409, 1273);
             this.lstFiles.TabIndex = 29;
             // 
             // mnuRunnerGender

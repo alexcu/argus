@@ -231,14 +231,20 @@ namespace HermesDataTagger
             }
         }
 
-        internal void RedoLastAction()
-        {
-            throw new NotImplementedException();
-        }
-
         internal void UndoLastAction()
         {
-            throw new NotImplementedException();
+            switch (TaggingStep)
+            {
+                case StepType.ImageCrowded:
+                    ToggleCrowdedPhoto();
+                    break;
+                case StepType.SelectBibRegion:
+                    RemoveLastBibPoint();
+                    break;
+                case StepType.SelectFaceRegion:
+                    RemoveLastFaceTaggingRegion();
+                    break;
+            }
         }
 
         public void HandleDragMove(PictureBox pbx, MouseEventArgs e)
@@ -366,6 +372,26 @@ namespace HermesDataTagger
             TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             Debug.WriteLine($"Person #{TaggedRunners.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
         }
+
+        void RemoveLastBibPoint()
+        {
+            TaggedPerson person = LastRunnerTagged;
+            if (person == null)
+            {
+                return;
+            }
+            if (person.IsBibRegionTagged)
+            {
+                // Most likely want to undo the bib number
+                AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, person);
+            }
+            else if (person.Bib.ClickPoints.Count > 0)
+            {
+                person.Bib.ClickPoints.Remove(person.Bib.ClickPoints.Last());
+                person.Bib.PixelPoints.Remove(person.Bib.PixelPoints.Last());
+                MainWindow.Singleton.RequestRedrawGraphics();
+            }
+        }
         #endregion
 
         #region FaceRegion
@@ -396,6 +422,17 @@ namespace HermesDataTagger
                 face.ClickPoints[idx] = pt;
                 face.PixelPoints[idx] = pixelPt;
             }
+        }
+        void RemoveLastFaceTaggingRegion()
+        {
+            TaggedPerson person = LastRunnerTagged;
+            if (person == null)
+            {
+                return;
+            }
+            person.Face.ClickPoints.Clear();
+            person.Face.PixelPoints.Clear();
+            MainWindow.Singleton.RequestRedrawGraphics();
         }
         #endregion
 
