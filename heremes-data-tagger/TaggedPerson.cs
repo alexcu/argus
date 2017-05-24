@@ -41,10 +41,11 @@ namespace HermesDataTagger
         public class BibSheet
         {
             // Bib region
-            public Point TopLeft => ClickPoints[0];
-            public Point TopRight => ClickPoints[1];
-            public Point BtmRight => ClickPoints[2];
-            public Point BtmLeft => ClickPoints[3];
+            public Point Centre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+            public Point TopLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y < Centre.Y); // MinX, MinY
+            public Point TopRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y < Centre.Y); // MaxX, MinY
+            public Point BtmRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y > Centre.Y);  // MaxX, MaxY
+            public Point BtmLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y > Centre.Y); // MinX, MaxY
 
             // 4 indexes for 4 corners of mouse clicks and the representation as pixels
             public List<Point> ClickPoints = new List<Point>(4);

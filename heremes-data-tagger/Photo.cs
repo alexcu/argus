@@ -48,7 +48,7 @@ namespace HermesDataTagger
         public TaggedPerson SelectedRunner
         {
             get => _selectedRunner;
-            set { 
+            set {
                 _selectedRunner = value;
                 if (SelectedRunnerUpdated != null && value != null)
                 {
@@ -293,6 +293,18 @@ namespace HermesDataTagger
             // We just finished tagging?
             if (person.IsBibRegionTagged)
             {
+                // Reorder so that values are in clockwise order!
+                List<Point> orderedPoints = new List<Point>
+                {
+                    person.Bib.TopLeft,
+                    person.Bib.TopRight,
+                    person.Bib.BtmRight,
+                    person.Bib.BtmLeft
+                };
+                person.Bib.ClickPoints = orderedPoints;
+                // Update to reflect pixel points
+                person.Bib.PixelPoints = orderedPoints.Select(p => p.ToPixelPoint(pbx)).ToList();
+
                 // Invalidate (update graphics) of picture box to reflect new bib number
                 pbx.Invalidate();
                 AskToTagBibNumber(pbx, person, true);
