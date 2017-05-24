@@ -33,7 +33,7 @@ namespace HermesDataTagger
             switch (me)
             {
                 case StepType.ImageCrowded:
-                    return "Image Crowded";
+                    return "Is this Image Crowded?";
                 case StepType.SelectBibRegion:
                     return "Select Bib Number Region";
                 case StepType.SelectFaceRegion:
@@ -50,7 +50,7 @@ namespace HermesDataTagger
                 case StepType.ImageCrowded:
                     return "Does this image have more than 5 people? Use F1 to toggle.";
                 case StepType.SelectBibRegion:
-                    return "Click FOUR times on the image to mark up a new bib region";
+                    return "Left click FOUR times on the image to mark up a new bib region";
                 case StepType.SelectFaceRegion:
                     TaggedPerson person = Model.CurrentPhoto.SelectedRunner;
                     if (person == null)

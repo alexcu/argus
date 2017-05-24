@@ -44,6 +44,7 @@ namespace HermesDataTagger
             BindMainMenuEvents();
             BindTaggedDataGridEvents();
             BindFilesPanelEvents();
+            BindStepPanelEvents();
         }
 
         void AddDataBinding(IBindableComponent component, string propertyName, object dataSource, string dataMember)
@@ -155,8 +156,8 @@ namespace HermesDataTagger
             AddDataBinding(mnuPhotoMarkComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
             //mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs");
             //mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces");
-            //mnuPhotoSelectNextRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner");
-            //mnuPhotoSelectPrevRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner");
+            AddDataBinding(mnuPhotoSelectNextRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
+            AddDataBinding(mnuPhotoSelectPrevRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
             // Selected runner menu
             AddDataBinding(mnuSelectedRunner, "Enabled", Model, "CurrentPhoto.IsRunnerSelected");
             mnuSelectedRunner.EnabledChanged += (sender, e) =>
@@ -173,9 +174,6 @@ namespace HermesDataTagger
                     AddDataBinding(mnuRunnerLikelihoodPurchaseYes, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseYes");
                     AddDataBinding(mnuRunnerLikelihoodPurchaseMaybe, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseMaybe");
                     AddDataBinding(mnuRunnerLikelihoodPurchaseNo, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseNo");
-                    // Can only run wizards once face tagged
-                    //mnuRunnerOAddDataBinding(penColorClassificationsWizard, "Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged");
-                    //mnuRunnerOpenClassificationsWizard, "Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged");
                 }
             };
         }
@@ -222,7 +220,7 @@ namespace HermesDataTagger
         #region Bind Data
         void BindDataToStepPanelControls()
         {
-            // Crowded
+            // Check boxes
             AddDataBinding(chbxIsCrowded, "Checked", Model, "CurrentPhoto.IsPhotoCrowded");
             AddDataBinding(chbxIsComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
             // Disable next button & steps if crowded
@@ -242,11 +240,18 @@ namespace HermesDataTagger
                     resultingList.Add(stepLabel);
                 }
                 lstSteps.DataSource = resultingList;
-                lstSteps.SelectedIndexChanged += (sender, e) => Model.CurrentPhoto.TaggingStep = (StepType)lstSteps.SelectedIndex;
             }
 
             // Bind the step list
             PopulateStepList();
+        }
+        #endregion
+        #region Events
+        void BindStepPanelEvents()
+        {
+            lstSteps.SelectedIndexChanged += (sender, e) => Model.CurrentPhoto.TaggingStep = (StepType)lstSteps.SelectedIndex;
+            chbxIsComplete.MouseClick += (sender, e) => Model.CurrentPhoto.ToggleComplete();
+            chbxIsCrowded.MouseClick += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
         }
         #endregion
         #endregion
@@ -298,22 +303,29 @@ namespace HermesDataTagger
         
         void BackgroundForSelectedColors(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            TaggedPerson person = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
-            string col = tblTags.Columns[e.ColumnIndex].Name;
-            switch (col)
+            try
             {
-                case "tblcolShoeColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor.IsEmpty ? Color.White : person.ShoeColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShoeColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShoeColor);
-                    break;
-                case "tblcolShortsColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor.IsEmpty ? Color.White : person.ShortsColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShortsColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShortsColor);
-                    break;
-                case "tblcolShirtColor":
-                    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.ShirtColor;
-                    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShirtColor);
-                    break;
+                TaggedPerson person = (TaggedPerson)tblTags.Rows[e.RowIndex].DataBoundItem;
+                string col = tblTags.Columns[e.ColumnIndex].Name;
+                switch (col)
+                {
+                    case "tblcolShoeColor":
+                        e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShoeColor.IsEmpty ? Color.White : person.ShoeColor;
+                        e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShoeColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShoeColor);
+                        break;
+                    case "tblcolShortsColor":
+                        e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShortsColor.IsEmpty ? Color.White : person.ShortsColor;
+                        e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShortsColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShortsColor);
+                        break;
+                    case "tblcolShirtColor":
+                        e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.ShirtColor;
+                        e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShirtColor);
+                        break;
+                }
+            }
+            catch
+            {
+                // Data out of range error
             }
         }
 
@@ -382,6 +394,7 @@ namespace HermesDataTagger
             {
                 Model.CurrentPhoto.AskForColorClassificationsOfPerson(personClicked);
             }
+            RequestRedrawGraphics();
         }
 
         void NewTagAdded(object sender, DataGridViewRowsAddedEventArgs e)

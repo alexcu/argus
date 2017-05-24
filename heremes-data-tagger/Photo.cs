@@ -49,10 +49,20 @@ namespace HermesDataTagger
         {
             get => _selectedRunner;
             set {
-                _selectedRunner = value;
-                if (SelectedRunnerUpdated != null && value != null)
+                try
                 {
-                    SelectedRunnerUpdated(this, EventArgs.Empty);
+                    _selectedRunner = value;
+                }
+                catch (FormatException)
+                {
+                    // Ignore
+                }
+                finally
+                {
+                    if (SelectedRunnerUpdated != null && value != null)
+                    {
+                        SelectedRunnerUpdated(this, EventArgs.Empty);
+                    }
                 }
             }
         }
