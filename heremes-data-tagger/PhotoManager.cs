@@ -13,13 +13,13 @@ namespace HermesDataTagger
     {
         public static PhotoManager SharedManager = new PhotoManager();
 
-        private Photo[] Photos { get; set; }
-        private int PhotoIdx { get; set; }
+        public List<Photo> Photos { get; private set; }
+        public int PhotoIdx { get; set; }
         public Photo CurrentPhoto => Photos[PhotoIdx];
 
         #region Photo Storage
         public string SrcDirectory { get; private set; }
-        public bool PhotosLoaded => Photos.Length > 0;
+        public bool PhotosLoaded => Photos.Count > 0;
         public bool CanGetNextPhoto => CurrentPhoto != Photos.Last();
         public bool CanGetPrevPhoto => CurrentPhoto != Photos.First();
         #endregion
@@ -60,15 +60,15 @@ namespace HermesDataTagger
                         return ext == ".jpg" || ext == ".jpeg" || ext == ".png";
                     })
                     .Select(file => new Photo(file))
-                    .ToArray();
+                    .ToList();
                 PhotoIdx = 0;
             }
-            if (Photos == null || Photos.Length == 0)
+            if (Photos == null || Photos.Count == 0)
             {
                 MessageBox.Show($"No Image Files Loaded! Check that JPEG or PNGs exist in the directory {SrcDirectory}. Aborting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
             }
-            Debug.WriteLine($"{Photos.Length} files were loaded in");
+            Debug.WriteLine($"{Photos.Count} files were loaded in");
         }
         public void AttemptLoadFiles()
         {

@@ -30,6 +30,7 @@ namespace HermesDataTagger
             BindDataToMenuControls();
             BindDataToStepPanelControls();
             BindDataToTaggedDataGrid();
+            BindDataToFilesPanel();
         }
 
         void BindEvents()
@@ -79,7 +80,7 @@ namespace HermesDataTagger
         {
             // Labels
             lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepName", false, DataSourceUpdateMode.OnPropertyChanged);
-            lblInstructions.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
+            lstPhotos.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
             // Buttons
             btnPrevImage.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
             btnNextImage.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -91,6 +92,18 @@ namespace HermesDataTagger
             // Click events
             btnPrevImage.Click += (sender, e) => Model.GetPrevPhoto();
             btnNextImage.Click += (sender, e) => Model.GetNextPhoto();
+        }
+        #endregion
+        #endregion
+
+        #region Files Panel
+        #region Bind Data
+        void BindDataToFilesPanel()
+        {
+            // Selected index of steps
+            lstFiles.DataBindings.Add("SelectedIndex", Model, "PhotoIdx", false, DataSourceUpdateMode.OnPropertyChanged);
+            lstFiles.DataSource = Model.Photos.Select(p => p.Identifier).ToArray();
+            lstFiles.SelectedIndexChanged += (sender, e) => Model.PhotoIdx = lstFiles.SelectedIndex;
         }
         #endregion
         #endregion
@@ -138,7 +151,11 @@ namespace HermesDataTagger
         void BindMainMenuEvents()
         {
             // File menu
-            mnuFileLoadImages.Click += (sender, e) => Model.AttemptLoadFiles();
+            mnuFileLoadImages.Click += (sender, e) =>
+            {
+                Model.AttemptLoadFiles();
+                BindDataToFilesPanel();
+            };
             mnuFileExit.Click += (sender, e) => Close();
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
@@ -443,6 +460,22 @@ namespace HermesDataTagger
                     Utils.GuidelinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot;
                     graphics.DrawLine(Utils.GuidelinePen, person.LeftmostClickX, 0, person.LeftmostClickX, imgPhoto.Height);
                     graphics.DrawLine(Utils.GuidelinePen, person.RightmostClickX, 0, person.RightmostClickX, imgPhoto.Height);
+                    string extraInfo = "";
+                    extraInfo += $"{person.BibNumber}\n";
+                    if (person.IsFaceRegionTagged)
+                    {
+                        extraInfo += $"PURCHASE: {person.LikelihoodOfPurchase.ToString().ToUpper()}\n";
+                    }
+                    extraInfo += person.IsRunnerBlurred ? "BLURRY ✔\n" : "";
+                    extraInfo += !person.IsFaceVisible ? "FACE VISIBLE ✘\n" : "";
+                    extraInfo += person.IsWearingGlasses ? "WEARING GLASSES ✔\n" : "";
+                    extraInfo += person.IsWearingHat ? "WEARING HAT ✔\n" : "";
+                    // Draw extra info at top of screen
+                    SizeF szOfInfoBox = graphics.MeasureString(extraInfo, Utils.StdFont);
+                    Rectangle infoBox = new Rectangle(person.RightmostClickX, 0, (int)szOfInfoBox.Width + 5, (int)szOfInfoBox.Height + 5);
+                    graphics.FillRectangle(Brushes.White, infoBox);
+                    graphics.DrawString(extraInfo, Utils.StdFont, Brushes.Black, person.RightmostClickX + 2, 2);
+
                 }
 
                 // Markup each bib region (granted two lines)

@@ -16,6 +16,7 @@ namespace HermesDataTagger
         public static Pen SelectedBibPen = new Pen(Color.Lime, 6);
         public static Brush BibBrush = Brushes.Lime;
         public static Font StdFont = new Font("Courier", 12, FontStyle.Bold);
+        public static Font SmallFont = new Font("Courier", 11, FontStyle.Bold);
         public static Pen SelectedFacePen = new Pen(Color.Cyan, 6);
         public static Pen FacePen = new Pen(Color.Cyan, 4);
         public static Brush FaceBrush = Brushes.Cyan;
