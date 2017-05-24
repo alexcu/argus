@@ -5,19 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using PropertyChanged;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace HermesDataTagger
 {
     [ImplementPropertyChanged]
     public class TaggedPerson
     {
+        #region Timers
+        [JsonIgnore]
+        public Stopwatch TimerBibRegionClicks { get; } = new Stopwatch();
+        [JsonIgnore]
+        public Stopwatch TimerEnteringBibNumber { get; } = new Stopwatch();
+        [JsonIgnore]
+        public Stopwatch TimerBaseClassificationDialog { get; } = new Stopwatch();
+        [JsonIgnore]
+        public Stopwatch TimerColorClassificationDialog { get; } = new Stopwatch();
+        [JsonIgnore]
+        public Stopwatch TimerFaceDragDrop { get; } = new Stopwatch();
+        // Time we care about
+        public float TimeToClickBibReigons => TimerBibRegionClicks.ElapsedMilliseconds;
+        public float TimeToEnterBibNumber => TimerEnteringBibNumber.ElapsedMilliseconds;
+        public float TimeToDoBaseClassifications => TimerBaseClassificationDialog.ElapsedMilliseconds;
+        public float TimeToDoColorClassifications => TimerColorClassificationDialog.ElapsedMilliseconds;
+        public float TotalTimeTaken => TimeToClickBibReigons + TimeToEnterBibNumber + TimeToDoBaseClassifications + TimeToDoColorClassifications;
+        #endregion
+
         #region Related Data Types
         [ImplementPropertyChanged]
         public class PersonFace
         {
-            // Reigon
-            public Point TopLeft => ClickPoints[0];
-            public Point BtmRight => ClickPoints[1];
+            // Region
+            [JsonIgnore]
+            public Point Centre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+            [JsonIgnore]
+            public Point TopLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y < Centre.Y); // MinX, MinY
+            [JsonIgnore]
+            public Point BtmRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y > Centre.Y);  // MaxX, MaxY
 
             // 2 indexes for top left and bottom right and the second mapped as pixels
             public List<Point> ClickPoints = new List<Point>(2);
@@ -41,10 +66,15 @@ namespace HermesDataTagger
         public class BibSheet
         {
             // Bib region
+            [JsonIgnore]
             public Point Centre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+            [JsonIgnore]
             public Point TopLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y < Centre.Y); // MinX, MinY
+            [JsonIgnore]
             public Point TopRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y < Centre.Y); // MaxX, MinY
+            [JsonIgnore]
             public Point BtmRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y > Centre.Y);  // MaxX, MaxY
+            [JsonIgnore]
             public Point BtmLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y > Centre.Y); // MinX, MaxY
 
             // 4 indexes for 4 corners of mouse clicks and the representation as pixels
@@ -74,6 +104,7 @@ namespace HermesDataTagger
         public bool IsRunnerBlurred { get; set; }
         // Gender
         public GenderType Gender { get; set; }
+        [JsonIgnore]
         public string GenderName
         {
             get { return Gender.ToString(); }
@@ -85,8 +116,11 @@ namespace HermesDataTagger
                 MainWindow.Singleton.RequestRedrawGraphics();
             }
         }
+        [JsonIgnore]
         public bool IsGenderMale => Gender == GenderType.Male;
+        [JsonIgnore]
         public bool IsGenderFemale => Gender == GenderType.Female;
+        [JsonIgnore]
         public bool IsGenderUnknown => Gender == GenderType.Unknown;
         // LoP
         public LikelihoodOfPurchaseType LikelihoodOfPurchase { get; set; }
@@ -100,15 +134,22 @@ namespace HermesDataTagger
                 MainWindow.Singleton.RequestRedrawGraphics();
             }
         }
+        [JsonIgnore]
         public bool IsLikelihoodOfPurchaseYes => LikelihoodOfPurchase == LikelihoodOfPurchaseType.Yes;
+        [JsonIgnore]
         public bool IsLikelihoodOfPurchaseMaybe => LikelihoodOfPurchase == LikelihoodOfPurchaseType.Maybe;
+        [JsonIgnore]
         public bool IsLikelihoodOfPurchaseNo => LikelihoodOfPurchase == LikelihoodOfPurchaseType.No;
 
 
         // Extension bindings
+        [JsonIgnore]
         public string BibNumber => Bib.BibNumber ?? "N/A";
+        [JsonIgnore]
         public bool IsFaceVisible { get { return Face.IsFaceVisible; } set { Face.IsFaceVisible = value; } }
+        [JsonIgnore]
         public bool IsWearingHat { get { return Face.IsWearingHat; } set { Face.IsWearingHat = value; } }
+        [JsonIgnore]
         public bool IsWearingGlasses { get { return Face.IsWearingGlasses; } set { Face.IsWearingGlasses = value; } }
 
         // Reigons

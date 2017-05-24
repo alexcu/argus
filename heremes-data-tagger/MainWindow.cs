@@ -191,6 +191,7 @@ namespace HermesDataTagger
                 BindDataToFilesPanel();
             };
             mnuFileExit.Click += (sender, e) => Close();
+            mnuFileSave.Click += (sender, e) => Model.DumpToJson();
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
             // View menu
@@ -270,7 +271,7 @@ namespace HermesDataTagger
             // Set up table for bib # identified
             tblTags.AutoGenerateColumns = false;
             // Update the new source!
-            Model.CurrentPhotoChanged += (sender, e) => tblTags.DataSource =  Model.CurrentPhoto.TaggedRunners;
+            Model.CurrentPhotoChanged += (sender, e) => tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
             tblcolBibNumber.DataPropertyName = "BibNumber";
             tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
             tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
@@ -308,7 +309,6 @@ namespace HermesDataTagger
             // Cell click handling
             tblTags.CellValueChanged += HandleChangeDropdown;
             tblTags.CellContentClick += HandleClickRow;
-
         }
 
         void HandleChangeDropdown(object sender, DataGridViewCellEventArgs e)

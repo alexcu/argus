@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using PropertyChanged;
 using System.Windows.Forms;
-using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace HermesDataTagger
 {
@@ -24,8 +24,12 @@ namespace HermesDataTagger
             get => _photoIdx;
             set
             {
+                // Stop old timner
+                CurrentPhoto.TimerOnPhoto.Stop();
                 _photoIdx = value;
                 CurrentPhotoChanged?.Invoke(this, EventArgs.Empty);
+                // Start new timer
+                CurrentPhoto.TimerOnPhoto.Start();
             }
         }
         public Photo CurrentPhoto => Photos[PhotoIdx];
@@ -92,5 +96,12 @@ namespace HermesDataTagger
             }
         }
         #endregion
+
+        public void DumpToJson()
+        {
+            string filename = $"{SrcDirectory}\\DataTagging_{DateTime.Now.ToString("yyyy_dd_M_HH_mm_ss")}.json";
+            File.WriteAllText(filename, JsonConvert.SerializeObject(Photos, Formatting.Indented));
+        }
+
     }
 }

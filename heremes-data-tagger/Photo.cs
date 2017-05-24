@@ -6,19 +6,33 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using PropertyChanged;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace HermesDataTagger
 {
     [ImplementPropertyChanged]
     public class Photo
     {
+        [JsonIgnore]
+        public Stopwatch TimerOnPhoto { get; } = new Stopwatch();
+
+        #region Statistics
+        public float TimeTakenOnPhoto => TimerOnPhoto.ElapsedMilliseconds;
+        public float AverageTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Average(p => p.TotalTimeTaken) : 0;
+        public float SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
+        #endregion
+
+
         // Basic identifiers
+        [JsonIgnore]
         public string Filename { get; }
         public string Identifier { get; }
 
         private bool _isComplete;
         public event EventHandler PhotoCompleteStatusChanged;
-        public bool IsPhotoCompletelyTagged {
+        public bool IsPhotoCompletelyTagged
+        {
             get => _isComplete;
             set
             {
@@ -27,6 +41,7 @@ namespace HermesDataTagger
                 MainWindow.Singleton.RequestPopulateFilesList();
             }
         }
+        [JsonIgnore]
         public bool IsPhotoNotCompletelyTagged => !IsPhotoCompletelyTagged;
         public void ToggleComplete()
         {
@@ -36,15 +51,24 @@ namespace HermesDataTagger
         #region TaggedItems
         public event EventHandler SelectedRunnerUpdated;
         public BindingList<TaggedPerson> TaggedRunners = new BindingList<TaggedPerson>();
+        [JsonIgnore]
         public List<TaggedPerson> OrderedTaggedRunners => TaggedRunners.OrderBy(p => p.LeftmostClickX).ToList();
+        [JsonIgnore]
         public TaggedPerson LastRunnerTagged => TaggedRunners.FirstOrDefault();
-        public bool HasTaggedARunner => TaggedBibNumbers.Length > 0;
+        public int NumberOfPeopleTagged => TaggedRunners.Count;
         private string[] TaggedBibNumbers => TaggedRunners.Select(p => p.BibNumber).ToArray();
+        [JsonIgnore]
+        public bool HasTaggedARunner => TaggedBibNumbers.Length > 0;
         private TaggedPerson _selectedRunner;
+        [JsonIgnore]
         public bool IsRunnerSelected => SelectedRunner != null;
+        [JsonIgnore]
         public bool CanOpenRunnerMenu => IsRunnerSelected && SelectedRunner.IsBibRegionTagged;
+        [JsonIgnore]
         public bool CanSelectNextRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.Last();
+        [JsonIgnore]
         public bool CanSelectPrevRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.First();
+        [JsonIgnore]
         public TaggedPerson SelectedRunner
         {
             get => _selectedRunner;
@@ -106,6 +130,7 @@ namespace HermesDataTagger
         #region Steps
         // Steps in tagging the photo
         private StepType _taggingStep = StepType.ImageCrowded;
+        [JsonIgnore]
         public StepType TaggingStep {
             get => _taggingStep;
             set {
@@ -139,11 +164,17 @@ namespace HermesDataTagger
                 }
             }
         }
+        [JsonIgnore]
         public bool IsFirstTaggingStep => TaggingStep.IsFirstStep();
+        [JsonIgnore]
         public bool IsLastTaggingStep => TaggingStep.IsLastStep();
+        [JsonIgnore]
         public string TaggingStepName => TaggingStep.ToStepNameString();
+        [JsonIgnore]
         public string TaggingStepInstructions => TaggingStep.ToInstructionString();
+        [JsonIgnore]
         public bool CanMarkFaces => CanMarkBibs && HasTaggedARunner;
+        [JsonIgnore]
         public bool CanMarkBibs => IsPhotoNotCrowded;
         public void GoToNextStep()
         {
@@ -164,6 +195,7 @@ namespace HermesDataTagger
         #region GeneralClassifications
         // General classifications about the photo
         private bool _isPhotoCrowded = false;
+        [JsonIgnore]
         public bool IsPhotoNotCrowded => !IsPhotoCrowded;
         public bool IsPhotoCrowded
         {
@@ -224,6 +256,7 @@ namespace HermesDataTagger
             switch (TaggingStep)
             {
                 case StepType.SelectFaceRegion:
+                    SelectedRunner.TimerFaceDragDrop.Start();
                     RecordStartOfFaceRegion(pbx, e.Location);
                     break;
                 default:
@@ -264,6 +297,7 @@ namespace HermesDataTagger
             {
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
+                    SelectedRunner.TimerFaceDragDrop.Stop();
                     bool didSetBothClassifications = AskForBaseClassificationsOfPerson(SelectedRunner) && AskForColorClassificationsOfPerson(SelectedRunner);
                     if (!didSetBothClassifications)
                     {
@@ -303,6 +337,7 @@ namespace HermesDataTagger
             if (person == null || person.Bib.ClickPoints.Count == 4)
             {
                 person = new TaggedPerson(this);
+                person.TimerBibRegionClicks.Start();
                 TaggedRunners.Insert(0, person);
                 Debug.WriteLine($"Adding person #{TaggedRunners.Count} to ({Identifier})");
             }
@@ -324,6 +359,9 @@ namespace HermesDataTagger
                 // Update to reflect pixel points
                 person.Bib.PixelPoints = orderedPoints.Select(p => p.ToPixelPoint(pbx)).ToList();
 
+                // Done!
+                person.TimerBibRegionClicks.Stop();
+
                 // Invalidate (update graphics) of picture box to reflect new bib number
                 pbx.Invalidate();
                 AskToTagBibNumber(pbx, person, true);
@@ -344,6 +382,7 @@ namespace HermesDataTagger
                 return;
             }
             BibNumberDialog bibDiag = new BibNumberDialog(person);
+            person.TimerEnteringBibNumber.Start();
             // Prevent duplicate bib numbers being entered
             do
             {
@@ -368,6 +407,7 @@ namespace HermesDataTagger
                     break;
                 }
             } while (true);
+            person.TimerEnteringBibNumber.Stop();
             // Notify that bindings should be updated to display tag
             TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             Debug.WriteLine($"Person #{TaggedRunners.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
@@ -446,12 +486,14 @@ namespace HermesDataTagger
                 MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
+            person.TimerBaseClassificationDialog.Start();
             Form dialog = new PersonBaseClassificationDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
             {
                 TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             }
+            person.TimerBaseClassificationDialog.Stop();
             return didSet;
         }
         public bool AskForColorClassificationsOfPerson(TaggedPerson person)
@@ -461,12 +503,14 @@ namespace HermesDataTagger
                 MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
+            person.TimerColorClassificationDialog.Start();
             Form dialog = new PersonColorClassificationsDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
             {
                 TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             }
+            person.TimerColorClassificationDialog.Stop();
             return didSet;            
         }
         #endregion Classifications
