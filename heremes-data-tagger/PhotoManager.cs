@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using PropertyChanged;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace HermesDataTagger
 {
@@ -13,9 +14,22 @@ namespace HermesDataTagger
     {
         public static PhotoManager SharedManager = new PhotoManager();
 
+        public List<string> PhotosNamesForFiles => Photos.Select(p => (p.IsPhotoCompletelyTagged ? "[✔] " : "") + p.Identifier).ToList(); 
         public List<Photo> Photos { get; private set; }
-        public int PhotoIdx { get; set; }
+
+        public event EventHandler CurrentPhotoChanged;
+        private int _photoIdx;
+        public int PhotoIdx
+        {
+            get => _photoIdx;
+            set
+            {
+                _photoIdx = value;
+                CurrentPhotoChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public Photo CurrentPhoto => Photos[PhotoIdx];
+
 
         #region Photo Storage
         public string SrcDirectory { get; private set; }

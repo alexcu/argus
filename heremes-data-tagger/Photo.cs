@@ -16,6 +16,23 @@ namespace HermesDataTagger
         public string Filename { get; }
         public string Identifier { get; }
 
+        private bool _isComplete;
+        public event EventHandler PhotoCompleteStatusChanged;
+        public bool IsPhotoCompletelyTagged {
+            get => _isComplete;
+            set
+            {
+                _isComplete = value;
+                PhotoCompleteStatusChanged?.Invoke(this, EventArgs.Empty);
+                MainWindow.Singleton.RequestPopulateFilesList();
+            }
+        }
+        public bool IsPhotoNotCompletelyTagged => !IsPhotoCompletelyTagged;
+        public void ToggleComplete()
+        {
+            IsPhotoCompletelyTagged = !IsPhotoCompletelyTagged;
+        }
+
         #region TaggedItems
         public event EventHandler SelectedRunnerUpdated;
         public BindingList<TaggedPerson> TaggedRunners = new BindingList<TaggedPerson>();
@@ -137,7 +154,7 @@ namespace HermesDataTagger
         #region GeneralClassifications
         // General classifications about the photo
         private bool _isPhotoCrowded = false;
-        public bool IsPhotoNotCrowded { get { return !IsPhotoCrowded; } set { IsPhotoCrowded = !value; } }
+        public bool IsPhotoNotCrowded => !IsPhotoCrowded;
         public bool IsPhotoCrowded
         {
             get => _isPhotoCrowded;
@@ -149,12 +166,15 @@ namespace HermesDataTagger
                 {
                     // TODO: Reset all people tagged?
                     SelectedRunner = null;
+                    IsPhotoCompletelyTagged = true;
                     MainWindow.Singleton.RequestRedrawGraphics();
+                    return;
                 }
                 else if (!_isPhotoCrowded && TaggedRunners.Count > 0)
                 {
                     SelectedRunner = TaggedRunners.First();
                 }
+                IsPhotoCompletelyTagged = false;
             }
         }
         #endregion
@@ -174,6 +194,10 @@ namespace HermesDataTagger
             {
                 case StepType.ImageCrowded:
                     AskIfPhotoCrowded();
+                    if (IsPhotoNotCrowded)
+                    {
+                        TaggingStep++;
+                    }
                     break;
                 case StepType.SelectBibRegion:
                     AskToTagBibRegion(pbx, e.Location);

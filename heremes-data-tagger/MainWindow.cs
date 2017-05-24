@@ -21,6 +21,9 @@ namespace HermesDataTagger
             Model.LoadFiles();
             BindDataToControls();
             BindEvents();
+            Model.PhotoIdx = 0;
+            Model.PhotoIdx = 1;
+            Model.PhotoIdx = 0;
         }
 
         void BindDataToControls()
@@ -40,6 +43,20 @@ namespace HermesDataTagger
             BindMainImageEvents();
             BindMainMenuEvents();
             BindTaggedDataGridEvents();
+            BindFilesPanelEvents();
+        }
+
+        void AddDataBinding(IBindableComponent component, string propertyName, object dataSource, string dataMember)
+        {
+            Binding dataBinding = new Binding(propertyName, dataSource, dataMember, false, DataSourceUpdateMode.OnPropertyChanged);
+            component.DataBindings.Add(dataBinding);
+            Model.CurrentPhotoChanged += (sender, e) =>
+            {
+                //MessageBox.Show(Model.CurrentPhoto.Identifier);
+                component.DataBindings.Remove(dataBinding);
+                dataBinding = new Binding(propertyName, dataSource, dataMember);
+                component.DataBindings.Add(dataBinding);
+            };
         }
 
         #region Form
@@ -49,6 +66,7 @@ namespace HermesDataTagger
             MouseWheel += SelectedRunnerChangedByMouse;
             Model.CurrentPhoto.TaggedRunners.ListChanged += ModelListChanged;
             Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestUpdateSelectedRunner();
+            imgPhoto.LocationChanged += (sender, e) => ResetBindings();
         }
 
         void SelectedRunnerChangedByMouse(object sender, MouseEventArgs e)
@@ -78,12 +96,12 @@ namespace HermesDataTagger
         #region Bind Data
         void BindDataToTopPanelControls()
         {
+            AddDataBinding(lblStepName, "Text", Model, "CurrentPhoto.TaggingStepName");
             // Labels
-            lblStepName.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepName", false, DataSourceUpdateMode.OnPropertyChanged);
-            lstPhotos.DataBindings.Add("Text", Model, "CurrentPhoto.TaggingStepInstructions", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(lstPhotos, "Text", Model, "CurrentPhoto.TaggingStepInstructions");
             // Buttons
-            btnPrevImage.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
-            btnNextImage.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(btnPrevImage, "Enabled", Model, "CanGetPrevPhoto");
+            AddDataBinding(btnNextImage, "Enabled", Model, "CanGetNextPhoto");
         }
         #endregion
         #region Events
@@ -101,9 +119,23 @@ namespace HermesDataTagger
         void BindDataToFilesPanel()
         {
             // Selected index of steps
-            lstFiles.DataBindings.Add("SelectedIndex", Model, "PhotoIdx", false, DataSourceUpdateMode.OnPropertyChanged);
-            lstFiles.DataSource = Model.Photos.Select(p => p.Identifier).ToArray();
-            lstFiles.SelectedIndexChanged += (sender, e) => Model.PhotoIdx = lstFiles.SelectedIndex;
+            AddDataBinding(lstFiles, "SelectedIndex", Model, "PhotoIdx");
+            lstFiles.DataSource = Model.PhotosNamesForFiles;
+        }
+        public void RequestPopulateFilesList()
+        {
+            int oldSelIdx = lstFiles.SelectedIndex;
+            lstFiles.DataSource = Model.PhotosNamesForFiles;
+            lstFiles.SelectedIndex = oldSelIdx;
+        }
+        #endregion
+        #region Events
+        void BindFilesPanelEvents()
+        {
+            lstFiles.SelectedIndexChanged += (sender, e) =>
+            {
+                Model.PhotoIdx = lstFiles.SelectedIndex;
+            };
         }
         #endregion
         #endregion
@@ -113,36 +145,37 @@ namespace HermesDataTagger
         void BindDataToMenuControls()
         {
             // View menu
-            mnuViewPreviousPhoto.DataBindings.Add("Enabled", Model, "CanGetPrevPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
-            mnuViewNextPhoto.DataBindings.Add("Enabled", Model, "CanGetNextPhoto", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(mnuViewPreviousPhoto, "Enabled", Model, "CanGetPrevPhoto");
+            AddDataBinding(mnuViewNextPhoto, "Enabled", Model, "CanGetNextPhoto");
             // Edit menu
-            //mnuEditUndo.DataBindings.Add("Enabled", Model, "CanUndoLastAction", false, DataSourceUpdateMode.OnPropertyChanged);
-            //mnuEditRedo.DataBindings.Add("Enabled", Model, "CanRedoLastAction", false, DataSourceUpdateMode.OnPropertyChanged);
+            //mnuEditUndo.DataBindings.Add("Enabled", Model, "CanUndoLastAction");
+            //mnuEditRedo.DataBindings.Add("Enabled", Model, "CanRedoLastAction");
             // Photo menu
-            mnuPhotoMarkCrowded.DataBindings.Add("Checked", Model.CurrentPhoto, "IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            //mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs", false, DataSourceUpdateMode.OnPropertyChanged);
-            //mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces", false, DataSourceUpdateMode.OnPropertyChanged);
-            //mnuPhotoSelectNextRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner", false, DataSourceUpdateMode.OnPropertyChanged);
-            //mnuPhotoSelectPrevRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(mnuPhotoMarkCrowded, "Checked", Model, "CurrentPhoto.IsPhotoCrowded");
+            AddDataBinding(mnuPhotoMarkComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
+            //mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs");
+            //mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces");
+            //mnuPhotoSelectNextRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner");
+            //mnuPhotoSelectPrevRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "HasTaggedARunner");
             // Selected runner menu
-            mnuSelectedRunner.DataBindings.Add("Enabled", Model.CurrentPhoto, "IsRunnerSelected", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(mnuSelectedRunner, "Enabled", Model, "CurrentPhoto.IsRunnerSelected");
             mnuSelectedRunner.EnabledChanged += (sender, e) =>
             {
                 // Only bind if no bindings were set
-                bool mnuBindingsSet = mnuRunnerMarkBib.DataBindings.Count > 0;
+                bool mnuBindingsSet = mnuRunnerMarkBlurry.DataBindings.Count > 0;
                 if (Model.CurrentPhoto.IsRunnerSelected && !mnuBindingsSet)
                 {
-                    //mnuRunnerStaticNumberValue.DataBindings.Add("Text", Model.CurrentPhoto, "SelectedRunnerNumber", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerMarkBlurry.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsRunnerBlurred", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerMarkFaceVisible.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsFaceVisible", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerMarkGlasses.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsWearingGlasses", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerMarkHat.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsWearingHat", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerLikelihoodPurchaseYes.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsLikelihoodOfPurchaseYes", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerLikelihoodPurchaseMaybe.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsLikelihoodOfPurchaseMaybe", false, DataSourceUpdateMode.OnPropertyChanged);
-                    mnuRunnerLikelihoodPurchaseNo.DataBindings.Add("Checked", Model.CurrentPhoto.SelectedRunner, "IsLikelihoodOfPurchaseNo", false, DataSourceUpdateMode.OnPropertyChanged);
+                    //mnuRunnerStaticNumberValue.DataBindings.Add("Text", Model.CurrentPhoto, "SelectedRunnerNumber");
+                    AddDataBinding(mnuRunnerMarkBlurry, "Checked", Model, "CurrentPhoto.SelectedRunner.IsRunnerBlurred");
+                    AddDataBinding(mnuRunnerMarkFaceVisible, "Checked", Model, "CurrentPhoto.SelectedRunner.IsFaceVisible");
+                    AddDataBinding(mnuRunnerMarkGlasses, "Checked", Model, "CurrentPhoto.SelectedRunner.IsWearingGlasses");
+                    AddDataBinding(mnuRunnerMarkHat, "Checked", Model, "CurrentPhoto.SelectedRunner.IsWearingHat");
+                    AddDataBinding(mnuRunnerLikelihoodPurchaseYes, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseYes");
+                    AddDataBinding(mnuRunnerLikelihoodPurchaseMaybe, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseMaybe");
+                    AddDataBinding(mnuRunnerLikelihoodPurchaseNo, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseNo");
                     // Can only run wizards once face tagged
-                    //mnuRunnerOpenColorClassificationsWizard.DataBindings.Add("Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged", false, DataSourceUpdateMode.OnPropertyChanged);
-                    //mnuRunnerOpenClassificationsWizard.DataBindings.Add("Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged", false, DataSourceUpdateMode.OnPropertyChanged);
+                    //mnuRunnerOAddDataBinding(penColorClassificationsWizard, "Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged");
+                    //mnuRunnerOpenClassificationsWizard, "Enabled", Model.CurrentPhoto.SelectedRunner, "IsFaceRegionTagged");
                 }
             };
         }
@@ -169,15 +202,16 @@ namespace HermesDataTagger
             mnuPhotoMarkFaces.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion;
             mnuPhotoMarkBibs.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion;
             mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
+            mnuPhotoMarkComplete.Click += (sender, e) => Model.CurrentPhoto.ToggleComplete();
             // Selected runner menu
             mnuRunnerMarkBib.Click += (sender, e) => Model.CurrentPhoto.AskToTagBibNumber(imgPhoto, Model.CurrentPhoto.SelectedRunner);
-            mnuRunnerMarkBlurry.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred = !Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred;
-            mnuRunnerMarkFaceVisible.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsFaceVisible = !Model.CurrentPhoto.SelectedRunner.IsFaceVisible;
-            mnuRunnerMarkGlasses.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsWearingGlasses = !Model.CurrentPhoto.SelectedRunner.IsWearingGlasses;
-            mnuRunnerMarkHat.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.IsWearingHat = !Model.CurrentPhoto.SelectedRunner.IsWearingHat;
-            mnuRunnerLikelihoodPurchaseYes.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Yes;
-            mnuRunnerLikelihoodPurchaseMaybe.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Maybe;
-            mnuRunnerLikelihoodPurchaseNo.Click += (sender, e) => Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No;
+            mnuRunnerMarkBlurry.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred = !Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred; RequestRedrawGraphics(); };
+            mnuRunnerMarkFaceVisible.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsFaceVisible = !Model.CurrentPhoto.SelectedRunner.IsFaceVisible; RequestRedrawGraphics(); };
+            mnuRunnerMarkGlasses.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsWearingGlasses = !Model.CurrentPhoto.SelectedRunner.IsWearingGlasses; RequestRedrawGraphics(); };
+            mnuRunnerMarkHat.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsWearingHat = !Model.CurrentPhoto.SelectedRunner.IsWearingHat; RequestRedrawGraphics(); };
+            mnuRunnerLikelihoodPurchaseYes.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Yes; RequestRedrawGraphics(); };
+            mnuRunnerLikelihoodPurchaseMaybe.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Maybe; RequestRedrawGraphics(); };
+            mnuRunnerLikelihoodPurchaseNo.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No; RequestRedrawGraphics(); };
             mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
         }
@@ -189,12 +223,13 @@ namespace HermesDataTagger
         void BindDataToStepPanelControls()
         {
             // Crowded
-            chbxIsCrowded.DataBindings.Add("Checked", Model, "CurrentPhoto.IsPhotoCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(chbxIsCrowded, "Checked", Model, "CurrentPhoto.IsPhotoCrowded");
+            AddDataBinding(chbxIsComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
             // Disable next button & steps if crowded
-            btnNextStep.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
-            lstSteps.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(lstSteps, "Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded");
+            AddDataBinding(grpSteps, "Enabled", Model, "CurrentPhoto.IsPhotoNotCompletelyTagged");
             // Selected index of steps
-            lstSteps.DataBindings.Add("SelectedIndex", Model, "CurrentPhoto.TaggingStep", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(lstSteps, "SelectedIndex", Model, "CurrentPhoto.TaggingStep");
 
             void PopulateStepList()
             {
@@ -221,10 +256,11 @@ namespace HermesDataTagger
         void BindDataToTaggedDataGrid()
         {
             // Enable bib panel if not in crowded step
-            tblTags.DataBindings.Add("Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(tblTags, "Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded");
             // Set up table for bib # identified
             tblTags.AutoGenerateColumns = false;
-            tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
+            // Update the new source!
+            Model.CurrentPhotoChanged += (sender, e) => tblTags.DataSource =  Model.CurrentPhoto.TaggedRunners;
             tblcolBibNumber.DataPropertyName = "BibNumber";
             tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
             tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
@@ -311,6 +347,10 @@ namespace HermesDataTagger
             TaggedPerson runner = Model.CurrentPhoto.SelectedRunner;
             int rowIdx = Model.CurrentPhoto.TaggedRunners.IndexOf(runner);
             tblTags.ClearSelection();
+            if (rowIdx == -1)
+            {
+                return;
+            }
             tblTags.Rows[rowIdx].Selected = true;
         }
 
@@ -355,7 +395,7 @@ namespace HermesDataTagger
         #region Bind Data
         void BindDataToMainImageControls()
         {
-            imgPhoto.DataBindings.Add("ImageLocation", Model, "CurrentPhoto.Filename", false, DataSourceUpdateMode.OnPropertyChanged);
+            AddDataBinding(imgPhoto, "ImageLocation", Model, "CurrentPhoto.Filename");
         }
         #endregion
         #region Events
@@ -466,8 +506,8 @@ namespace HermesDataTagger
                     {
                         extraInfo += $"PURCHASE: {person.LikelihoodOfPurchase.ToString().ToUpper()}\n";
                     }
-                    extraInfo += person.IsRunnerBlurred ? "BLURRY ✔\n" : "";
-                    extraInfo += !person.IsFaceVisible ? "FACE VISIBLE ✘\n" : "";
+                    extraInfo += person.IsRunnerBlurred ? "RUNNER BLURRY ✔\n" : "";
+                    extraInfo += !person.IsFaceVisible ? "FACE NOT VISIBLE ✔\n" : "";
                     extraInfo += person.IsWearingGlasses ? "WEARING GLASSES ✔\n" : "";
                     extraInfo += person.IsWearingHat ? "WEARING HAT ✔\n" : "";
                     // Draw extra info at top of screen

@@ -49,6 +49,7 @@
             this.mnuPhotoMarkCrowded = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuPhotoMarkBibs = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuPhotoMarkFaces = new HermesDataTagger.BindableToolStripMenuItem();
+            this.mnuPhotoMarkComplete = new HermesDataTagger.BindableToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuPhotoSelectPrevRunner = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuPhotoSelectNextRunner = new HermesDataTagger.BindableToolStripMenuItem();
@@ -75,13 +76,9 @@
             this.pnlRight = new System.Windows.Forms.Panel();
             this.grpPhotoClass = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chbxIsComplete = new System.Windows.Forms.CheckBox();
             this.chbxIsCrowded = new System.Windows.Forms.CheckBox();
             this.grpSteps = new System.Windows.Forms.GroupBox();
-            this.tblLayoutSteps = new System.Windows.Forms.TableLayoutPanel();
-            this.lstSteps = new System.Windows.Forms.ListBox();
-            this.btnPrevStep = new System.Windows.Forms.Button();
-            this.btnNextStep = new System.Windows.Forms.Button();
             this.tblTags = new System.Windows.Forms.DataGridView();
             this.tblcolBibNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tblcolBlurry = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -100,6 +97,7 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.grpFiles = new System.Windows.Forms.GroupBox();
             this.lstFiles = new System.Windows.Forms.ListBox();
+            this.lstSteps = new System.Windows.Forms.ListBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -107,7 +105,6 @@
             this.grpPhotoClass.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpSteps.SuspendLayout();
-            this.tblLayoutSteps.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblTags)).BeginInit();
             this.pnlInstructions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
@@ -243,6 +240,7 @@
             this.mnuPhotoMarkCrowded,
             this.mnuPhotoMarkBibs,
             this.mnuPhotoMarkFaces,
+            this.mnuPhotoMarkComplete,
             this.toolStripSeparator7,
             this.mnuPhotoSelectPrevRunner,
             this.mnuPhotoSelectNextRunner});
@@ -255,33 +253,40 @@
             // 
             this.mnuPhotoMarkCrowded.Name = "mnuPhotoMarkCrowded";
             this.mnuPhotoMarkCrowded.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mnuPhotoMarkCrowded.Size = new System.Drawing.Size(410, 38);
+            this.mnuPhotoMarkCrowded.Size = new System.Drawing.Size(422, 38);
             this.mnuPhotoMarkCrowded.Text = "Mark Photo as &Crowded";
             // 
             // mnuPhotoMarkBibs
             // 
             this.mnuPhotoMarkBibs.Name = "mnuPhotoMarkBibs";
             this.mnuPhotoMarkBibs.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.mnuPhotoMarkBibs.Size = new System.Drawing.Size(410, 38);
+            this.mnuPhotoMarkBibs.Size = new System.Drawing.Size(422, 38);
             this.mnuPhotoMarkBibs.Text = "Mark &Bib Regions";
             // 
             // mnuPhotoMarkFaces
             // 
             this.mnuPhotoMarkFaces.Name = "mnuPhotoMarkFaces";
             this.mnuPhotoMarkFaces.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.mnuPhotoMarkFaces.Size = new System.Drawing.Size(410, 38);
+            this.mnuPhotoMarkFaces.Size = new System.Drawing.Size(422, 38);
             this.mnuPhotoMarkFaces.Text = "Mark &Face Regions";
+            // 
+            // mnuPhotoMarkComplete
+            // 
+            this.mnuPhotoMarkComplete.Name = "mnuPhotoMarkComplete";
+            this.mnuPhotoMarkComplete.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.mnuPhotoMarkComplete.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoMarkComplete.Text = "Mark Photo As Com&plete";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(407, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(419, 6);
             // 
             // mnuPhotoSelectPrevRunner
             // 
             this.mnuPhotoSelectPrevRunner.Name = "mnuPhotoSelectPrevRunner";
             this.mnuPhotoSelectPrevRunner.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.mnuPhotoSelectPrevRunner.Size = new System.Drawing.Size(410, 38);
+            this.mnuPhotoSelectPrevRunner.Size = new System.Drawing.Size(422, 38);
             this.mnuPhotoSelectPrevRunner.Text = "Select &Previous Runner";
             // 
             // mnuPhotoSelectNextRunner
@@ -289,7 +294,7 @@
             this.mnuPhotoSelectNextRunner.Name = "mnuPhotoSelectNextRunner";
             this.mnuPhotoSelectNextRunner.ShortcutKeyDisplayString = "";
             this.mnuPhotoSelectNextRunner.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.mnuPhotoSelectNextRunner.Size = new System.Drawing.Size(410, 38);
+            this.mnuPhotoSelectNextRunner.Size = new System.Drawing.Size(422, 38);
             this.mnuPhotoSelectNextRunner.Text = "Select &Next Runner";
             // 
             // mnuSelectedRunner
@@ -498,7 +503,7 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.checkBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.chbxIsComplete, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.chbxIsCrowded, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 34);
@@ -509,18 +514,18 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(554, 324);
             this.tableLayoutPanel1.TabIndex = 26;
             // 
-            // checkBox1
+            // chbxIsComplete
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(3, 165);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(548, 156);
-            this.checkBox1.TabIndex = 24;
-            this.checkBox1.Text = "Mark photo as Complete [F4]";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chbxIsComplete.AutoSize = true;
+            this.chbxIsComplete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chbxIsComplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chbxIsComplete.Location = new System.Drawing.Point(3, 165);
+            this.chbxIsComplete.Name = "chbxIsComplete";
+            this.chbxIsComplete.Size = new System.Drawing.Size(548, 156);
+            this.chbxIsComplete.TabIndex = 24;
+            this.chbxIsComplete.Text = "Mark photo as Complete [F4]";
+            this.chbxIsComplete.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chbxIsComplete.UseVisualStyleBackColor = true;
             // 
             // chbxIsCrowded
             // 
@@ -537,7 +542,7 @@
             // 
             // grpSteps
             // 
-            this.grpSteps.Controls.Add(this.tblLayoutSteps);
+            this.grpSteps.Controls.Add(this.lstSteps);
             this.grpSteps.Dock = System.Windows.Forms.DockStyle.Top;
             this.grpSteps.Location = new System.Drawing.Point(0, 0);
             this.grpSteps.Name = "grpSteps";
@@ -546,62 +551,6 @@
             this.grpSteps.TabIndex = 25;
             this.grpSteps.TabStop = false;
             this.grpSteps.Text = "Steps";
-            // 
-            // tblLayoutSteps
-            // 
-            this.tblLayoutSteps.ColumnCount = 3;
-            this.tblLayoutSteps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tblLayoutSteps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tblLayoutSteps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tblLayoutSteps.Controls.Add(this.lstSteps, 0, 0);
-            this.tblLayoutSteps.Controls.Add(this.btnPrevStep, 0, 1);
-            this.tblLayoutSteps.Controls.Add(this.btnNextStep, 2, 1);
-            this.tblLayoutSteps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLayoutSteps.Location = new System.Drawing.Point(10, 34);
-            this.tblLayoutSteps.Name = "tblLayoutSteps";
-            this.tblLayoutSteps.RowCount = 2;
-            this.tblLayoutSteps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tblLayoutSteps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tblLayoutSteps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblLayoutSteps.Size = new System.Drawing.Size(554, 436);
-            this.tblLayoutSteps.TabIndex = 26;
-            // 
-            // lstSteps
-            // 
-            this.tblLayoutSteps.SetColumnSpan(this.lstSteps, 3);
-            this.lstSteps.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lstSteps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstSteps.FormattingEnabled = true;
-            this.lstSteps.ItemHeight = 37;
-            this.lstSteps.Items.AddRange(new object[] {
-            ""});
-            this.lstSteps.Location = new System.Drawing.Point(3, 3);
-            this.lstSteps.Name = "lstSteps";
-            this.lstSteps.Size = new System.Drawing.Size(548, 321);
-            this.lstSteps.TabIndex = 28;
-            // 
-            // btnPrevStep
-            // 
-            this.btnPrevStep.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnPrevStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrevStep.Location = new System.Drawing.Point(3, 330);
-            this.btnPrevStep.Name = "btnPrevStep";
-            this.btnPrevStep.Size = new System.Drawing.Size(178, 103);
-            this.btnPrevStep.TabIndex = 27;
-            this.btnPrevStep.Text = "Prev Step ◀";
-            this.btnPrevStep.UseVisualStyleBackColor = true;
-            // 
-            // btnNextStep
-            // 
-            this.btnNextStep.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNextStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNextStep.Location = new System.Drawing.Point(371, 330);
-            this.btnNextStep.Name = "btnNextStep";
-            this.btnNextStep.Size = new System.Drawing.Size(180, 103);
-            this.btnNextStep.TabIndex = 26;
-            this.btnNextStep.Text = "Next Step ▶";
-            this.btnNextStep.UseVisualStyleBackColor = true;
             // 
             // tblTags
             // 
@@ -817,6 +766,20 @@
             this.lstFiles.Size = new System.Drawing.Size(409, 1273);
             this.lstFiles.TabIndex = 29;
             // 
+            // lstSteps
+            // 
+            this.lstSteps.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lstSteps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstSteps.FormattingEnabled = true;
+            this.lstSteps.ItemHeight = 37;
+            this.lstSteps.Items.AddRange(new object[] {
+            ""});
+            this.lstSteps.Location = new System.Drawing.Point(10, 34);
+            this.lstSteps.Name = "lstSteps";
+            this.lstSteps.Size = new System.Drawing.Size(554, 436);
+            this.lstSteps.TabIndex = 29;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -845,7 +808,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.grpSteps.ResumeLayout(false);
-            this.tblLayoutSteps.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblTags)).EndInit();
             this.pnlInstructions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
@@ -916,17 +878,15 @@
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.GroupBox grpSteps;
-        private System.Windows.Forms.TableLayoutPanel tblLayoutSteps;
-        private System.Windows.Forms.Button btnPrevStep;
-        private System.Windows.Forms.Button btnNextStep;
-        private System.Windows.Forms.ListBox lstSteps;
         private System.Windows.Forms.GroupBox grpPhotoClass;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chbxIsComplete;
         private System.Windows.Forms.CheckBox chbxIsCrowded;
         private System.Windows.Forms.ToolStripStatusLabel lblTooltip;
         private System.Windows.Forms.GroupBox grpFiles;
         private System.Windows.Forms.ListBox lstFiles;
+        private BindableToolStripMenuItem mnuPhotoMarkComplete;
+        private System.Windows.Forms.ListBox lstSteps;
     }
 }
 
