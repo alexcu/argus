@@ -313,6 +313,10 @@ namespace HermesDataTagger
 
         void HandleChangeDropdown(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
             string col = tblTags.Columns[e.ColumnIndex].Name;
             var rowValue = tblTags.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             switch (col)

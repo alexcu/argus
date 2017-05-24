@@ -378,6 +378,7 @@ namespace HermesDataTagger
             TaggedPerson person = LastRunnerTagged;
             if (person == null)
             {
+                MessageBox.Show("Cannot undo last bib tagged as there is no face tagged!", "Undo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (person.IsBibRegionTagged)
@@ -426,8 +427,9 @@ namespace HermesDataTagger
         void RemoveLastFaceTaggingRegion()
         {
             TaggedPerson person = LastRunnerTagged;
-            if (person == null)
+            if (person == null || person.Face.ClickPoints.Count == 0)
             {
+                MessageBox.Show("Cannot undo last face tagged as there is no face region tagged!", "Undo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             person.Face.ClickPoints.Clear();
