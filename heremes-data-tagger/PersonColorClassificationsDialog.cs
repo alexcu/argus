@@ -16,6 +16,7 @@ namespace HermesDataTagger
         private bool _isSettingShirtColor = true;
         private bool _isSettingShortsColor = false;
         private bool _isSettingShoeColor = false;
+        private bool _isSettingHatColor = false;
         private bool _dragingModeEnabled = false;
 
         public PersonColorClassificationsDialog(TaggedPerson person)
@@ -27,7 +28,7 @@ namespace HermesDataTagger
             BindEvents();
             UpdateInstructionsLabel();
             // TODO: Work out why the window size won't reflect the designer
-            Height += 30;
+            Height += 75;
         }
 
         void CropPersonPhoto()
@@ -56,6 +57,7 @@ namespace HermesDataTagger
             pnlShirtColor.DataBindings.Add("BackColor", Person, "ShirtColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
             pnlShortsColor.DataBindings.Add("BackColor", Person, "ShortsColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
             pnlShoesColor.DataBindings.Add("BackColor", Person, "ShoeColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
+            pnlHatColor.DataBindings.Add("BackColor", Person, "HatColor", false, DataSourceUpdateMode.OnPropertyChanged, SystemColors.Control);
         }
 
         void BindEvents()
@@ -73,6 +75,11 @@ namespace HermesDataTagger
                 else if (_isSettingShortsColor)
                 {
                     rdoSettingShoesColor.Checked = true;
+                }
+                else if (_isSettingShoeColor)
+                {
+                    rdoSettingHatColor.Checked = true;
+                    btnSave.Focus();
                 }
                 else
                 {
@@ -96,25 +103,35 @@ namespace HermesDataTagger
                 _isSettingShortsColor = !_isSettingShortsColor;
                 UpdateInstructionsLabel();
             };
+            rdoSettingHatColor.CheckedChanged += (sender, e) =>
+            {
+                _isSettingHatColor = !_isSettingHatColor;
+                UpdateInstructionsLabel();
+            };
             // Clear buttons
             btnClearShirtColor.Click += (sender, e) => Person.ShirtColor = Color.Empty;
             btnClearShortsColor.Click += (sender, e) => Person.ShortsColor = Color.Empty;
             btnClearShoesColor.Click += (sender, e) => Person.ShoeColor = Color.Empty;
+            btnClearHatColor.Click += (sender, e) => Person.ShoeColor = Color.Empty;
         }
 
         void UpdateInstructionsLabel()
         {
             if (_isSettingShirtColor)
             {
-                lblInstructions.Text = "Please click on the shirt of the runner to set the color, or skip if not visible";
+                lblInstructions.Text = "Please click on the shirt of the runner to set the color, or skip if not applicable";
             }
             if (_isSettingShortsColor)
             {
-                lblInstructions.Text = "Please click on the shorts of the runner to set the color, or skip if not visible";
+                lblInstructions.Text = "Please click on the shorts of the runner to set the color, or skip if not applicable";
             }
             if (_isSettingShoeColor)
             {
-                lblInstructions.Text = "Please click on the shoe of the runner to set the color, or skip if not visible";
+                lblInstructions.Text = "Please click on the shoe of the runner to set the color, or skip if not applicable";
+            }
+            if (_isSettingHatColor)
+            {
+                lblInstructions.Text = "Please click on the hat of the runner to set the color, or skip if not applicable";
             }
         }
 
@@ -137,9 +154,15 @@ namespace HermesDataTagger
             {
                 Person.ShortsColor = pixelColor;
             }
-            else
+            else if (_isSettingShoeColor)
             {
                 Person.ShoeColor = pixelColor;
+            }
+            else if (_isSettingHatColor)
+            {
+                Person.HatColor = pixelColor;
+                // If not empty, then person must be wearing a hat
+                Person.IsWearingHat = !pixelColor.IsEmpty;
             }
         }
     }

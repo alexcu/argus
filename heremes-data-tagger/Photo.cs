@@ -94,7 +94,7 @@ namespace HermesDataTagger
             TaggedRunners.Remove(person);
             if (person == SelectedRunner)
             {
-                SelectedRunner = null;
+                SelectedRunner = TaggedRunners.Count > 0 ? TaggedRunners.First() : null;
             }
             if (TaggedRunners.Count == 0)
             {
@@ -210,7 +210,10 @@ namespace HermesDataTagger
                     }
                     break;
                 case StepType.SelectBibRegion:
-                    AskToTagBibRegion(pbx, e.Location);
+                    if (e.Clicks == 1 && e.Button == MouseButtons.Left)
+                    {
+                        AskToTagBibRegion(pbx, e.Location);
+                    }
                     break;
                 default:
                     break;

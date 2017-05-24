@@ -129,9 +129,11 @@ namespace HermesDataTagger
         public Color ShirtColor { get; set; }
         public Color ShortsColor { get; set; }
         public Color ShoeColor { get; set; }
+        public Color HatColor { get; set; }
         public string ShirtColorName => ShirtColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShirtColor).Name;
         public string ShortsColorName => ShortsColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShortsColor).Name;
         public string ShoeColorName => ShoeColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShoeColor).Name;
+        public string HatColorName => HatColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(HatColor).Name;
 
         public TaggedPerson(Photo srcPhoto)
         {

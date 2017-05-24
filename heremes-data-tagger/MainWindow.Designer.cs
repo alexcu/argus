@@ -41,7 +41,6 @@
             this.mnuFileExit = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuEdit = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuEditUndo = new HermesDataTagger.BindableToolStripMenuItem();
-            this.mnuEditRedo = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuView = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuViewPreviousPhoto = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuViewNextPhoto = new HermesDataTagger.BindableToolStripMenuItem();
@@ -80,17 +79,6 @@
             this.grpSteps = new System.Windows.Forms.GroupBox();
             this.lstSteps = new System.Windows.Forms.ListBox();
             this.tblTags = new System.Windows.Forms.DataGridView();
-            this.tblcolBibNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tblcolGender = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.tblcolBlurry = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tblcolFaceVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tblcolLikelihoodPurchase = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.tblcolWearingHat = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tblcolWearingGlasses = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tblcolShirtColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tblcolShortsColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tblcolShoeColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tblcolBibDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.pnlInstructions = new System.Windows.Forms.Panel();
             this.lblStepName = new System.Windows.Forms.Label();
             this.lstPhotos = new System.Windows.Forms.Label();
@@ -103,6 +91,18 @@
             this.mnuRunnerGenderFemale = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuRunnerGenderUnknown = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuRunnerOpenColorClassificationsWizard = new System.Windows.Forms.ToolStripSeparator();
+            this.tblcolBibNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolGender = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.tblcolBlurry = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tblcolFaceVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tblcolLikelihoodPurchase = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.tblcolWearingHat = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tblcolWearingGlasses = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.tblcolShirtColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolShortsColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolShoeColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolHatColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolBibDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -160,7 +160,7 @@
             this.mnuSelectedRunner});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2900, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(2900, 42);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -171,7 +171,7 @@
             this.toolStripSeparator1,
             this.mnuFileExit});
             this.mnuFile.Name = "mnuFile";
-            this.mnuFile.Size = new System.Drawing.Size(64, 36);
+            this.mnuFile.Size = new System.Drawing.Size(64, 38);
             this.mnuFile.Text = "&File";
             // 
             // mnuFileLoadImages
@@ -195,25 +195,17 @@
             // mnuEdit
             // 
             this.mnuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuEditUndo,
-            this.mnuEditRedo});
+            this.mnuEditUndo});
             this.mnuEdit.Name = "mnuEdit";
-            this.mnuEdit.Size = new System.Drawing.Size(67, 36);
+            this.mnuEdit.Size = new System.Drawing.Size(67, 38);
             this.mnuEdit.Text = "&Edit";
             // 
             // mnuEditUndo
             // 
             this.mnuEditUndo.Name = "mnuEditUndo";
             this.mnuEditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.mnuEditUndo.Size = new System.Drawing.Size(255, 38);
+            this.mnuEditUndo.Size = new System.Drawing.Size(269, 38);
             this.mnuEditUndo.Text = "Undo";
-            // 
-            // mnuEditRedo
-            // 
-            this.mnuEditRedo.Name = "mnuEditRedo";
-            this.mnuEditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.mnuEditRedo.Size = new System.Drawing.Size(255, 38);
-            this.mnuEditRedo.Text = "Redo";
             // 
             // mnuView
             // 
@@ -221,7 +213,7 @@
             this.mnuViewPreviousPhoto,
             this.mnuViewNextPhoto});
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(78, 36);
+            this.mnuView.Size = new System.Drawing.Size(78, 38);
             this.mnuView.Text = "&View";
             // 
             // mnuViewPreviousPhoto
@@ -251,7 +243,7 @@
             this.mnuPhotoSelectNextRunner});
             this.mnuPhoto.Name = "mnuPhoto";
             this.mnuPhoto.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.mnuPhoto.Size = new System.Drawing.Size(90, 36);
+            this.mnuPhoto.Size = new System.Drawing.Size(90, 38);
             this.mnuPhoto.Text = "&Photo";
             // 
             // mnuPhotoMarkCrowded
@@ -320,7 +312,7 @@
             this.mnuRunnerMarkHat,
             this.mnuRunnerMarkGlasses});
             this.mnuSelectedRunner.Name = "mnuSelectedRunner";
-            this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 36);
+            this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 38);
             this.mnuSelectedRunner.Text = "Selected &Runner";
             // 
             // mnuRunnerStaticNumberValue
@@ -429,7 +421,7 @@
             this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNextImage.Location = new System.Drawing.Point(2758, 3);
             this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.Size = new System.Drawing.Size(139, 183);
+            this.btnNextImage.Size = new System.Drawing.Size(139, 182);
             this.btnNextImage.TabIndex = 9;
             this.btnNextImage.Text = "Next Photo [F12] ▶";
             this.btnNextImage.UseVisualStyleBackColor = true;
@@ -440,7 +432,7 @@
             this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrevImage.Location = new System.Drawing.Point(3, 3);
             this.btnPrevImage.Name = "btnPrevImage";
-            this.btnPrevImage.Size = new System.Drawing.Size(139, 183);
+            this.btnPrevImage.Size = new System.Drawing.Size(139, 182);
             this.btnPrevImage.TabIndex = 10;
             this.btnPrevImage.Text = "Prev Photo ◀ [F11] ";
             this.btnPrevImage.UseVisualStyleBackColor = true;
@@ -462,13 +454,13 @@
             this.tblMainGrid.Controls.Add(this.btnPrevImage, 0, 0);
             this.tblMainGrid.Controls.Add(this.pnlLeft, 0, 1);
             this.tblMainGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblMainGrid.Location = new System.Drawing.Point(0, 40);
+            this.tblMainGrid.Location = new System.Drawing.Point(0, 42);
             this.tblMainGrid.Name = "tblMainGrid";
             this.tblMainGrid.RowCount = 3;
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblMainGrid.Size = new System.Drawing.Size(2900, 1891);
+            this.tblMainGrid.Size = new System.Drawing.Size(2900, 1889);
             this.tblMainGrid.TabIndex = 18;
             // 
             // pnlRight
@@ -478,16 +470,16 @@
             this.pnlRight.Controls.Add(this.grpPhotoClass);
             this.pnlRight.Controls.Add(this.grpSteps);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRight.Location = new System.Drawing.Point(2323, 192);
+            this.pnlRight.Location = new System.Drawing.Point(2323, 191);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(574, 1317);
+            this.pnlRight.Size = new System.Drawing.Size(574, 1316);
             this.pnlRight.TabIndex = 33;
             // 
             // grpPhotoClass
             // 
             this.grpPhotoClass.Controls.Add(this.tableLayoutPanel1);
             this.grpPhotoClass.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grpPhotoClass.Location = new System.Drawing.Point(0, 949);
+            this.grpPhotoClass.Location = new System.Drawing.Point(0, 948);
             this.grpPhotoClass.Name = "grpPhotoClass";
             this.grpPhotoClass.Padding = new System.Windows.Forms.Padding(10);
             this.grpPhotoClass.Size = new System.Drawing.Size(574, 368);
@@ -593,10 +585,11 @@
             this.tblcolShirtColor,
             this.tblcolShortsColor,
             this.tblcolShoeColor,
+            this.tblcolHatColor,
             this.tblcolBibDelete});
             this.tblMainGrid.SetColumnSpan(this.tblTags, 5);
             this.tblTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblTags.Location = new System.Drawing.Point(3, 1515);
+            this.tblTags.Location = new System.Drawing.Point(3, 1513);
             this.tblTags.MultiSelect = false;
             this.tblTags.Name = "tblTags";
             this.tblTags.RowHeadersVisible = false;
@@ -605,6 +598,129 @@
             this.tblTags.Size = new System.Drawing.Size(2894, 373);
             this.tblTags.StandardTab = true;
             this.tblTags.TabIndex = 32;
+            // 
+            // pnlInstructions
+            // 
+            this.pnlInstructions.BackColor = System.Drawing.Color.White;
+            this.tblMainGrid.SetColumnSpan(this.pnlInstructions, 3);
+            this.pnlInstructions.Controls.Add(this.lblStepName);
+            this.pnlInstructions.Controls.Add(this.lstPhotos);
+            this.pnlInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlInstructions.Location = new System.Drawing.Point(148, 3);
+            this.pnlInstructions.Name = "pnlInstructions";
+            this.pnlInstructions.Size = new System.Drawing.Size(2604, 182);
+            this.pnlInstructions.TabIndex = 28;
+            // 
+            // lblStepName
+            // 
+            this.lblStepName.BackColor = System.Drawing.Color.White;
+            this.lblStepName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepName.ForeColor = System.Drawing.Color.Red;
+            this.lblStepName.Location = new System.Drawing.Point(0, 0);
+            this.lblStepName.Name = "lblStepName";
+            this.lblStepName.Size = new System.Drawing.Size(2604, 102);
+            this.lblStepName.TabIndex = 39;
+            this.lblStepName.Text = "[Step Label]";
+            this.lblStepName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // lstPhotos
+            // 
+            this.lstPhotos.BackColor = System.Drawing.Color.White;
+            this.lstPhotos.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lstPhotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstPhotos.ForeColor = System.Drawing.Color.Red;
+            this.lstPhotos.Location = new System.Drawing.Point(0, 101);
+            this.lstPhotos.Name = "lstPhotos";
+            this.lstPhotos.Size = new System.Drawing.Size(2604, 81);
+            this.lstPhotos.TabIndex = 38;
+            this.lstPhotos.Text = "[Step Instructions Label]";
+            this.lstPhotos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // imgPhoto
+            // 
+            this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.imgPhoto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imgPhoto.Location = new System.Drawing.Point(438, 191);
+            this.imgPhoto.Name = "imgPhoto";
+            this.imgPhoto.Size = new System.Drawing.Size(1879, 1316);
+            this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgPhoto.TabIndex = 25;
+            this.imgPhoto.TabStop = false;
+            // 
+            // pnlLeft
+            // 
+            this.pnlLeft.BackColor = System.Drawing.SystemColors.Control;
+            this.tblMainGrid.SetColumnSpan(this.pnlLeft, 2);
+            this.pnlLeft.Controls.Add(this.grpFiles);
+            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLeft.Location = new System.Drawing.Point(3, 191);
+            this.pnlLeft.Name = "pnlLeft";
+            this.pnlLeft.Size = new System.Drawing.Size(429, 1316);
+            this.pnlLeft.TabIndex = 29;
+            // 
+            // grpFiles
+            // 
+            this.grpFiles.Controls.Add(this.lstFiles);
+            this.grpFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpFiles.Location = new System.Drawing.Point(0, 0);
+            this.grpFiles.Name = "grpFiles";
+            this.grpFiles.Padding = new System.Windows.Forms.Padding(10);
+            this.grpFiles.Size = new System.Drawing.Size(429, 1316);
+            this.grpFiles.TabIndex = 26;
+            this.grpFiles.TabStop = false;
+            this.grpFiles.Text = "Photo Files";
+            // 
+            // lstFiles
+            // 
+            this.lstFiles.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lstFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstFiles.FormattingEnabled = true;
+            this.lstFiles.ItemHeight = 37;
+            this.lstFiles.Items.AddRange(new object[] {
+            ""});
+            this.lstFiles.Location = new System.Drawing.Point(10, 34);
+            this.lstFiles.Name = "lstFiles";
+            this.lstFiles.Size = new System.Drawing.Size(409, 1272);
+            this.lstFiles.TabIndex = 29;
+            // 
+            // mnuRunnerGender
+            // 
+            this.mnuRunnerGender.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuRunnerGenderMale,
+            this.mnuRunnerGenderFemale,
+            this.mnuRunnerGenderUnknown});
+            this.mnuRunnerGender.Name = "mnuRunnerGender";
+            this.mnuRunnerGender.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerGender.Text = "Runner\'s Gen&der";
+            // 
+            // mnuRunnerGenderMale
+            // 
+            this.mnuRunnerGenderMale.Name = "mnuRunnerGenderMale";
+            this.mnuRunnerGenderMale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.mnuRunnerGenderMale.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderMale.Text = "&Male";
+            // 
+            // mnuRunnerGenderFemale
+            // 
+            this.mnuRunnerGenderFemale.Name = "mnuRunnerGenderFemale";
+            this.mnuRunnerGenderFemale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.mnuRunnerGenderFemale.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderFemale.Text = "&Female";
+            // 
+            // mnuRunnerGenderUnknown
+            // 
+            this.mnuRunnerGenderUnknown.Name = "mnuRunnerGenderUnknown";
+            this.mnuRunnerGenderUnknown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.mnuRunnerGenderUnknown.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderUnknown.Text = "&Unknown";
+            // 
+            // mnuRunnerOpenColorClassificationsWizard
+            // 
+            this.mnuRunnerOpenColorClassificationsWizard.Name = "mnuRunnerOpenColorClassificationsWizard";
+            this.mnuRunnerOpenColorClassificationsWizard.Size = new System.Drawing.Size(513, 6);
             // 
             // tblcolBibNumber
             // 
@@ -695,6 +811,12 @@
             this.tblcolShoeColor.ReadOnly = true;
             this.tblcolShoeColor.ToolTipText = "What is the color of the runner\'s shoe?";
             // 
+            // tblcolHatColor
+            // 
+            this.tblcolHatColor.HeaderText = "Hat Color";
+            this.tblcolHatColor.Name = "tblcolHatColor";
+            this.tblcolHatColor.ReadOnly = true;
+            // 
             // tblcolBibDelete
             // 
             this.tblcolBibDelete.HeaderText = "Delete";
@@ -702,129 +824,6 @@
             this.tblcolBibDelete.Text = "Delete";
             this.tblcolBibDelete.ToolTipText = "Delete this bib region";
             this.tblcolBibDelete.UseColumnTextForButtonValue = true;
-            // 
-            // pnlInstructions
-            // 
-            this.pnlInstructions.BackColor = System.Drawing.Color.White;
-            this.tblMainGrid.SetColumnSpan(this.pnlInstructions, 3);
-            this.pnlInstructions.Controls.Add(this.lblStepName);
-            this.pnlInstructions.Controls.Add(this.lstPhotos);
-            this.pnlInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlInstructions.Location = new System.Drawing.Point(148, 3);
-            this.pnlInstructions.Name = "pnlInstructions";
-            this.pnlInstructions.Size = new System.Drawing.Size(2604, 183);
-            this.pnlInstructions.TabIndex = 28;
-            // 
-            // lblStepName
-            // 
-            this.lblStepName.BackColor = System.Drawing.Color.White;
-            this.lblStepName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStepName.ForeColor = System.Drawing.Color.Red;
-            this.lblStepName.Location = new System.Drawing.Point(0, 0);
-            this.lblStepName.Name = "lblStepName";
-            this.lblStepName.Size = new System.Drawing.Size(2604, 102);
-            this.lblStepName.TabIndex = 39;
-            this.lblStepName.Text = "[Step Label]";
-            this.lblStepName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // lstPhotos
-            // 
-            this.lstPhotos.BackColor = System.Drawing.Color.White;
-            this.lstPhotos.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lstPhotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstPhotos.ForeColor = System.Drawing.Color.Red;
-            this.lstPhotos.Location = new System.Drawing.Point(0, 102);
-            this.lstPhotos.Name = "lstPhotos";
-            this.lstPhotos.Size = new System.Drawing.Size(2604, 81);
-            this.lstPhotos.TabIndex = 38;
-            this.lstPhotos.Text = "[Step Instructions Label]";
-            this.lstPhotos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // imgPhoto
-            // 
-            this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.imgPhoto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgPhoto.Location = new System.Drawing.Point(438, 192);
-            this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1879, 1317);
-            this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgPhoto.TabIndex = 25;
-            this.imgPhoto.TabStop = false;
-            // 
-            // pnlLeft
-            // 
-            this.pnlLeft.BackColor = System.Drawing.SystemColors.Control;
-            this.tblMainGrid.SetColumnSpan(this.pnlLeft, 2);
-            this.pnlLeft.Controls.Add(this.grpFiles);
-            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLeft.Location = new System.Drawing.Point(3, 192);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(429, 1317);
-            this.pnlLeft.TabIndex = 29;
-            // 
-            // grpFiles
-            // 
-            this.grpFiles.Controls.Add(this.lstFiles);
-            this.grpFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpFiles.Location = new System.Drawing.Point(0, 0);
-            this.grpFiles.Name = "grpFiles";
-            this.grpFiles.Padding = new System.Windows.Forms.Padding(10);
-            this.grpFiles.Size = new System.Drawing.Size(429, 1317);
-            this.grpFiles.TabIndex = 26;
-            this.grpFiles.TabStop = false;
-            this.grpFiles.Text = "Photo Files";
-            // 
-            // lstFiles
-            // 
-            this.lstFiles.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lstFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstFiles.FormattingEnabled = true;
-            this.lstFiles.ItemHeight = 37;
-            this.lstFiles.Items.AddRange(new object[] {
-            ""});
-            this.lstFiles.Location = new System.Drawing.Point(10, 34);
-            this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(409, 1273);
-            this.lstFiles.TabIndex = 29;
-            // 
-            // mnuRunnerGender
-            // 
-            this.mnuRunnerGender.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuRunnerGenderMale,
-            this.mnuRunnerGenderFemale,
-            this.mnuRunnerGenderUnknown});
-            this.mnuRunnerGender.Name = "mnuRunnerGender";
-            this.mnuRunnerGender.Size = new System.Drawing.Size(516, 38);
-            this.mnuRunnerGender.Text = "Runner\'s Gen&der";
-            // 
-            // mnuRunnerGenderMale
-            // 
-            this.mnuRunnerGenderMale.Name = "mnuRunnerGenderMale";
-            this.mnuRunnerGenderMale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mnuRunnerGenderMale.Size = new System.Drawing.Size(300, 38);
-            this.mnuRunnerGenderMale.Text = "&Male";
-            // 
-            // mnuRunnerGenderFemale
-            // 
-            this.mnuRunnerGenderFemale.Name = "mnuRunnerGenderFemale";
-            this.mnuRunnerGenderFemale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.mnuRunnerGenderFemale.Size = new System.Drawing.Size(300, 38);
-            this.mnuRunnerGenderFemale.Text = "&Female";
-            // 
-            // mnuRunnerGenderUnknown
-            // 
-            this.mnuRunnerGenderUnknown.Name = "mnuRunnerGenderUnknown";
-            this.mnuRunnerGenderUnknown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.mnuRunnerGenderUnknown.Size = new System.Drawing.Size(300, 38);
-            this.mnuRunnerGenderUnknown.Text = "&Unknown";
-            // 
-            // mnuRunnerOpenColorClassificationsWizard
-            // 
-            this.mnuRunnerOpenColorClassificationsWizard.Name = "mnuRunnerOpenColorClassificationsWizard";
-            this.mnuRunnerOpenColorClassificationsWizard.Size = new System.Drawing.Size(513, 6);
             // 
             // MainWindow
             // 
@@ -878,7 +877,6 @@
         private BindableToolStripMenuItem mnuFileExit;
         private BindableToolStripMenuItem mnuEdit;
         private BindableToolStripMenuItem mnuEditUndo;
-        private BindableToolStripMenuItem mnuEditRedo;
         private BindableToolStripMenuItem mnuView;
         private BindableToolStripMenuItem mnuViewNextPhoto;
         private BindableToolStripMenuItem mnuViewPreviousPhoto;
@@ -922,6 +920,11 @@
         private System.Windows.Forms.ListBox lstFiles;
         private BindableToolStripMenuItem mnuPhotoMarkComplete;
         private System.Windows.Forms.ListBox lstSteps;
+        private System.Windows.Forms.ToolStripSeparator mnuRunnerOpenColorClassificationsWizard;
+        private BindableToolStripMenuItem mnuRunnerGender;
+        private BindableToolStripMenuItem mnuRunnerGenderMale;
+        private BindableToolStripMenuItem mnuRunnerGenderFemale;
+        private BindableToolStripMenuItem mnuRunnerGenderUnknown;
         private System.Windows.Forms.DataGridViewTextBoxColumn tblcolBibNumber;
         private System.Windows.Forms.DataGridViewComboBoxColumn tblcolGender;
         private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolBlurry;
@@ -932,12 +935,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShirtColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShortsColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShoeColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolHatColor;
         private System.Windows.Forms.DataGridViewButtonColumn tblcolBibDelete;
-        private System.Windows.Forms.ToolStripSeparator mnuRunnerOpenColorClassificationsWizard;
-        private BindableToolStripMenuItem mnuRunnerGender;
-        private BindableToolStripMenuItem mnuRunnerGenderMale;
-        private BindableToolStripMenuItem mnuRunnerGenderFemale;
-        private BindableToolStripMenuItem mnuRunnerGenderUnknown;
     }
 }
 

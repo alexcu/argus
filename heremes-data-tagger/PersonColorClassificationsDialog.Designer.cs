@@ -41,6 +41,9 @@
             this.btnClearShortsColor = new System.Windows.Forms.Button();
             this.btnClearShoesColor = new System.Windows.Forms.Button();
             this.lblInstructions = new System.Windows.Forms.Label();
+            this.btnClearHatColor = new System.Windows.Forms.Button();
+            this.rdoSettingHatColor = new System.Windows.Forms.RadioButton();
+            this.pnlHatColor = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +63,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(424, 1402);
+            this.btnCancel.Location = new System.Drawing.Point(424, 1478);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(338, 69);
             this.btnCancel.TabIndex = 18;
@@ -71,7 +74,7 @@
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(12, 1402);
+            this.btnSave.Location = new System.Drawing.Point(12, 1478);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(338, 69);
             this.btnSave.TabIndex = 17;
@@ -143,11 +146,11 @@
             this.rdoSettingShoesColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rdoSettingShoesColor.UseVisualStyleBackColor = true;
             // 
-            // btnClearTopColor
+            // btnClearShirtColor
             // 
             this.btnClearShirtColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClearShirtColor.Location = new System.Drawing.Point(572, 1132);
-            this.btnClearShirtColor.Name = "btnClearTopColor";
+            this.btnClearShirtColor.Name = "btnClearShirtColor";
             this.btnClearShirtColor.Size = new System.Drawing.Size(164, 64);
             this.btnClearShirtColor.TabIndex = 28;
             this.btnClearShirtColor.Text = "Clear";
@@ -186,13 +189,47 @@
             this.lblInstructions.Text = "[Click Image Instructions]";
             this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // PersonColorClassificationDialog
+            // btnClearHatColor
+            // 
+            this.btnClearHatColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearHatColor.Location = new System.Drawing.Point(572, 1376);
+            this.btnClearHatColor.Name = "btnClearHatColor";
+            this.btnClearHatColor.Size = new System.Drawing.Size(164, 64);
+            this.btnClearHatColor.TabIndex = 34;
+            this.btnClearHatColor.Text = "Clear";
+            this.btnClearHatColor.UseVisualStyleBackColor = true;
+            // 
+            // rdoSettingHatColor
+            // 
+            this.rdoSettingHatColor.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdoSettingHatColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoSettingHatColor.Location = new System.Drawing.Point(102, 1376);
+            this.rdoSettingHatColor.Name = "rdoSettingHatColor";
+            this.rdoSettingHatColor.Size = new System.Drawing.Size(455, 64);
+            this.rdoSettingHatColor.TabIndex = 33;
+            this.rdoSettingHatColor.Text = "[&4] Set Hat Color";
+            this.rdoSettingHatColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdoSettingHatColor.UseVisualStyleBackColor = true;
+            // 
+            // pnlHatColor
+            // 
+            this.pnlHatColor.BackColor = System.Drawing.Color.Red;
+            this.pnlHatColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlHatColor.Location = new System.Drawing.Point(32, 1376);
+            this.pnlHatColor.Name = "pnlHatColor";
+            this.pnlHatColor.Size = new System.Drawing.Size(64, 64);
+            this.pnlHatColor.TabIndex = 32;
+            // 
+            // PersonColorClassificationsDialog
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(774, 1483);
+            this.ClientSize = new System.Drawing.Size(774, 1571);
+            this.Controls.Add(this.btnClearHatColor);
+            this.Controls.Add(this.rdoSettingHatColor);
+            this.Controls.Add(this.pnlHatColor);
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.btnClearShoesColor);
             this.Controls.Add(this.btnClearShortsColor);
@@ -210,7 +247,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(800, 1800);
             this.MinimizeBox = false;
-            this.Name = "PersonColorClassificationDialog";
+            this.Name = "PersonColorClassificationsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Person Color Identification";
             ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).EndInit();
@@ -233,5 +270,8 @@
         private System.Windows.Forms.Button btnClearShortsColor;
         private System.Windows.Forms.Button btnClearShoesColor;
         private System.Windows.Forms.Label lblInstructions;
+        private System.Windows.Forms.Button btnClearHatColor;
+        private System.Windows.Forms.RadioButton rdoSettingHatColor;
+        private System.Windows.Forms.Panel pnlHatColor;
     }
 }

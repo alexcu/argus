@@ -193,7 +193,6 @@ namespace HermesDataTagger
             mnuFileExit.Click += (sender, e) => Close();
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
-            mnuEditRedo.Click += (sender, e) => Model.CurrentPhoto.RedoLastAction();
             // View menu
             mnuViewNextPhoto.Click += (sender, e) => Model.GetNextPhoto();
             mnuViewPreviousPhoto.Click += (sender, e) => Model.GetPrevPhoto();
@@ -284,7 +283,7 @@ namespace HermesDataTagger
             tblcolShirtColor.DataPropertyName = "ShirtColorName";
             tblcolShortsColor.DataPropertyName = "ShortsColorName";
             tblcolShoeColor.DataPropertyName = "ShoeColorName";
-
+            tblcolHatColor.DataPropertyName = "ShoeColorName";
         }
         #endregion
         #region Events
@@ -347,6 +346,10 @@ namespace HermesDataTagger
                     case "tblcolShirtColor":
                         e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.ShirtColor;
                         e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.ShirtColor);
+                        break;
+                    case "tblcolHatColor":
+                        e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = person.ShirtColor.IsEmpty ? Color.White : person.HatColor;
+                        e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = person.ShirtColor.IsEmpty ? SystemColors.ControlText : Utils.LabelForeColorForBackColor(person.HatColor);
                         break;
                 }
             }
