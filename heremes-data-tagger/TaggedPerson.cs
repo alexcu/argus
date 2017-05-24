@@ -64,6 +64,7 @@ namespace HermesDataTagger
             public bool IsNullBibNumber => BibNumber == null;
         }
         public enum LikelihoodOfPurchaseType { No = -1, Maybe = 0, Yes = 1 }
+        public enum GenderType { Male, Female, Unknown }
         #endregion
 
         // Source photo
@@ -71,6 +72,23 @@ namespace HermesDataTagger
 
         // Classifications
         public bool IsRunnerBlurred { get; set; }
+        // Gender
+        public GenderType Gender { get; set; }
+        public string GenderName
+        {
+            get { return Gender.ToString(); }
+            set
+            {
+                Enum.TryParse(value, out GenderType type);
+                System.Diagnostics.Debug.WriteLine($"Person set to {type}");
+                Gender = type;
+                MainWindow.Singleton.RequestRedrawGraphics();
+            }
+        }
+        public bool IsGenderMale => Gender == GenderType.Male;
+        public bool IsGenderFemale => Gender == GenderType.Female;
+        public bool IsGenderUnknown => Gender == GenderType.Unknown;
+        // LoP
         public LikelihoodOfPurchaseType LikelihoodOfPurchase { get; set; }
         public string LikelihoodOfPurchaseName
         {
@@ -79,11 +97,13 @@ namespace HermesDataTagger
                 Enum.TryParse(value, out LikelihoodOfPurchaseType type);
                 System.Diagnostics.Debug.WriteLine($"Person set to {type}");
                 LikelihoodOfPurchase = type;
+                MainWindow.Singleton.RequestRedrawGraphics();
             }
         }
         public bool IsLikelihoodOfPurchaseYes => LikelihoodOfPurchase == LikelihoodOfPurchaseType.Yes;
         public bool IsLikelihoodOfPurchaseMaybe => LikelihoodOfPurchase == LikelihoodOfPurchaseType.Maybe;
         public bool IsLikelihoodOfPurchaseNo => LikelihoodOfPurchase == LikelihoodOfPurchaseType.No;
+
 
         // Extension bindings
         public string BibNumber => Bib.BibNumber ?? "N/A";

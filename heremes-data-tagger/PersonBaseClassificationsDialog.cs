@@ -21,7 +21,7 @@ namespace HermesDataTagger
             CropPersonPhoto();
             BindDataToControls();
             // TODO: Work out why the window size won't reflect the designer
-            Height += 158;
+            Height += 275;
         }
 
         void CropPersonPhoto()
@@ -58,9 +58,16 @@ namespace HermesDataTagger
             rdoNotBuy.CheckedChanged += (sender, e) => LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType.No, rdoNotBuy.Checked);
             rdoMaybeBuy.CheckedChanged += (sender, e) => LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType.Maybe, rdoMaybeBuy.Checked);
             rdoWouldBuy.CheckedChanged += (sender, e) => LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType.Yes, rdoWouldBuy.Checked);
+            // Gender radio buttons
+            rdoGenderMale.Checked = Person.Gender == TaggedPerson.GenderType.Male;
+            rdoGenderFemale.Checked = Person.Gender == TaggedPerson.GenderType.Female;
+            rdoGenderUnknown.Checked = Person.Gender == TaggedPerson.GenderType.Unknown;
+            rdoGenderMale.CheckedChanged += (sender, e) => GenderChanged(TaggedPerson.GenderType.Male, rdoGenderMale.Checked);
+            rdoGenderFemale.CheckedChanged += (sender, e) => GenderChanged(TaggedPerson.GenderType.Female, rdoGenderFemale.Checked);
+            rdoGenderUnknown.CheckedChanged += (sender, e) => GenderChanged(TaggedPerson.GenderType.Unknown, rdoGenderUnknown.Checked);
         }
 
-        private void LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType type, bool newValue)
+        void LikelihoodOfPurchaseChanged(TaggedPerson.LikelihoodOfPurchaseType type, bool newValue)
         {
             if (newValue)
             {
@@ -74,6 +81,25 @@ namespace HermesDataTagger
                         break;
                     case TaggedPerson.LikelihoodOfPurchaseType.No:
                         Person.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No;
+                        break;
+                }
+            }
+        }
+
+        void GenderChanged(TaggedPerson.GenderType type, bool newValue)
+        {
+            if (newValue)
+            {
+                switch (type)
+                {
+                    case TaggedPerson.GenderType.Male:
+                        Person.Gender = TaggedPerson.GenderType.Male;
+                        break;
+                    case TaggedPerson.GenderType.Female:
+                        Person.Gender = TaggedPerson.GenderType.Female;
+                        break;
+                    case TaggedPerson.GenderType.Unknown:
+                        Person.Gender = TaggedPerson.GenderType.Unknown;
                         break;
                 }
             }

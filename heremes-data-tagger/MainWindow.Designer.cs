@@ -58,7 +58,6 @@
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuRunnerMarkBib = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuRunnerOpenClassificationsWizard = new HermesDataTagger.BindableToolStripMenuItem();
-            this.mnuRunnerOpenColorClassificationsWizard = new HermesDataTagger.BindableToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuRunnerMarkBlurry = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuRunnerMarkFaceVisible = new HermesDataTagger.BindableToolStripMenuItem();
@@ -79,8 +78,10 @@
             this.chbxIsComplete = new System.Windows.Forms.CheckBox();
             this.chbxIsCrowded = new System.Windows.Forms.CheckBox();
             this.grpSteps = new System.Windows.Forms.GroupBox();
+            this.lstSteps = new System.Windows.Forms.ListBox();
             this.tblTags = new System.Windows.Forms.DataGridView();
             this.tblcolBibNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblcolGender = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tblcolBlurry = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tblcolFaceVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tblcolLikelihoodPurchase = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -97,7 +98,11 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.grpFiles = new System.Windows.Forms.GroupBox();
             this.lstFiles = new System.Windows.Forms.ListBox();
-            this.lstSteps = new System.Windows.Forms.ListBox();
+            this.mnuRunnerGender = new HermesDataTagger.BindableToolStripMenuItem();
+            this.mnuRunnerGenderMale = new HermesDataTagger.BindableToolStripMenuItem();
+            this.mnuRunnerGenderFemale = new HermesDataTagger.BindableToolStripMenuItem();
+            this.mnuRunnerGenderUnknown = new HermesDataTagger.BindableToolStripMenuItem();
+            this.mnuRunnerOpenColorClassificationsWizard = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -305,6 +310,7 @@
             this.mnuRunnerMarkBib,
             this.mnuRunnerOpenClassificationsWizard,
             this.mnuRunnerOpenColorClassificationsWizard,
+            this.mnuRunnerGender,
             this.toolStripSeparator3,
             this.mnuRunnerMarkBlurry,
             this.mnuRunnerMarkFaceVisible,
@@ -343,13 +349,6 @@
             this.mnuRunnerOpenClassificationsWizard.Size = new System.Drawing.Size(516, 38);
             this.mnuRunnerOpenClassificationsWizard.Text = "Open &Classifications Wizard";
             // 
-            // mnuRunnerOpenColorClassificationsWizard
-            // 
-            this.mnuRunnerOpenColorClassificationsWizard.Name = "mnuRunnerOpenColorClassificationsWizard";
-            this.mnuRunnerOpenColorClassificationsWizard.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.mnuRunnerOpenColorClassificationsWizard.Size = new System.Drawing.Size(516, 38);
-            this.mnuRunnerOpenColorClassificationsWizard.Text = "Open C&olor Selection Wizard";
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -365,9 +364,9 @@
             // mnuRunnerMarkFaceVisible
             // 
             this.mnuRunnerMarkFaceVisible.Name = "mnuRunnerMarkFaceVisible";
-            this.mnuRunnerMarkFaceVisible.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.mnuRunnerMarkFaceVisible.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.mnuRunnerMarkFaceVisible.Size = new System.Drawing.Size(516, 38);
-            this.mnuRunnerMarkFaceVisible.Text = "Mark &Face Visible";
+            this.mnuRunnerMarkFaceVisible.Text = "Mark Face &Visible";
             // 
             // toolStripSeparator4
             // 
@@ -387,25 +386,22 @@
             // mnuRunnerLikelihoodPurchaseNo
             // 
             this.mnuRunnerLikelihoodPurchaseNo.Name = "mnuRunnerLikelihoodPurchaseNo";
-            this.mnuRunnerLikelihoodPurchaseNo.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.N)));
-            this.mnuRunnerLikelihoodPurchaseNo.Size = new System.Drawing.Size(612, 38);
+            this.mnuRunnerLikelihoodPurchaseNo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.mnuRunnerLikelihoodPurchaseNo.Size = new System.Drawing.Size(547, 38);
             this.mnuRunnerLikelihoodPurchaseNo.Text = "I would &Not buy this photo";
             // 
             // mnuRunnerLikelihoodPurchaseMaybe
             // 
             this.mnuRunnerLikelihoodPurchaseMaybe.Name = "mnuRunnerLikelihoodPurchaseMaybe";
-            this.mnuRunnerLikelihoodPurchaseMaybe.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.M)));
-            this.mnuRunnerLikelihoodPurchaseMaybe.Size = new System.Drawing.Size(612, 38);
+            this.mnuRunnerLikelihoodPurchaseMaybe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.mnuRunnerLikelihoodPurchaseMaybe.Size = new System.Drawing.Size(547, 38);
             this.mnuRunnerLikelihoodPurchaseMaybe.Text = "I would &Maybe buy this photo";
             // 
             // mnuRunnerLikelihoodPurchaseYes
             // 
             this.mnuRunnerLikelihoodPurchaseYes.Name = "mnuRunnerLikelihoodPurchaseYes";
-            this.mnuRunnerLikelihoodPurchaseYes.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Y)));
-            this.mnuRunnerLikelihoodPurchaseYes.Size = new System.Drawing.Size(612, 38);
+            this.mnuRunnerLikelihoodPurchaseYes.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.mnuRunnerLikelihoodPurchaseYes.Size = new System.Drawing.Size(547, 38);
             this.mnuRunnerLikelihoodPurchaseYes.Text = "I would &Definitely buy this photo";
             // 
             // toolStripSeparator5
@@ -521,6 +517,7 @@
             this.chbxIsComplete.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chbxIsComplete.Location = new System.Drawing.Point(3, 165);
             this.chbxIsComplete.Name = "chbxIsComplete";
+            this.chbxIsComplete.Padding = new System.Windows.Forms.Padding(20, 0, 0, 20);
             this.chbxIsComplete.Size = new System.Drawing.Size(548, 156);
             this.chbxIsComplete.TabIndex = 24;
             this.chbxIsComplete.Text = "Mark photo as Complete [F4]";
@@ -534,6 +531,7 @@
             this.chbxIsCrowded.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chbxIsCrowded.Location = new System.Drawing.Point(3, 3);
             this.chbxIsCrowded.Name = "chbxIsCrowded";
+            this.chbxIsCrowded.Padding = new System.Windows.Forms.Padding(20, 0, 0, 20);
             this.chbxIsCrowded.Size = new System.Drawing.Size(548, 156);
             this.chbxIsCrowded.TabIndex = 23;
             this.chbxIsCrowded.Text = "Mark photo as Crowded [F1]";
@@ -551,6 +549,20 @@
             this.grpSteps.TabIndex = 25;
             this.grpSteps.TabStop = false;
             this.grpSteps.Text = "Steps";
+            // 
+            // lstSteps
+            // 
+            this.lstSteps.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lstSteps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstSteps.FormattingEnabled = true;
+            this.lstSteps.ItemHeight = 37;
+            this.lstSteps.Items.AddRange(new object[] {
+            ""});
+            this.lstSteps.Location = new System.Drawing.Point(10, 34);
+            this.lstSteps.Name = "lstSteps";
+            this.lstSteps.Size = new System.Drawing.Size(554, 436);
+            this.lstSteps.TabIndex = 29;
             // 
             // tblTags
             // 
@@ -572,6 +584,7 @@
             this.tblTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.tblTags.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.tblcolBibNumber,
+            this.tblcolGender,
             this.tblcolBlurry,
             this.tblcolFaceVisible,
             this.tblcolLikelihoodPurchase,
@@ -604,6 +617,17 @@
             this.tblcolBibNumber.Name = "tblcolBibNumber";
             this.tblcolBibNumber.ToolTipText = "The bib number identified of this runner";
             this.tblcolBibNumber.Width = 211;
+            // 
+            // tblcolGender
+            // 
+            this.tblcolGender.HeaderText = "Gender";
+            this.tblcolGender.Items.AddRange(new object[] {
+            "Male",
+            "Female",
+            "Unknown"});
+            this.tblcolGender.Name = "tblcolGender";
+            this.tblcolGender.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tblcolGender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tblcolBlurry
             // 
@@ -766,19 +790,41 @@
             this.lstFiles.Size = new System.Drawing.Size(409, 1273);
             this.lstFiles.TabIndex = 29;
             // 
-            // lstSteps
+            // mnuRunnerGender
             // 
-            this.lstSteps.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lstSteps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstSteps.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstSteps.FormattingEnabled = true;
-            this.lstSteps.ItemHeight = 37;
-            this.lstSteps.Items.AddRange(new object[] {
-            ""});
-            this.lstSteps.Location = new System.Drawing.Point(10, 34);
-            this.lstSteps.Name = "lstSteps";
-            this.lstSteps.Size = new System.Drawing.Size(554, 436);
-            this.lstSteps.TabIndex = 29;
+            this.mnuRunnerGender.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuRunnerGenderMale,
+            this.mnuRunnerGenderFemale,
+            this.mnuRunnerGenderUnknown});
+            this.mnuRunnerGender.Name = "mnuRunnerGender";
+            this.mnuRunnerGender.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerGender.Text = "Runner\'s Gen&der";
+            // 
+            // mnuRunnerGenderMale
+            // 
+            this.mnuRunnerGenderMale.Name = "mnuRunnerGenderMale";
+            this.mnuRunnerGenderMale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.mnuRunnerGenderMale.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderMale.Text = "&Male";
+            // 
+            // mnuRunnerGenderFemale
+            // 
+            this.mnuRunnerGenderFemale.Name = "mnuRunnerGenderFemale";
+            this.mnuRunnerGenderFemale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.mnuRunnerGenderFemale.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderFemale.Text = "&Female";
+            // 
+            // mnuRunnerGenderUnknown
+            // 
+            this.mnuRunnerGenderUnknown.Name = "mnuRunnerGenderUnknown";
+            this.mnuRunnerGenderUnknown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.mnuRunnerGenderUnknown.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderUnknown.Text = "&Unknown";
+            // 
+            // mnuRunnerOpenColorClassificationsWizard
+            // 
+            this.mnuRunnerOpenColorClassificationsWizard.Name = "mnuRunnerOpenColorClassificationsWizard";
+            this.mnuRunnerOpenColorClassificationsWizard.Size = new System.Drawing.Size(513, 6);
             // 
             // MainWindow
             // 
@@ -854,7 +900,6 @@
         private BindableToolStripMenuItem mnuRunnerMarkHat;
         private BindableToolStripMenuItem mnuRunnerMarkGlasses;
         private BindableToolStripMenuItem mnuRunnerOpenClassificationsWizard;
-        private BindableToolStripMenuItem mnuRunnerOpenColorClassificationsWizard;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private BindableToolStripMenuItem mnuPhotoSelectNextRunner;
         private BindableToolStripMenuItem mnuRunnerStaticNumberValue;
@@ -865,16 +910,6 @@
         private System.Windows.Forms.Label lblStepName;
         private System.Windows.Forms.Label lstPhotos;
         private System.Windows.Forms.DataGridView tblTags;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolBibNumber;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolBlurry;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolFaceVisible;
-        private System.Windows.Forms.DataGridViewComboBoxColumn tblcolLikelihoodPurchase;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolWearingHat;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolWearingGlasses;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShirtColor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShortsColor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShoeColor;
-        private System.Windows.Forms.DataGridViewButtonColumn tblcolBibDelete;
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.GroupBox grpSteps;
@@ -887,6 +922,22 @@
         private System.Windows.Forms.ListBox lstFiles;
         private BindableToolStripMenuItem mnuPhotoMarkComplete;
         private System.Windows.Forms.ListBox lstSteps;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolBibNumber;
+        private System.Windows.Forms.DataGridViewComboBoxColumn tblcolGender;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolBlurry;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolFaceVisible;
+        private System.Windows.Forms.DataGridViewComboBoxColumn tblcolLikelihoodPurchase;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolWearingHat;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn tblcolWearingGlasses;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShirtColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShortsColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tblcolShoeColor;
+        private System.Windows.Forms.DataGridViewButtonColumn tblcolBibDelete;
+        private System.Windows.Forms.ToolStripSeparator mnuRunnerOpenColorClassificationsWizard;
+        private BindableToolStripMenuItem mnuRunnerGender;
+        private BindableToolStripMenuItem mnuRunnerGenderMale;
+        private BindableToolStripMenuItem mnuRunnerGenderFemale;
+        private BindableToolStripMenuItem mnuRunnerGenderUnknown;
     }
 }
 

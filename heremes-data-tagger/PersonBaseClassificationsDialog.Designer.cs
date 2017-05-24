@@ -41,17 +41,22 @@
             this.chbxGlasses = new System.Windows.Forms.CheckBox();
             this.chbxHat = new System.Windows.Forms.CheckBox();
             this.grpClothing = new System.Windows.Forms.GroupBox();
+            this.grpGender = new System.Windows.Forms.GroupBox();
+            this.rdoGenderFemale = new System.Windows.Forms.RadioButton();
+            this.rdoGenderMale = new System.Windows.Forms.RadioButton();
+            this.rdoGenderUnknown = new System.Windows.Forms.RadioButton();
             this.grpLikelihood.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).BeginInit();
             this.grpVisibility.SuspendLayout();
             this.grpClothing.SuspendLayout();
+            this.grpGender.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(12, 1644);
+            this.btnSave.Location = new System.Drawing.Point(12, 1863);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(338, 69);
             this.btnSave.TabIndex = 12;
@@ -62,7 +67,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(424, 1644);
+            this.btnCancel.Location = new System.Drawing.Point(424, 1863);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(338, 69);
             this.btnCancel.TabIndex = 16;
@@ -114,7 +119,7 @@
             this.grpLikelihood.Controls.Add(this.rdoNotBuy);
             this.grpLikelihood.Controls.Add(this.rdoWouldBuy);
             this.grpLikelihood.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.grpLikelihood.Location = new System.Drawing.Point(12, 1184);
+            this.grpLikelihood.Location = new System.Drawing.Point(12, 1407);
             this.grpLikelihood.Name = "grpLikelihood";
             this.grpLikelihood.Size = new System.Drawing.Size(750, 253);
             this.grpLikelihood.TabIndex = 14;
@@ -128,7 +133,7 @@
             this.imgPersonCrop.Dock = System.Windows.Forms.DockStyle.Top;
             this.imgPersonCrop.Location = new System.Drawing.Point(0, 0);
             this.imgPersonCrop.Name = "imgPersonCrop";
-            this.imgPersonCrop.Size = new System.Drawing.Size(774, 976);
+            this.imgPersonCrop.Size = new System.Drawing.Size(774, 938);
             this.imgPersonCrop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPersonCrop.TabIndex = 0;
             this.imgPersonCrop.TabStop = false;
@@ -143,7 +148,7 @@
             this.chbxFaceVisible.Name = "chbxFaceVisible";
             this.chbxFaceVisible.Size = new System.Drawing.Size(599, 46);
             this.chbxFaceVisible.TabIndex = 5;
-            this.chbxFaceVisible.Text = "Mark runners [&F]ACE as VISIBLE";
+            this.chbxFaceVisible.Text = "Mark runners FACE as [&V]ISIBLE";
             this.chbxFaceVisible.UseVisualStyleBackColor = true;
             // 
             // chbxBlurry
@@ -162,7 +167,7 @@
             this.grpVisibility.Controls.Add(this.chbxBlurry);
             this.grpVisibility.Controls.Add(this.chbxFaceVisible);
             this.grpVisibility.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.grpVisibility.Location = new System.Drawing.Point(12, 998);
+            this.grpVisibility.Location = new System.Drawing.Point(12, 1221);
             this.grpVisibility.Name = "grpVisibility";
             this.grpVisibility.Size = new System.Drawing.Size(750, 180);
             this.grpVisibility.TabIndex = 13;
@@ -196,20 +201,73 @@
             this.grpClothing.Controls.Add(this.chbxHat);
             this.grpClothing.Controls.Add(this.chbxGlasses);
             this.grpClothing.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.grpClothing.Location = new System.Drawing.Point(12, 1443);
+            this.grpClothing.Location = new System.Drawing.Point(12, 1666);
             this.grpClothing.Name = "grpClothing";
             this.grpClothing.Size = new System.Drawing.Size(750, 180);
             this.grpClothing.TabIndex = 15;
             this.grpClothing.TabStop = false;
             this.grpClothing.Text = "Clothing Assessories";
             // 
-            // PersonClassificationsDialog
+            // grpGender
+            // 
+            this.grpGender.Controls.Add(this.rdoGenderFemale);
+            this.grpGender.Controls.Add(this.rdoGenderMale);
+            this.grpGender.Controls.Add(this.rdoGenderUnknown);
+            this.grpGender.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.grpGender.Location = new System.Drawing.Point(12, 962);
+            this.grpGender.Name = "grpGender";
+            this.grpGender.Size = new System.Drawing.Size(750, 253);
+            this.grpGender.TabIndex = 15;
+            this.grpGender.TabStop = false;
+            this.grpGender.Text = "Runner\'s Gender";
+            // 
+            // rdoGenderFemale
+            // 
+            this.rdoGenderFemale.AutoSize = true;
+            this.rdoGenderFemale.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoGenderFemale.Location = new System.Drawing.Point(34, 113);
+            this.rdoGenderFemale.Name = "rdoGenderFemale";
+            this.rdoGenderFemale.Size = new System.Drawing.Size(363, 46);
+            this.rdoGenderFemale.TabIndex = 7;
+            this.rdoGenderFemale.TabStop = true;
+            this.rdoGenderFemale.Tag = "0";
+            this.rdoGenderFemale.Text = "Runner is [&F]emale";
+            this.rdoGenderFemale.UseVisualStyleBackColor = true;
+            // 
+            // rdoGenderMale
+            // 
+            this.rdoGenderMale.AutoSize = true;
+            this.rdoGenderMale.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoGenderMale.Location = new System.Drawing.Point(34, 50);
+            this.rdoGenderMale.Name = "rdoGenderMale";
+            this.rdoGenderMale.Size = new System.Drawing.Size(320, 46);
+            this.rdoGenderMale.TabIndex = 6;
+            this.rdoGenderMale.TabStop = true;
+            this.rdoGenderMale.Tag = "-1";
+            this.rdoGenderMale.Text = "Runner is [&M]ale";
+            this.rdoGenderMale.UseVisualStyleBackColor = true;
+            // 
+            // rdoGenderUnknown
+            // 
+            this.rdoGenderUnknown.AutoSize = true;
+            this.rdoGenderUnknown.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoGenderUnknown.Location = new System.Drawing.Point(34, 178);
+            this.rdoGenderUnknown.Name = "rdoGenderUnknown";
+            this.rdoGenderUnknown.Size = new System.Drawing.Size(270, 46);
+            this.rdoGenderUnknown.TabIndex = 8;
+            this.rdoGenderUnknown.TabStop = true;
+            this.rdoGenderUnknown.Tag = "1";
+            this.rdoGenderUnknown.Text = "I am [&U]nsure";
+            this.rdoGenderUnknown.UseVisualStyleBackColor = true;
+            // 
+            // PersonBaseClassificationDialog
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(774, 1730);
+            this.ClientSize = new System.Drawing.Size(774, 1944);
+            this.Controls.Add(this.grpGender);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.grpClothing);
             this.Controls.Add(this.grpLikelihood);
@@ -220,7 +278,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(800, 1800);
-            this.Name = "PersonClassificationsDialog";
+            this.Name = "PersonBaseClassificationDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Person Classifications";
             this.TopMost = true;
@@ -231,6 +289,8 @@
             this.grpVisibility.PerformLayout();
             this.grpClothing.ResumeLayout(false);
             this.grpClothing.PerformLayout();
+            this.grpGender.ResumeLayout(false);
+            this.grpGender.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -250,5 +310,9 @@
         private System.Windows.Forms.CheckBox chbxGlasses;
         private System.Windows.Forms.CheckBox chbxHat;
         private System.Windows.Forms.GroupBox grpClothing;
+        private System.Windows.Forms.GroupBox grpGender;
+        private System.Windows.Forms.RadioButton rdoGenderFemale;
+        private System.Windows.Forms.RadioButton rdoGenderMale;
+        private System.Windows.Forms.RadioButton rdoGenderUnknown;
     }
 }

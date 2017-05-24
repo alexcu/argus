@@ -174,6 +174,9 @@ namespace HermesDataTagger
                     AddDataBinding(mnuRunnerLikelihoodPurchaseYes, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseYes");
                     AddDataBinding(mnuRunnerLikelihoodPurchaseMaybe, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseMaybe");
                     AddDataBinding(mnuRunnerLikelihoodPurchaseNo, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseNo");
+                    AddDataBinding(mnuRunnerGenderMale, "Checked", Model, "CurrentPhoto.SelectedRunner.IsGenderMale");
+                    AddDataBinding(mnuRunnerGenderFemale, "Checked", Model, "CurrentPhoto.SelectedRunner.IsGenderFemale");
+                    AddDataBinding(mnuRunnerGenderUnknown, "Checked", Model, "CurrentPhoto.SelectedRunner.IsGenderUnknown");
                 }
             };
         }
@@ -210,6 +213,9 @@ namespace HermesDataTagger
             mnuRunnerLikelihoodPurchaseYes.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Yes; RequestRedrawGraphics(); };
             mnuRunnerLikelihoodPurchaseMaybe.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.Maybe; RequestRedrawGraphics(); };
             mnuRunnerLikelihoodPurchaseNo.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchase = TaggedPerson.LikelihoodOfPurchaseType.No; RequestRedrawGraphics(); };
+            mnuRunnerGenderMale.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Male; RequestRedrawGraphics(); };
+            mnuRunnerGenderFemale.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Female; RequestRedrawGraphics(); };
+            mnuRunnerGenderUnknown.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Unknown; RequestRedrawGraphics(); };
             mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
         }
@@ -272,6 +278,7 @@ namespace HermesDataTagger
             tblcolWearingGlasses.DataPropertyName = "IsWearingGlasses";
             tblcolWearingHat.DataPropertyName = "IsWearingHat";
             tblcolLikelihoodPurchase.DataPropertyName = "LikelihoodOfPurchaseName";
+            tblcolGender.DataPropertyName = "GenderName";
 
             // Bind colour and name
             tblcolShirtColor.DataPropertyName = "ShirtColorName";
@@ -287,7 +294,6 @@ namespace HermesDataTagger
             tblTags.RowStateChanged += UpdateSelectedItem;
             // Switch to most recently added in bind list
             tblTags.RowsAdded += NewTagAdded;
-            tblTags.CellContentClick += HandleClickRow;
             // Mouse in/out to show status
             tblTags.CellMouseEnter += (sender, e) => lblTooltip.Text = tblTags.Columns[e.ColumnIndex].ToolTipText;
             tblTags.MouseEnter += (sender, e) => lblTooltip.Visible = true;
@@ -299,8 +305,29 @@ namespace HermesDataTagger
 
             // Bind the background color
             tblTags.CellFormatting += BackgroundForSelectedColors;
+
+            // Cell click handling
+            tblTags.CellValueChanged += HandleChangeDropdown;
+            tblTags.CellContentClick += HandleClickRow;
+
         }
-        
+
+        void HandleChangeDropdown(object sender, DataGridViewCellEventArgs e)
+        {
+            string col = tblTags.Columns[e.ColumnIndex].Name;
+            var rowValue = tblTags.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            switch (col)
+            {
+                case "tblcolGender":
+                    Model.CurrentPhoto.SelectedRunner.GenderName = (string)rowValue;
+                    break;
+                case "tblcolLikelihoodPurchase":
+                    Model.CurrentPhoto.SelectedRunner.LikelihoodOfPurchaseName = (string)rowValue;
+                    break;
+            }
+            RequestRedrawGraphics();
+        }
+
         void BackgroundForSelectedColors(object sender, DataGridViewCellFormattingEventArgs e)
         {
             try
@@ -388,12 +415,12 @@ namespace HermesDataTagger
             if (numberClicked)
             {
                 Model.CurrentPhoto.AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, personClicked);
-                MainWindow.Singleton.RequestRedrawGraphics();
             }
             if (colorClicked)
             {
                 Model.CurrentPhoto.AskForColorClassificationsOfPerson(personClicked);
             }
+
             RequestRedrawGraphics();
         }
 
@@ -489,6 +516,7 @@ namespace HermesDataTagger
         public void RequestRedrawGraphics()
         {
             imgPhoto.Invalidate();
+            Invalidate();
         }
 
         void RenderGraphics(object sender, PaintEventArgs e)
@@ -517,7 +545,8 @@ namespace HermesDataTagger
                     extraInfo += $"{person.BibNumber}\n";
                     if (person.IsFaceRegionTagged)
                     {
-                        extraInfo += $"PURCHASE: {person.LikelihoodOfPurchase.ToString().ToUpper()}\n";
+                        extraInfo += $"GENDER: {person.GenderName}\n";
+                        extraInfo += $"PURCHASE: {person.LikelihoodOfPurchase}\n";
                     }
                     extraInfo += person.IsRunnerBlurred ? "RUNNER BLURRY ✔\n" : "";
                     extraInfo += !person.IsFaceVisible ? "FACE NOT VISIBLE ✔\n" : "";
