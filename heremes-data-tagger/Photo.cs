@@ -37,7 +37,7 @@ namespace HermesDataTagger
             get => _isComplete;
             set
             {
-                if (value && !FaceForEveryBib && !IsPhotoCrowded)
+                if (value && !HasAFaceMarkedForEveryBib && !IsPhotoCrowded)
                 {
                     MessageBox.Show("Cannot be marked as complete as not all marked bibs have an associated face!", "Marking as Complete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -62,7 +62,7 @@ namespace HermesDataTagger
         public int NumberOfPeopleTagged => TaggedRunners.Count;
         private string[] TaggedBibNumbers => TaggedRunners.Select(p => p.BibNumber).ToArray();
         [JsonIgnore]
-        private bool FaceForEveryBib => TaggedRunners.Count(p => p.IsFaceRegionTagged && p.IsBibRegionTagged) == TaggedRunners.Count;
+        private bool HasAFaceMarkedForEveryBib => TaggedRunners.Count(p => p.IsFaceRegionTagged && p.IsBibRegionTagged) == TaggedRunners.Count;
         [JsonIgnore]
         public bool HasTaggedARunner => TaggedBibNumbers.Length > 0;
         private TaggedPerson _selectedRunner;
@@ -305,6 +305,11 @@ namespace HermesDataTagger
                     if (!didSetBothClassifications)
                     {
                         SelectedRunner.Face.ClearPoints();
+                    }
+                    else if (!HasAFaceMarkedForEveryBib)
+                    {
+                        // Move to next runner who isn't yet tagged if more bibs
+                        SelectedRunner = OrderedTaggedRunners.Find(p => !p.IsFaceRegionTagged);
                     }
                     break;
                 default:
