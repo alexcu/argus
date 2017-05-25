@@ -37,6 +37,11 @@ namespace HermesDataTagger
             get => _isComplete;
             set
             {
+                if (value && !FaceForEveryBib && !IsPhotoCrowded)
+                {
+                    MessageBox.Show("Cannot be marked as complete as not all marked bibs have an associated face!", "Marking as Complete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 _isComplete = value;
                 MainWindow.Singleton.RequestPopulateFilesList();
             }

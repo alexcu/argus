@@ -57,9 +57,16 @@ namespace HermesDataTagger
                     else
                     {
                         CurrentPhoto.ToggleComplete();
+                        if (CurrentPhoto.IsPhotoCompletelyTagged)
+                        {
+                            PhotoIdx += 1;
+                        }
                     }
                 }
-                PhotoIdx += 1;
+                else
+                {
+                    PhotoIdx += 1;
+                }
             }
             Debug.WriteLine($"File index is {PhotoIdx} and current file is {CurrentPhoto}");
         }
