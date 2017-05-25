@@ -66,8 +66,7 @@ namespace HermesDataTagger
         {
             MouseWheel += SelectedRunnerChangedByMouse;
             Model.CurrentPhoto.TaggedRunners.ListChanged += ModelListChanged;
-            Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestUpdateSelectedRunner();
-            imgPhoto.LocationChanged += (sender, e) => ResetBindings();
+            //Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestUpdateSelectedRunner();
         }
 
         void SelectedRunnerChangedByMouse(object sender, MouseEventArgs e)

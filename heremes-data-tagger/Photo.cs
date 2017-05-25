@@ -81,13 +81,7 @@ namespace HermesDataTagger
                 {
                     // Ignore
                 }
-                finally
-                {
-                    if (SelectedRunnerUpdated != null && value != null)
-                    {
-                        SelectedRunnerUpdated(this, EventArgs.Empty);
-                    }
-                }
+                MainWindow.Singleton.RequestUpdateSelectedRunner();
             }
         }
         public void SelectNextRunner()

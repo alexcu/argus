@@ -27,7 +27,14 @@ namespace HermesDataTagger
                 // Stop old timner
                 CurrentPhoto.TimerOnPhoto.Stop();
                 _photoIdx = value;
-                CurrentPhotoChanged?.Invoke(this, EventArgs.Empty);
+                try
+                {
+                    CurrentPhotoChanged?.Invoke(this, EventArgs.Empty);
+                }
+                catch
+                {
+
+                }
                 // Start new timer
                 CurrentPhoto.TimerOnPhoto.Start();
             }
@@ -47,6 +54,19 @@ namespace HermesDataTagger
         {
             if (CanGetNextPhoto)
             {
+                // Ask if finished if not marked as complete
+                if (CurrentPhoto.IsPhotoNotCompletelyTagged)
+                {
+                    DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        CurrentPhoto.ToggleComplete();
+                    }
+                }
                 PhotoIdx += 1;
             }
             Debug.WriteLine($"File index is {PhotoIdx} and current file is {CurrentPhoto}");
