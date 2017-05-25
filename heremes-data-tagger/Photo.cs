@@ -159,6 +159,7 @@ namespace HermesDataTagger
                         else
                         {
                             _taggingStep = value;
+                            MainWindow.Singleton.RequestUpdateSelectedRunner();
                         }
                         break;
                 }

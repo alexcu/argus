@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblMousePos = new System.Windows.Forms.ToolStripStatusLabel();
@@ -100,7 +100,7 @@
             this.tblcolBibDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.pnlInstructions = new System.Windows.Forms.Panel();
             this.lblStepName = new System.Windows.Forms.Label();
-            this.lstPhotos = new System.Windows.Forms.Label();
+            this.lblInstructions = new System.Windows.Forms.Label();
             this.imgPhoto = new System.Windows.Forms.PictureBox();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.grpFiles = new System.Windows.Forms.GroupBox();
@@ -626,14 +626,14 @@
             this.tblTags.AllowUserToResizeRows = false;
             this.tblTags.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tblTags.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tblTags.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tblTags.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tblTags.ColumnHeadersHeight = 40;
             this.tblTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.tblTags.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -664,9 +664,9 @@
             // tblcolBibNumber
             // 
             this.tblcolBibNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tblcolBibNumber.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Courier New", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tblcolBibNumber.DefaultCellStyle = dataGridViewCellStyle4;
             this.tblcolBibNumber.Frozen = true;
             this.tblcolBibNumber.HeaderText = "Bib Number";
             this.tblcolBibNumber.Name = "tblcolBibNumber";
@@ -769,7 +769,7 @@
             this.pnlInstructions.BackColor = System.Drawing.Color.White;
             this.tblMainGrid.SetColumnSpan(this.pnlInstructions, 3);
             this.pnlInstructions.Controls.Add(this.lblStepName);
-            this.pnlInstructions.Controls.Add(this.lstPhotos);
+            this.pnlInstructions.Controls.Add(this.lblInstructions);
             this.pnlInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlInstructions.Location = new System.Drawing.Point(148, 3);
             this.pnlInstructions.Name = "pnlInstructions";
@@ -789,18 +789,18 @@
             this.lblStepName.Text = "[Step Label]";
             this.lblStepName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // lstPhotos
+            // lblInstructions
             // 
-            this.lstPhotos.BackColor = System.Drawing.Color.White;
-            this.lstPhotos.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lstPhotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstPhotos.ForeColor = System.Drawing.Color.Red;
-            this.lstPhotos.Location = new System.Drawing.Point(0, 102);
-            this.lstPhotos.Name = "lstPhotos";
-            this.lstPhotos.Size = new System.Drawing.Size(2604, 81);
-            this.lstPhotos.TabIndex = 38;
-            this.lstPhotos.Text = "[Step Instructions Label]";
-            this.lstPhotos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblInstructions.BackColor = System.Drawing.Color.White;
+            this.lblInstructions.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstructions.ForeColor = System.Drawing.Color.Red;
+            this.lblInstructions.Location = new System.Drawing.Point(0, 102);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(2604, 81);
+            this.lblInstructions.TabIndex = 38;
+            this.lblInstructions.Text = "[Step Instructions Label]";
+            this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // imgPhoto
             // 
@@ -964,7 +964,7 @@
         private System.Windows.Forms.PictureBox imgPhoto;
         private System.Windows.Forms.Panel pnlInstructions;
         private System.Windows.Forms.Label lblStepName;
-        private System.Windows.Forms.Label lstPhotos;
+        private System.Windows.Forms.Label lblInstructions;
         private System.Windows.Forms.DataGridView tblTags;
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Panel pnlRight;

@@ -59,7 +59,7 @@ namespace HermesDataTagger
                     }
                     else
                     {
-                        return $"Drag-and-drop from the TOP LEFT to the BOTTOM RIGHT of runner {person.BibNumber}";
+                        return "Drag-and-drop from the TOP LEFT to the BOTTOM RIGHT of runner {#}";
                     }
                 default:
                     return "";

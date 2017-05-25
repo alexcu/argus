@@ -80,6 +80,10 @@ namespace HermesDataTagger
                 mnuRunnerStaticNumberValue.Text = $"Selected Runner: {person.BibNumber}";
                 UpdateSelectedRunnerRow();
                 RequestRedrawGraphics();
+                if (Model.CurrentPhoto.TaggingStep == StepType.SelectFaceRegion)
+                {
+                    lblInstructions.Text = StepType.SelectFaceRegion.ToInstructionString().Replace("{#}", person.BibNumber);
+                }
             }
         }
         public void RequestDataBindingsUpdate()
@@ -110,7 +114,7 @@ namespace HermesDataTagger
         {
             AddDataBinding(lblStepName, "Text", Model, "CurrentPhoto.TaggingStepName");
             // Labels
-            AddDataBinding(lstPhotos, "Text", Model, "CurrentPhoto.TaggingStepInstructions");
+            AddDataBinding(lblInstructions, "Text", Model, "CurrentPhoto.TaggingStepInstructions");
             // Buttons
             AddDataBinding(btnPrevImage, "Enabled", Model, "CanGetPrevPhoto");
             AddDataBinding(btnNextImage, "Enabled", Model, "CanGetNextPhoto");
