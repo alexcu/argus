@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using PropertyChanged;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace HermesDataTagger
@@ -22,6 +23,13 @@ namespace HermesDataTagger
         public float SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
         #endregion
 
+
+        #region File IO
+        public void SaveToFile()
+        {
+            File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
+        }
+        #endregion
 
         // Rotation
         public int Rotation { get; set; } = 0;

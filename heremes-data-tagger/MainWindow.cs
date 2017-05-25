@@ -204,7 +204,7 @@ namespace HermesDataTagger
                 BindDataToFilesPanel();
             };
             mnuFileExit.Click += (sender, e) => Close();
-            mnuFileSave.Click += (sender, e) => Model.DumpToJson();
+            mnuFileSave.Click += (sender, e) => Model.CurrentPhoto.SaveToFile();
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
             // View menu

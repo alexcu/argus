@@ -25,6 +25,8 @@ namespace HermesDataTagger
             {
                 // Stop old timner
                 CurrentPhoto.TimerOnPhoto.Stop();
+                // Save the photo
+                CurrentPhoto.SaveToFile();
                 try { _photoIdx = value; } catch { };
                 MainWindow.Singleton.RequestDataBindingsUpdate();
                 // Start new timer
@@ -119,12 +121,6 @@ namespace HermesDataTagger
             }
         }
         #endregion
-
-        public void DumpToJson()
-        {
-            string filename = $"{SrcDirectory}\\DataTagging_{DateTime.Now.ToString("yyyy_dd_M_HH_mm_ss")}.json";
-            File.WriteAllText(filename, JsonConvert.SerializeObject(Photos, Formatting.Indented));
-        }
 
     }
 }
