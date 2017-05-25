@@ -62,16 +62,18 @@ namespace HermesDataTagger
         public int NumberOfPeopleTagged => TaggedRunners.Count;
         private string[] TaggedBibNumbers => TaggedRunners.Select(p => p.BibNumber).ToArray();
         [JsonIgnore]
+        private bool FaceForEveryBib => TaggedRunners.Count(p => p.IsFaceRegionTagged && p.IsBibRegionTagged) == TaggedRunners.Count;
+        [JsonIgnore]
         public bool HasTaggedARunner => TaggedBibNumbers.Length > 0;
         private TaggedPerson _selectedRunner;
         [JsonIgnore]
         public bool IsRunnerSelected => SelectedRunner != null;
         [JsonIgnore]
-        public bool CanOpenRunnerMenu => IsRunnerSelected && SelectedRunner.IsBibRegionTagged;
+        public bool CanOpenRunnerMenu => IsRunnerSelected && IsPhotoNotCrowded;
         [JsonIgnore]
-        public bool CanSelectNextRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.Last();
+        public bool CanSelectNextRunner => HasTaggedARunner && IsRunnerSelected && SelectedRunner != OrderedTaggedRunners.Last();
         [JsonIgnore]
-        public bool CanSelectPrevRunner => HasTaggedARunner && SelectedRunner != OrderedTaggedRunners.First();
+        public bool CanSelectPrevRunner => HasTaggedARunner && IsRunnerSelected && SelectedRunner != OrderedTaggedRunners.First();
         [JsonIgnore]
         public TaggedPerson SelectedRunner
         {

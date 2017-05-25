@@ -86,7 +86,7 @@ namespace HermesDataTagger
         {
             // Manual updates are SelectedIndex and tblTags data source
             tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
-            lstSteps.SelectedIndex = (int)Model.CurrentPhoto.TaggingStep;
+            UpdateStepIndex();
             lstFiles.SelectedIndex = Model.PhotoIdx;
             // Update bindings for all components
             foreach (Binding binding in _dataBindings)
@@ -96,6 +96,10 @@ namespace HermesDataTagger
                 component.DataBindings.Clear();
                 component.DataBindings.Add(binding);
             }
+        }
+        void UpdateStepIndex()
+        {
+            lstSteps.SelectedIndex = (int)Model.CurrentPhoto.TaggingStep;
         }
         #endregion
         #endregion
@@ -164,7 +168,7 @@ namespace HermesDataTagger
             AddDataBinding(mnuPhotoSelectNextRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
             AddDataBinding(mnuPhotoSelectPrevRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
             // Selected runner menu
-            AddDataBinding(mnuSelectedRunner, "Enabled", Model, "CurrentPhoto.IsRunnerSelected");
+            AddDataBinding(mnuSelectedRunner, "Enabled", Model, "CurrentPhoto.CanOpenRunnerMenu");
             mnuSelectedRunner.EnabledChanged += (sender, e) =>
             {
                 // Only bind if no bindings were set
@@ -206,9 +210,9 @@ namespace HermesDataTagger
             // Photo menu
             mnuPhotoSelectNextRunner.Click += (sender, e) => Model.CurrentPhoto.SelectNextRunner();
             mnuPhotoSelectPrevRunner.Click += (sender, e) => Model.CurrentPhoto.SelectPrevRunner();
-            mnuPhotoMarkFaces.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion;
-            mnuPhotoMarkBibs.Click += (sender, e) => Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion;
-            mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
+            mnuPhotoMarkFaces.Click += (sender, e) => { Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion; UpdateStepIndex(); };
+            mnuPhotoMarkBibs.Click += (sender, e) => { Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion; UpdateStepIndex(); };
+            mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.AskIfPhotoCrowded();
             mnuPhotoMarkComplete.Click += (sender, e) => Model.CurrentPhoto.ToggleComplete();
             // Selected runner menu
             mnuRunnerMarkBib.Click += (sender, e) => Model.CurrentPhoto.AskToTagBibNumber(imgPhoto, Model.CurrentPhoto.SelectedRunner);
@@ -277,8 +281,8 @@ namespace HermesDataTagger
         void BindStepPanelEvents()
         {
             lstSteps.SelectedIndexChanged += (sender, e) => Model.CurrentPhoto.TaggingStep = (StepType)lstSteps.SelectedIndex;
-            chbxIsComplete.MouseClick += (sender, e) => Model.CurrentPhoto.ToggleComplete();
-            chbxIsCrowded.MouseClick += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
+            //chbxIsComplete.MouseClick += (sender, e) => Model.CurrentPhoto.ToggleComplete();
+            //chbxIsCrowded.MouseClick += (sender, e) => Model.CurrentPhoto.ToggleCrowdedPhoto();
         }
         #endregion
         #endregion
