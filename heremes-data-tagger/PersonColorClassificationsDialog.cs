@@ -13,10 +13,12 @@ namespace HermesDataTagger
     public partial class PersonColorClassificationsDialog : Form
     {
         public TaggedPerson Person { get; private set; }
-        private bool _isSettingShirtColor = true;
+
+        private bool _isSettingHatColor = true;
+        private bool _isSettingShirtColor = false;
         private bool _isSettingShortsColor = false;
         private bool _isSettingShoeColor = false;
-        private bool _isSettingHatColor = false;
+
         private bool _dragingModeEnabled = false;
 
         public PersonColorClassificationsDialog(TaggedPerson person)
@@ -24,6 +26,15 @@ namespace HermesDataTagger
             InitializeComponent();
             Person = person;
             CropPersonPhoto();
+
+            // If not wearing a hat, disable!
+            if (!Person.IsWearingHat)
+            {
+                btnClearHatColor.Enabled = pnlHatColor.Enabled = rdoSettingHatColor.Enabled = false;
+                rdoSettingShirtColor.Checked = _isSettingShirtColor = true;
+                _isSettingHatColor = false;
+            }
+
             BindDataToControls();
             BindEvents();
             UpdateInstructionsLabel();
@@ -67,7 +78,11 @@ namespace HermesDataTagger
             imgPersonCrop.MouseUp += (sender, e) =>
             {
                 _dragingModeEnabled = false;
-                if (_isSettingShirtColor)
+                if (_isSettingHatColor)
+                {
+                    rdoSettingShirtColor.Checked = true;
+                }
+                else if (_isSettingShirtColor)
                 {
                     rdoSettingShortsColor.Checked = true;
                 }
@@ -76,11 +91,6 @@ namespace HermesDataTagger
                     rdoSettingShoesColor.Checked = true;
                 }
                 else if (_isSettingShoeColor)
-                {
-                    rdoSettingHatColor.Checked = true;
-                    btnSave.Focus();
-                }
-                else
                 {
                     btnSave.Focus();
                 }
@@ -111,7 +121,11 @@ namespace HermesDataTagger
             btnClearShirtColor.Click += (sender, e) => Person.ShirtColor = Color.Empty;
             btnClearShortsColor.Click += (sender, e) => Person.ShortsColor = Color.Empty;
             btnClearShoesColor.Click += (sender, e) => Person.ShoeColor = Color.Empty;
-            btnClearHatColor.Click += (sender, e) => Person.ShoeColor = Color.Empty;
+            btnClearHatColor.Click += (sender, e) =>
+            {
+                Person.HatColor = Color.Empty;
+                Person.IsWearingHat = false;
+            };
         }
 
         void UpdateInstructionsLabel()

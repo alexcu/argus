@@ -25,7 +25,7 @@ namespace HermesDataTagger
             {
                 // Stop old timner
                 CurrentPhoto.TimerOnPhoto.Stop();
-                _photoIdx = value;
+                try { _photoIdx = value; } catch { };
                 MainWindow.Singleton.RequestDataBindingsUpdate();
                 // Start new timer
                 CurrentPhoto.TimerOnPhoto.Start();

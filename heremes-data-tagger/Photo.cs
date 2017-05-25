@@ -291,7 +291,7 @@ namespace HermesDataTagger
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
                     SelectedRunner.TimerFaceDragDrop.Stop();
-                    bool didSetBothClassifications = AskForBaseClassificationsOfPerson(SelectedRunner) && AskForColorClassificationsOfPerson(SelectedRunner);
+                    bool didSetBothClassifications = AskForBothClassificationsOfPerson(SelectedRunner);
                     if (!didSetBothClassifications)
                     {
                         SelectedRunner.Face.ClearPoints();
@@ -477,6 +477,21 @@ namespace HermesDataTagger
         #endregion
 
         #region Classifications
+        public bool AskForBothClassificationsOfPerson(TaggedPerson person)
+        {
+            bool didSetBase;
+            bool didSetColor;
+            do
+            {
+                didSetBase = AskForBaseClassificationsOfPerson(person);
+                if (!didSetBase)
+                {
+                    return false;
+                }
+                didSetColor = AskForColorClassificationsOfPerson(person);
+            } while (!didSetColor);
+            return true;
+        }
         public bool AskForBaseClassificationsOfPerson(TaggedPerson person)
         {
             if (!CanMarkFaces)
