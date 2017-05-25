@@ -31,6 +31,7 @@ namespace HermesDataTagger
                 MainWindow.Singleton.RequestDataBindingsUpdate();
                 // Start new timer
                 CurrentPhoto.TimerOnPhoto.Start();
+                CurrentPhoto.WaitAndAskForPhotoCrowded();
             }
         }
         public Photo CurrentPhoto => Photos[PhotoIdx];

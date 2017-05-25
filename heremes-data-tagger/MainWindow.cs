@@ -23,6 +23,7 @@ namespace HermesDataTagger
             BindDataToControls();
             BindEvents();
             RequestDataBindingsUpdate();
+            Model.CurrentPhoto.WaitAndAskForPhotoCrowded();
         }
 
         void BindDataToControls()

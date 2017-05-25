@@ -5,6 +5,7 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 using PropertyChanged;
 using System.IO;
 using Newtonsoft.Json;
@@ -137,7 +138,7 @@ namespace HermesDataTagger
 
         #region Steps
         // Steps in tagging the photo
-        private StepType _taggingStep = StepType.ImageCrowded;
+        private StepType _taggingStep;
         [JsonIgnore]
         public StepType TaggingStep {
             get => _taggingStep;
@@ -205,6 +206,7 @@ namespace HermesDataTagger
         #region GeneralClassifications
         // General classifications about the photo
         private bool _isPhotoCrowded = false;
+        private bool _askedIfCrowded = false;
         [JsonIgnore]
         public bool IsPhotoNotCrowded => !IsPhotoCrowded;
         public bool IsPhotoCrowded
@@ -247,10 +249,6 @@ namespace HermesDataTagger
             {
                 case StepType.ImageCrowded:
                     AskIfPhotoCrowded();
-                    if (IsPhotoNotCrowded)
-                    {
-                        TaggingStep++;
-                    }
                     break;
                 case StepType.SelectBibRegion:
                     if (e.Clicks == 1 && e.Button == MouseButtons.Left)
@@ -333,8 +331,31 @@ namespace HermesDataTagger
         }
         public void AskIfPhotoCrowded()
         {
+            _askedIfCrowded = true;
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             IsPhotoCrowded = result == DialogResult.Yes;
+            if (IsPhotoNotCrowded)
+            {
+                GoToNextStep();
+            }
+        }
+        public void WaitAndAskForPhotoCrowded()
+        {
+            if (!_askedIfCrowded)
+            {
+
+                System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+                timer.Interval = 1500;
+                timer.Tick += (sender, e) =>
+                {
+                    timer.Stop();
+                    if (TaggingStep == StepType.ImageCrowded && IsPhotoNotCrowded && !_askedIfCrowded)
+                    {
+                        AskIfPhotoCrowded();
+                    }
+                };
+                timer.Start();
+            }
         }
         #endregion
 
