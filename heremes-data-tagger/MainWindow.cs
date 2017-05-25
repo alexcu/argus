@@ -562,13 +562,19 @@ namespace HermesDataTagger
 
         void RenderGraphics(object sender, PaintEventArgs e)
         {
+            Debug.WriteLine("Rendering Graphics...");
+            Graphics graphics = e.Graphics;
+
             // Don't render if crowded image
             if (Model.CurrentPhoto.IsPhotoCrowded)
             {
+                string foreCrowdedText = "== FOREGROUND MARKED AS CROWDED ==";
+                Size szOfForegroundCrowded = graphics.MeasureString(foreCrowdedText, Utils.BigFont).ToSize();
+                Point ptCentre = new Point { X = (imgPhoto.Width - szOfForegroundCrowded.Width) / 2, Y = (imgPhoto.Height - szOfForegroundCrowded.Height) / 2 };
+                graphics.DrawString(foreCrowdedText, Utils.BigFont, Brushes.Lime, ptCentre);
                 return;
             }
-            Debug.WriteLine("Rendering Graphics...");
-            Graphics graphics = e.Graphics;
+
             // For every runner tagged in the photo
             foreach (TaggedPerson person in Model.CurrentPhoto.TaggedRunners)
             {
