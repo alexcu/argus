@@ -248,7 +248,6 @@
             this.MaximumSize = new System.Drawing.Size(800, 1800);
             this.MinimizeBox = false;
             this.Name = "PersonColorClassificationsDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Person Color Identification";
             ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).EndInit();
             this.ResumeLayout(false);

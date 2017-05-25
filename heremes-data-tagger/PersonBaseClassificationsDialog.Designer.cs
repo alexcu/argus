@@ -279,7 +279,6 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(800, 1800);
             this.Name = "PersonBaseClassificationDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Person Classifications";
             this.TopMost = true;
             this.grpLikelihood.ResumeLayout(false);
