@@ -86,7 +86,7 @@ namespace HermesDataTagger
         {
             // Manual updates are SelectedIndex and tblTags data source
             tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
-            UpdateStepIndex();
+            RequestUpdateSelectedStep();
             lstFiles.SelectedIndex = Model.PhotoIdx;
             // Update bindings for all components
             foreach (Binding binding in _dataBindings)
@@ -97,7 +97,7 @@ namespace HermesDataTagger
                 component.DataBindings.Add(binding);
             }
         }
-        void UpdateStepIndex()
+        public void RequestUpdateSelectedStep()
         {
             lstSteps.SelectedIndex = (int)Model.CurrentPhoto.TaggingStep;
         }
@@ -210,8 +210,8 @@ namespace HermesDataTagger
             // Photo menu
             mnuPhotoSelectNextRunner.Click += (sender, e) => Model.CurrentPhoto.SelectNextRunner();
             mnuPhotoSelectPrevRunner.Click += (sender, e) => Model.CurrentPhoto.SelectPrevRunner();
-            mnuPhotoMarkFaces.Click += (sender, e) => { Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion; UpdateStepIndex(); };
-            mnuPhotoMarkBibs.Click += (sender, e) => { Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion; UpdateStepIndex(); };
+            mnuPhotoMarkFaces.Click += (sender, e) => { Model.CurrentPhoto.TaggingStep = StepType.SelectFaceRegion; RequestUpdateSelectedStep(); };
+            mnuPhotoMarkBibs.Click += (sender, e) => { Model.CurrentPhoto.TaggingStep = StepType.SelectBibRegion; RequestUpdateSelectedStep(); };
             mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.AskIfPhotoCrowded();
             mnuPhotoMarkComplete.Click += (sender, e) => Model.CurrentPhoto.ToggleComplete();
             // Selected runner menu
@@ -226,8 +226,9 @@ namespace HermesDataTagger
             mnuRunnerGenderMale.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Male; RequestRedrawGraphics(); };
             mnuRunnerGenderFemale.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Female; RequestRedrawGraphics(); };
             mnuRunnerGenderUnknown.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Unknown; RequestRedrawGraphics(); };
-            mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
-            mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerOpenColor.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerDelete.Click += (sender, e) => Model.CurrentPhoto.DeleteTaggedPerson(Model.CurrentPhoto.SelectedRunner);
         }
         void RotateImage(bool incrementRotation = false)
         {

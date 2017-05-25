@@ -58,7 +58,7 @@
             this.mnuRunnerStaticNumberValue = new HermesDataTagger.BindableToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuRunnerMarkBib = new HermesDataTagger.BindableToolStripMenuItem();
-            this.mnuRunnerOpenClassificationsWizard = new HermesDataTagger.BindableToolStripMenuItem();
+            this.mnuRunnerOpenColor = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuRunnerOpenColorClassificationsWizard = new System.Windows.Forms.ToolStripSeparator();
             this.mnuRunnerGender = new HermesDataTagger.BindableToolStripMenuItem();
             this.mnuRunnerGenderMale = new HermesDataTagger.BindableToolStripMenuItem();
@@ -107,6 +107,9 @@
             this.lstFiles = new System.Windows.Forms.ListBox();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuViewRotateImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRunnerOpenClassificationsWizard = new HermesDataTagger.BindableToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuRunnerDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -321,6 +324,7 @@
             this.toolStripSeparator8,
             this.mnuRunnerMarkBib,
             this.mnuRunnerOpenClassificationsWizard,
+            this.mnuRunnerOpenColor,
             this.mnuRunnerOpenColorClassificationsWizard,
             this.mnuRunnerGender,
             this.toolStripSeparator3,
@@ -330,7 +334,9 @@
             this.mnuRunnerLikelihoodPurchase,
             this.toolStripSeparator5,
             this.mnuRunnerMarkHat,
-            this.mnuRunnerMarkGlasses});
+            this.mnuRunnerMarkGlasses,
+            this.toolStripSeparator9,
+            this.mnuRunnerDelete});
             this.mnuSelectedRunner.Name = "mnuSelectedRunner";
             this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 36);
             this.mnuSelectedRunner.Text = "Selected &Runner";
@@ -354,12 +360,12 @@
             this.mnuRunnerMarkBib.Size = new System.Drawing.Size(516, 38);
             this.mnuRunnerMarkBib.Text = "Set Bib &Number";
             // 
-            // mnuRunnerOpenClassificationsWizard
+            // mnuRunnerOpenColor
             // 
-            this.mnuRunnerOpenClassificationsWizard.Name = "mnuRunnerOpenClassificationsWizard";
-            this.mnuRunnerOpenClassificationsWizard.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.mnuRunnerOpenClassificationsWizard.Size = new System.Drawing.Size(516, 38);
-            this.mnuRunnerOpenClassificationsWizard.Text = "Open &Classifications Wizard";
+            this.mnuRunnerOpenColor.Name = "mnuRunnerOpenColor";
+            this.mnuRunnerOpenColor.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.mnuRunnerOpenColor.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerOpenColor.Text = "Set Runner C&olors";
             // 
             // mnuRunnerOpenColorClassificationsWizard
             // 
@@ -857,6 +863,26 @@
             this.mnuViewRotateImage.Size = new System.Drawing.Size(380, 38);
             this.mnuViewRotateImage.Text = "Rotate Image 90°";
             // 
+            // mnuRunnerOpenClassificationsWizard
+            // 
+            this.mnuRunnerOpenClassificationsWizard.Name = "mnuRunnerOpenClassificationsWizard";
+            this.mnuRunnerOpenClassificationsWizard.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.mnuRunnerOpenClassificationsWizard.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerOpenClassificationsWizard.Text = "Set Runner &Classifications";
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(513, 6);
+            // 
+            // mnuRunnerDelete
+            // 
+            this.mnuRunnerDelete.Name = "mnuRunnerDelete";
+            this.mnuRunnerDelete.ShortcutKeyDisplayString = "Delete";
+            this.mnuRunnerDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.mnuRunnerDelete.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerDelete.Text = "&Delete Runner";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -929,7 +955,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private BindableToolStripMenuItem mnuRunnerMarkHat;
         private BindableToolStripMenuItem mnuRunnerMarkGlasses;
-        private BindableToolStripMenuItem mnuRunnerOpenClassificationsWizard;
+        private BindableToolStripMenuItem mnuRunnerOpenColor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private BindableToolStripMenuItem mnuPhotoSelectNextRunner;
         private BindableToolStripMenuItem mnuRunnerStaticNumberValue;
@@ -973,6 +999,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem mnuViewRotateImage;
+        private BindableToolStripMenuItem mnuRunnerOpenClassificationsWizard;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem mnuRunnerDelete;
     }
 }
 

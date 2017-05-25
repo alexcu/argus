@@ -162,6 +162,7 @@ namespace HermesDataTagger
                         }
                         break;
                 }
+                MainWindow.Singleton.RequestUpdateSelectedStep();
             }
         }
         [JsonIgnore]
@@ -216,6 +217,7 @@ namespace HermesDataTagger
                 {
                     SelectedRunner = TaggedRunners.First();
                 }
+                TaggingStep = StepType.SelectBibRegion;
                 IsPhotoCompletelyTagged = false;
             }
         }
