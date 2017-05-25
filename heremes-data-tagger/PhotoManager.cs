@@ -17,7 +17,6 @@ namespace HermesDataTagger
         public List<string> PhotosNamesForFiles => Photos.Select(p => (p.IsPhotoCompletelyTagged ? "[✔] " : "") + p.Identifier).ToList(); 
         public List<Photo> Photos { get; private set; }
 
-        public event EventHandler CurrentPhotoChanged;
         private int _photoIdx;
         public int PhotoIdx
         {
@@ -27,14 +26,7 @@ namespace HermesDataTagger
                 // Stop old timner
                 CurrentPhoto.TimerOnPhoto.Stop();
                 _photoIdx = value;
-                try
-                {
-                    CurrentPhotoChanged?.Invoke(this, EventArgs.Empty);
-                }
-                catch
-                {
-
-                }
+                MainWindow.Singleton.RequestDataBindingsUpdate();
                 // Start new timer
                 CurrentPhoto.TimerOnPhoto.Start();
             }

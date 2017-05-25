@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using PropertyChanged;
 using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace HermesDataTagger
 {
@@ -33,14 +32,12 @@ namespace HermesDataTagger
         public string Identifier { get; }
 
         private bool _isComplete;
-        public event EventHandler PhotoCompleteStatusChanged;
         public bool IsPhotoCompletelyTagged
         {
             get => _isComplete;
             set
             {
                 _isComplete = value;
-                PhotoCompleteStatusChanged?.Invoke(this, EventArgs.Empty);
                 MainWindow.Singleton.RequestPopulateFilesList();
             }
         }
@@ -52,7 +49,6 @@ namespace HermesDataTagger
         }
 
         #region TaggedItems
-        public event EventHandler SelectedRunnerUpdated;
         public BindingList<TaggedPerson> TaggedRunners = new BindingList<TaggedPerson>();
         [JsonIgnore]
         public List<TaggedPerson> OrderedTaggedRunners => TaggedRunners.OrderBy(p => p.LeftmostClickX).ToList();
@@ -422,6 +418,11 @@ namespace HermesDataTagger
             {
                 // Most likely want to undo the bib number
                 AskToTagBibNumber(MainWindow.Singleton.MainPictureBox, person);
+            }
+            else if (person.Bib.ClickPoints.Count == 1)
+            {
+                DeleteTaggedPerson(person);
+                MainWindow.Singleton.RequestRedrawGraphics();
             }
             else if (person.Bib.ClickPoints.Count > 0)
             {

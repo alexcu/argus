@@ -13,6 +13,7 @@ namespace HermesDataTagger
         public static MainWindow Singleton;
         public PictureBox MainPictureBox => imgPhoto;
         private PhotoManager Model = PhotoManager.SharedManager;
+        private List<Binding> _dataBindings = new List<Binding>();
 
         public MainWindow()
         {
@@ -21,9 +22,7 @@ namespace HermesDataTagger
             Model.LoadFiles();
             BindDataToControls();
             BindEvents();
-            Model.PhotoIdx = 0;
-            Model.PhotoIdx = 1;
-            Model.PhotoIdx = 0;
+            RequestDataBindingsUpdate();
         }
 
         void BindDataToControls()
@@ -51,13 +50,7 @@ namespace HermesDataTagger
         {
             Binding dataBinding = new Binding(propertyName, dataSource, dataMember, false, DataSourceUpdateMode.OnPropertyChanged);
             component.DataBindings.Add(dataBinding);
-            Model.CurrentPhotoChanged += (sender, e) =>
-            {
-                //MessageBox.Show(Model.CurrentPhoto.Identifier);
-                component.DataBindings.Remove(dataBinding);
-                dataBinding = new Binding(propertyName, dataSource, dataMember);
-                component.DataBindings.Add(dataBinding);
-            };
+            _dataBindings.Add(dataBinding);
         }
 
         #region Form
@@ -66,7 +59,6 @@ namespace HermesDataTagger
         {
             MouseWheel += SelectedRunnerChangedByMouse;
             Model.CurrentPhoto.TaggedRunners.ListChanged += ModelListChanged;
-            //Model.CurrentPhoto.SelectedRunnerUpdated += (sender, e) => RequestUpdateSelectedRunner();
         }
 
         void SelectedRunnerChangedByMouse(object sender, MouseEventArgs e)
@@ -86,7 +78,23 @@ namespace HermesDataTagger
             if (person != null)
             {
                 mnuRunnerStaticNumberValue.Text = $"Selected Runner: {person.BibNumber}";
+                UpdateSelectedRunnerRow();
                 RequestRedrawGraphics();
+            }
+        }
+        public void RequestDataBindingsUpdate()
+        {
+            // Manual updates are SelectedIndex and tblTags data source
+            tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
+            lstSteps.SelectedIndex = (int)Model.CurrentPhoto.TaggingStep;
+            lstFiles.SelectedIndex = Model.PhotoIdx;
+            // Update bindings for all components
+            foreach (Binding binding in _dataBindings)
+            {
+                // Strip out the old bindings and rebind to new model!
+                IBindableComponent component = binding.BindableComponent;
+                component.DataBindings.Clear();
+                component.DataBindings.Add(binding);
             }
         }
         #endregion
@@ -118,8 +126,6 @@ namespace HermesDataTagger
         #region Bind Data
         void BindDataToFilesPanel()
         {
-            // Selected index of steps
-            AddDataBinding(lstFiles, "SelectedIndex", Model, "PhotoIdx");
             lstFiles.DataSource = Model.PhotosNamesForFiles;
         }
         public void RequestPopulateFilesList()
@@ -249,8 +255,6 @@ namespace HermesDataTagger
             // Disable next button & steps if crowded
             AddDataBinding(lstSteps, "Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded");
             AddDataBinding(grpSteps, "Enabled", Model, "CurrentPhoto.IsPhotoNotCompletelyTagged");
-            // Selected index of steps
-            AddDataBinding(lstSteps, "SelectedIndex", Model, "CurrentPhoto.TaggingStep");
 
             void PopulateStepList()
             {
@@ -288,7 +292,6 @@ namespace HermesDataTagger
             // Set up table for bib # identified
             tblTags.AutoGenerateColumns = false;
             // Update the new source!
-            Model.CurrentPhotoChanged += (sender, e) => tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
             tblcolBibNumber.DataPropertyName = "BibNumber";
             tblcolFaceVisible.DataPropertyName = "IsFaceVisible";
             tblcolBlurry.DataPropertyName = "IsRunnerBlurred";
@@ -317,8 +320,6 @@ namespace HermesDataTagger
             tblTags.MouseLeave += (sender, e) => lblTooltip.Visible = false;
             // Pointer cursor
             tblTags.CellMouseMove += SetCursorForCell;
-            // Update selected runner
-            Model.CurrentPhoto.SelectedRunnerUpdated += UpdateSelectedRunnerRow;
 
             // Bind the background color
             tblTags.CellFormatting += BackgroundForSelectedColors;
@@ -405,7 +406,7 @@ namespace HermesDataTagger
             }
         }
 
-        void UpdateSelectedRunnerRow(object sender, EventArgs e)
+        void UpdateSelectedRunnerRow()
         {
             TaggedPerson runner = Model.CurrentPhoto.SelectedRunner;
             int rowIdx = Model.CurrentPhoto.TaggedRunners.IndexOf(runner);
@@ -480,6 +481,17 @@ namespace HermesDataTagger
 
             // Paint event
             imgPhoto.Paint += RenderGraphics;
+
+            // Auto-rotate image
+            imgPhoto.LoadCompleted += AutoRotateImage;
+        }
+
+        private void AutoRotateImage(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Model.CurrentPhoto.Rotation; i++)
+            {
+                RotateImage();
+            }
         }
 
         void MouseDragStop(object sender, MouseEventArgs e)
