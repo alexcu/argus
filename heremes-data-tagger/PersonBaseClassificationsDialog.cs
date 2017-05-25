@@ -28,7 +28,7 @@ namespace HermesDataTagger
         {
             Image srcImg = MainWindow.Singleton.MainPictureBox.Image;
             // Crop image to bib
-            Bitmap bmp = new Bitmap(srcImg);
+            Bitmap bmp = (Bitmap)srcImg;
             // Bounding area
             int left = Person.LeftmostPixelX - 100;
             int right = Person.RightmostPixelX + 100;
@@ -40,7 +40,6 @@ namespace HermesDataTagger
             Rectangle crop = new Rectangle(left, 0, width, height);
             // Clone cropped image
             Bitmap croppedImage = bmp.Clone(crop, bmp.PixelFormat);
-            bmp.Dispose();
             // Present
             imgPersonCrop.Image = croppedImage;
         }

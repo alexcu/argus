@@ -25,10 +25,10 @@ namespace HermesDataTagger
 
         void CropBibPhoto()
         {
-            Image srcImage = MainWindow.Singleton.MainPictureBox.Image;
             TaggedPerson.BibSheet bibSheet = Person.Bib;
+            Image srcImg = MainWindow.Singleton.MainPictureBox.Image;
             // Crop image to bib
-            Bitmap bmp = new Bitmap(srcImage);
+            Bitmap bmp = (Bitmap)srcImg;
             // Bounding area
             int startX = bibSheet.PixelPoints.Min(pt => pt.X) - 10;
             int startY = bibSheet.PixelPoints.Min(pt => pt.Y) - 10;
@@ -37,14 +37,13 @@ namespace HermesDataTagger
             // Ensure we don't overcompensate
             startX = startX < 0 ? 0 : startX;
             startY = startY < 0 ? 0 : startY;
-            endX = endX > srcImage.Width ? srcImage.Width : endX;
-            endY = endY > srcImage.Height ? srcImage.Height : endY;
+            endX = endX > srcImg.Width ? srcImg.Width : endX;
+            endY = endY > srcImg.Height ? srcImg.Height : endY;
             int width = endX - startX;
             int height = endY - startY;
             Rectangle crop = new Rectangle(startX, startY, width, height);
             // Clone cropped image
             Bitmap croppedImage = bmp.Clone(crop, bmp.PixelFormat);
-            bmp.Dispose();
             // Present
             imgBibCrop.Image = croppedImage;
         }
