@@ -47,26 +47,7 @@ namespace HermesDataTagger
             if (CanGetNextPhoto)
             {
                 // Ask if finished if not marked as complete
-                if (CurrentPhoto.IsPhotoNotCompletelyTagged)
-                {
-                    DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.No)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        CurrentPhoto.ToggleComplete();
-                        if (CurrentPhoto.IsPhotoCompletelyTagged)
-                        {
-                            PhotoIdx += 1;
-                        }
-                    }
-                }
-                else
-                {
-                    PhotoIdx += 1;
-                }
+                ChangePhotoIndexBy(+1);
             }
             Debug.WriteLine($"File index is {PhotoIdx} and current file is {CurrentPhoto}");
         }
@@ -74,9 +55,32 @@ namespace HermesDataTagger
         {
             if (CanGetPrevPhoto)
             {
-                PhotoIdx -= 1;
+                ChangePhotoIndexBy(-1);
             }
             Debug.WriteLine($"File index is {PhotoIdx} and current file is {CurrentPhoto}");
+        }
+        void ChangePhotoIndexBy(int value)
+        {
+            if (CurrentPhoto.IsPhotoNotCompletelyTagged)
+            {
+                DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+                else
+                {
+                    CurrentPhoto.ToggleComplete();
+                    if (CurrentPhoto.IsPhotoCompletelyTagged)
+                    {
+                        PhotoIdx += value;
+                    }
+                }
+            }
+            else
+            {
+                PhotoIdx += value;
+            }
         }
         #endregion
 
