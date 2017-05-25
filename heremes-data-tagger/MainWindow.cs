@@ -196,6 +196,7 @@ namespace HermesDataTagger
             // View menu
             mnuViewNextPhoto.Click += (sender, e) => Model.GetNextPhoto();
             mnuViewPreviousPhoto.Click += (sender, e) => Model.GetPrevPhoto();
+            mnuViewRotateImage.Click += (sender, e) => RotateImage(true);
             // Photo menu
             mnuPhotoSelectNextRunner.Click += (sender, e) => Model.CurrentPhoto.SelectNextRunner();
             mnuPhotoSelectPrevRunner.Click += (sender, e) => Model.CurrentPhoto.SelectPrevRunner();
@@ -217,6 +218,23 @@ namespace HermesDataTagger
             mnuRunnerGenderUnknown.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Unknown; RequestRedrawGraphics(); };
             mnuRunnerOpenClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+        }
+        void RotateImage(bool incrementRotation = false)
+        {
+            if (imgPhoto.Image == null)
+            {
+                return;
+            }
+            imgPhoto.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            if (incrementRotation)
+            {
+                if (++Model.CurrentPhoto.Rotation == 4)
+                {
+                    Model.CurrentPhoto.Rotation = 0;
+                }
+            }
+
+            RequestRedrawGraphics();
         }
         #endregion
         #endregion

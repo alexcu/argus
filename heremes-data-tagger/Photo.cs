@@ -24,6 +24,9 @@ namespace HermesDataTagger
         #endregion
 
 
+        // Rotation
+        public int Rotation { get; set; } = 0;
+
         // Basic identifiers
         [JsonIgnore]
         public string Filename { get; }
