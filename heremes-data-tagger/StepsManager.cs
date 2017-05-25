@@ -48,7 +48,7 @@ namespace HermesDataTagger
             switch (me)
             {
                 case StepType.ImageCrowded:
-                    return "Does this image have more than 5 people? Use F1 to toggle";
+                    return "Would you buy this image if you were in the foreground, or is it too crowded?";
                 case StepType.SelectBibRegion:
                     return "Left click FOUR times on the image to mark up a new bib region";
                 case StepType.SelectFaceRegion:
