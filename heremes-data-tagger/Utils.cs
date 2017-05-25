@@ -21,7 +21,7 @@ namespace HermesDataTagger
         public static Pen FacePen = new Pen(Color.Cyan, 4);
         public static Brush FaceBrush = Brushes.Cyan;
         public static Pen RedPen = new Pen(Color.Magenta, 2);
-        public static Pen GuidelinePen = new Pen(Color.White, 2);
+        public static Pen GuidelinePen = new Pen(Color.White, 3);
 
         public static bool AtCapacity<T>(this List<T> me)
         {

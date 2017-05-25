@@ -609,6 +609,12 @@ namespace HermesDataTagger
                     graphics.FillRectangle(Brushes.White, infoBox);
                     graphics.DrawString(extraInfo, Utils.StdFont, Brushes.Black, person.RightmostClickX + 2, 2);
 
+                    // Draw a big arrow on top of their head
+                    string downArrowText = "⬇";
+                    Size szOfArrowText = graphics.MeasureString(downArrowText, Utils.BigFont).ToSize();
+                    int widthOfGuideline = person.RightmostClickX - person.LeftmostClickX;
+                    Point ptCentre = new Point { X = person.LeftmostClickX + ((widthOfGuideline - szOfArrowText.Width) / 2), Y = 10 };
+                    graphics.DrawString(downArrowText, Utils.BigFont, Brushes.White, ptCentre);
                 }
 
                 // Markup each bib region (granted two lines)
