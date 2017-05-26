@@ -88,7 +88,10 @@ namespace Ponos
                 set
                 {
                     _bibNumber = value;
-                    MainWindow.Singleton.RequestUpdateSelectedRunner();
+                    if (!Photo.LoadingJson)
+                    {
+                        MainWindow.Singleton.RequestUpdateSelectedRunner();
+                    }
                 }
             }
             public bool IsNullBibNumber => BibNumber == null;
@@ -96,9 +99,6 @@ namespace Ponos
         public enum LikelihoodOfPurchaseType { No = -1, Maybe = 0, Yes = 1 }
         public enum GenderType { Male, Female, Unknown }
         #endregion
-
-        // Source photo
-        private Photo SourcePhoto { get; }
 
         // Classifications
         public bool IsRunnerBlurred { get; set; }
@@ -175,10 +175,5 @@ namespace Ponos
         public string ShortsColorName => ShortsColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShortsColor).Name;
         public string ShoeColorName => ShoeColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShoeColor).Name;
         public string HatColorName => HatColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(HatColor).Name;
-
-        public TaggedPerson(Photo srcPhoto)
-        {
-            SourcePhoto = srcPhoto;
-        }
     }
 }

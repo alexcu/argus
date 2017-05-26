@@ -23,6 +23,9 @@ namespace Ponos
             BindDataToControls();
             BindEvents();
             RequestDataBindingsUpdate();
+            RequestRedrawGraphics();
+            RequestUpdateSelectedRunner();
+            RequestUpdateSelectedStep();
             Model.CurrentPhoto.TimerOnPhoto.Start();
             Model.CurrentPhoto.WaitAndAskForPhotoCrowded();
         }
@@ -94,9 +97,11 @@ namespace Ponos
             tblTags.DataSource = Model.CurrentPhoto.TaggedRunners;
             RequestUpdateSelectedStep();
             lstFiles.SelectedIndex = Model.PhotoIdx;
-            // Update bindings for all components
-            foreach (Binding binding in _dataBindings)
+            // Update bindings for all components 
+            // (we cannot use foreach as we change the number)
+            for (int i = 0; i < _dataBindings.Count; i++)
             {
+                Binding binding = _dataBindings[i];
                 try
                 {
                     // Strip out the old bindings and rebind to new model!
@@ -106,9 +111,7 @@ namespace Ponos
                 }
                 catch
                 {
-
                 }
-
             }
         }
         public void RequestUpdateSelectedStep()
@@ -252,6 +255,10 @@ namespace Ponos
                     Model.CurrentPhoto.SaveToFile();
                     Close();
                 }
+            }
+            else
+            {
+                Close();
             }
         }
 

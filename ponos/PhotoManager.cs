@@ -84,14 +84,20 @@ namespace Ponos
             bool openedDialog = diagResult == DialogResult.OK && !String.IsNullOrWhiteSpace(SrcDirectory);
             if (openedDialog)
             {
-                Photos = 
-                    Directory.GetFiles(SrcDirectory)
+                List<string> directoryContents = Directory.GetFiles(SrcDirectory).ToList();
+                Photos =
+                    directoryContents
                     .Where((file) =>
                     {
                         string ext = Path.GetExtension(file).ToLower();
                         return ext == ".jpg" || ext == ".jpeg" || ext == ".png";
                     })
-                    .Select(file => new Photo(file))
+                    .Select(file =>
+                    {
+                        string jsonName = $"{file}.json";
+                        bool fileHasJson = directoryContents.Contains(jsonName);
+                        return fileHasJson ? Photo.LoadFromFile(jsonName) : new Photo(file);
+                    })
                     .ToList();
                 PhotoIdx = 0;
             }

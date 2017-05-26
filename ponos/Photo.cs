@@ -30,7 +30,16 @@ namespace Ponos
         public void SaveToFile()
         {
             DateSaved = DateTime.Now;
-            File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
+            File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented, PointJsonConverter.Singleton));
+        }
+        public static bool LoadingJson { get; private set; }
+        public static Photo LoadFromFile(string filename)
+        {
+            LoadingJson = true;
+            Photo photo = JsonConvert.DeserializeObject<Photo>(File.ReadAllText(filename));
+            photo.Filename = filename.Replace(".json", "");
+            LoadingJson = false;
+            return photo;
         }
         #endregion
 
@@ -39,7 +48,7 @@ namespace Ponos
 
         // Basic identifiers
         [JsonIgnore]
-        public string Filename { get; }
+        public string Filename { get; private set; }
         public string Identifier { get; }
 
         private bool _isComplete;
@@ -48,6 +57,11 @@ namespace Ponos
             get => _isComplete;
             set
             {
+                if (LoadingJson)
+                {
+                    _isComplete = value;
+                    return;
+                }
                 if (value && !HasAFaceMarkedForEveryBib && !IsPhotoCrowded)
                 {
                     MessageBox.Show("Cannot be marked as complete as not all marked bibs have an associated face!", "Marking as Complete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -57,7 +71,6 @@ namespace Ponos
                 MainWindow.Singleton.RequestPopulateFilesList();
             }
         }
-        [JsonIgnore]
         public bool IsPhotoNotCompletelyTagged => !IsPhotoCompletelyTagged;
         public void ToggleComplete()
         {
@@ -89,7 +102,8 @@ namespace Ponos
         public TaggedPerson SelectedRunner
         {
             get => _selectedRunner;
-            set {
+            set
+            {
                 try
                 {
                     _selectedRunner = value;
@@ -141,10 +155,16 @@ namespace Ponos
         #region Steps
         // Steps in tagging the photo
         private StepType _taggingStep;
-        [JsonIgnore]
-        public StepType TaggingStep {
+        public StepType TaggingStep
+        {
             get => _taggingStep;
-            set {
+            set
+            {
+                if (LoadingJson)
+                {
+                    _taggingStep = value;
+                    return;
+                }
                 switch (value)
                 {
                     case StepType.ImageCrowded:
@@ -208,7 +228,7 @@ namespace Ponos
         #region GeneralClassifications
         // General classifications about the photo
         private bool _isPhotoCrowded = false;
-        private bool _askedIfCrowded = false;
+        public bool AskedIfPhotoCrowded { get; private set; } = false;
         [JsonIgnore]
         public bool IsPhotoNotCrowded => !IsPhotoCrowded;
         public bool IsPhotoCrowded
@@ -216,6 +236,11 @@ namespace Ponos
             get => _isPhotoCrowded;
             set
             {
+                if (LoadingJson)
+                {
+                    _isPhotoCrowded = value;
+                    return;
+                }
                 _isPhotoCrowded = value;
                 TaggingStep = StepType.ImageCrowded;
                 if (_isPhotoCrowded)
@@ -239,7 +264,7 @@ namespace Ponos
         public Photo(string filename)
         {
             Filename = filename;
-            Identifier = System.IO.Path.GetFileNameWithoutExtension(filename);
+            Identifier = Path.GetFileNameWithoutExtension(filename);
             TaggingStep = StepType.ImageCrowded;
         }
 
@@ -333,7 +358,7 @@ namespace Ponos
         }
         public void AskIfPhotoCrowded()
         {
-            _askedIfCrowded = true;
+            AskedIfPhotoCrowded = true;
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             IsPhotoCrowded = result == DialogResult.Yes;
             if (IsPhotoNotCrowded)
@@ -343,7 +368,7 @@ namespace Ponos
         }
         public void WaitAndAskForPhotoCrowded()
         {
-            if (!_askedIfCrowded)
+            if (!AskedIfPhotoCrowded)
             {
 
                 System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
@@ -351,7 +376,7 @@ namespace Ponos
                 timer.Tick += (sender, e) =>
                 {
                     timer.Stop();
-                    if (TaggingStep == StepType.ImageCrowded && IsPhotoNotCrowded && !_askedIfCrowded)
+                    if (TaggingStep == StepType.ImageCrowded && IsPhotoNotCrowded && !AskedIfPhotoCrowded)
                     {
                         AskIfPhotoCrowded();
                     }
@@ -375,7 +400,7 @@ namespace Ponos
             // First person tagged or new person (last person has 4 clicks)?
             if (person == null || person.Bib.ClickPoints.Count == 4)
             {
-                person = new TaggedPerson(this);
+                person = new TaggedPerson();
                 person.TimerBibRegionClicks.Start();
                 TaggedRunners.Insert(0, person);
                 Debug.WriteLine($"Adding person #{TaggedRunners.Count} to ({Identifier})");
@@ -570,7 +595,7 @@ namespace Ponos
                 TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             }
             person.TimerColorClassificationDialog.Stop();
-            return didSet;            
+            return didSet;
         }
         public bool AskIfPhotoTaggedAsComplete()
         {
