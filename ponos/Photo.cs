@@ -30,7 +30,7 @@ namespace Ponos
         public void SaveToFile()
         {
             DateSaved = DateTime.Now;
-            File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented, PointJsonConverter.Singleton));
+            File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
         public static bool LoadingJson { get; private set; }
         public static Photo LoadFromFile(string filename)
