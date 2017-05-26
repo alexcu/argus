@@ -66,24 +66,12 @@ namespace Ponos
         {
             if (CurrentPhoto.IsPhotoNotCompletelyTagged)
             {
-                DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
+                if (!CurrentPhoto.AskIfPhotoTaggedAsComplete())
                 {
                     return;
                 }
-                else
-                {
-                    CurrentPhoto.ToggleComplete();
-                    if (CurrentPhoto.IsPhotoCompletelyTagged)
-                    {
-                        PhotoIdx += value;
-                    }
-                }
             }
-            else
-            {
-                PhotoIdx += value;
-            }
+            PhotoIdx += value;
         }
         #endregion
 

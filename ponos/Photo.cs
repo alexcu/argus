@@ -26,8 +26,10 @@ namespace Ponos
 
 
         #region File IO
+        public DateTime DateSaved { get; private set; }
         public void SaveToFile()
         {
+            DateSaved = DateTime.Now;
             File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
         #endregion
@@ -569,6 +571,20 @@ namespace Ponos
             }
             person.TimerColorClassificationDialog.Stop();
             return didSet;            
+        }
+        public bool AskIfPhotoTaggedAsComplete()
+        {
+            DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
+            {
+                IsPhotoCompletelyTagged = false;
+                return false;
+            }
+            else
+            {
+                IsPhotoCompletelyTagged = true;
+                return true;
+            }
         }
         #endregion Classifications
     }

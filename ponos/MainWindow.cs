@@ -23,6 +23,7 @@ namespace Ponos
             BindDataToControls();
             BindEvents();
             RequestDataBindingsUpdate();
+            Model.CurrentPhoto.TimerOnPhoto.Start();
             Model.CurrentPhoto.WaitAndAskForPhotoCrowded();
         }
 
@@ -96,10 +97,18 @@ namespace Ponos
             // Update bindings for all components
             foreach (Binding binding in _dataBindings)
             {
-                // Strip out the old bindings and rebind to new model!
-                IBindableComponent component = binding.BindableComponent;
-                component.DataBindings.Clear();
-                component.DataBindings.Add(binding);
+                try
+                {
+                    // Strip out the old bindings and rebind to new model!
+                    IBindableComponent component = binding.BindableComponent;
+                    component.DataBindings.Clear();
+                    component.DataBindings.Add(binding);
+                }
+                catch
+                {
+
+                }
+
             }
         }
         public void RequestUpdateSelectedStep()
@@ -198,13 +207,7 @@ namespace Ponos
         #region Events
         void BindMainMenuEvents()
         {
-            // File menu
-            mnuFileLoadImages.Click += (sender, e) =>
-            {
-                Model.AttemptLoadFiles();
-                BindDataToFilesPanel();
-            };
-            mnuFileExit.Click += (sender, e) => Close();
+            mnuFileExit.Click += AttemptExit;
             mnuFileSave.Click += (sender, e) => Model.CurrentPhoto.SaveToFile();
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
@@ -235,6 +238,23 @@ namespace Ponos
             mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerDelete.Click += (sender, e) => Model.CurrentPhoto.DeleteTaggedPerson(Model.CurrentPhoto.SelectedRunner);
         }
+
+        private void AttemptExit(object sender, EventArgs e)
+        {
+            if (Model.CurrentPhoto.IsPhotoNotCompletelyTagged)
+            {
+                if (!Model.CurrentPhoto.AskIfPhotoTaggedAsComplete())
+                {
+                    return;
+                }
+                else
+                {
+                    Model.CurrentPhoto.SaveToFile();
+                    Close();
+                }
+            }
+        }
+
         void RotateImage(bool incrementRotation = false)
         {
             if (imgPhoto.Image == null)
