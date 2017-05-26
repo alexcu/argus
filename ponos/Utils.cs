@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace HermesDataTagger
+namespace Ponos
 {
 	public static class Utils
 	{

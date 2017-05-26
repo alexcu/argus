@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace HermesDataTagger
+namespace Ponos
 {
     public partial class MainWindow : Form
     {

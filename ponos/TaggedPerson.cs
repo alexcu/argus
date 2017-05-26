@@ -8,7 +8,7 @@ using PropertyChanged;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace HermesDataTagger
+namespace Ponos
 {
     [ImplementPropertyChanged]
     public class TaggedPerson

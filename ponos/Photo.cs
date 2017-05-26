@@ -10,7 +10,7 @@ using PropertyChanged;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace HermesDataTagger
+namespace Ponos
 {
     [ImplementPropertyChanged]
     public class Photo

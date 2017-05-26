@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HermesDataTagger
+namespace Ponos
 {
     public partial class PersonColorClassificationsDialog : Form
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
-namespace HermesDataTagger
+namespace Ponos
 {
     public enum StepType
     {

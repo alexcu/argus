@@ -1,4 +1,4 @@
-﻿namespace HermesDataTagger
+﻿namespace Ponos
 {
     partial class PersonColorClassificationsDialog
     {

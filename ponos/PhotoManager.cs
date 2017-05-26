@@ -7,7 +7,7 @@ using PropertyChanged;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace HermesDataTagger
+namespace Ponos
 {
     [ImplementPropertyChanged]
     public class PhotoManager
