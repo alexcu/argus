@@ -26,7 +26,7 @@ namespace Ponos
 
 
         #region File IO
-        public DateTime DateSaved { get; private set; }
+        public DateTime DateSaved { get; set; }
         public void SaveToFile()
         {
             DateSaved = DateTime.Now;
@@ -36,7 +36,8 @@ namespace Ponos
         public static Photo LoadFromFile(string filename)
         {
             LoadingJson = true;
-            Photo photo = JsonConvert.DeserializeObject<Photo>(File.ReadAllText(filename));
+            string jsonStr = File.ReadAllText(filename);
+            Photo photo = (Photo)JsonConvert.DeserializeObject(File.ReadAllText(filename), typeof(Photo));
             photo.Filename = filename.Replace(".json", "");
             LoadingJson = false;
             return photo;
@@ -49,7 +50,7 @@ namespace Ponos
         // Basic identifiers
         [JsonIgnore]
         public string Filename { get; private set; }
-        public string Identifier { get; }
+        public string Identifier { get; set;  }
 
         private bool _isComplete;
         public bool IsPhotoCompletelyTagged
@@ -71,6 +72,7 @@ namespace Ponos
                 MainWindow.Singleton.RequestPopulateFilesList();
             }
         }
+        [JsonIgnore]
         public bool IsPhotoNotCompletelyTagged => !IsPhotoCompletelyTagged;
         public void ToggleComplete()
         {
@@ -155,6 +157,7 @@ namespace Ponos
         #region Steps
         // Steps in tagging the photo
         private StepType _taggingStep;
+        [JsonIgnore]
         public StepType TaggingStep
         {
             get => _taggingStep;
@@ -228,7 +231,7 @@ namespace Ponos
         #region GeneralClassifications
         // General classifications about the photo
         private bool _isPhotoCrowded = false;
-        public bool AskedIfPhotoCrowded { get; private set; } = false;
+        public bool AskedIfPhotoCrowded { get; set; } = false;
         [JsonIgnore]
         public bool IsPhotoNotCrowded => !IsPhotoCrowded;
         public bool IsPhotoCrowded
