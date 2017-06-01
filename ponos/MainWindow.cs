@@ -211,7 +211,11 @@ namespace Ponos
         void BindMainMenuEvents()
         {
             mnuFileExit.Click += AttemptExit;
-            mnuFileSave.Click += (sender, e) => Model.CurrentPhoto.SaveToFile();
+            mnuFileSave.Click += (sender, e) =>
+            {
+                Model.CurrentPhoto.SaveToFile();
+                MessageBox.Show("Tagging data saved successfully", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            };
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
             // View menu
