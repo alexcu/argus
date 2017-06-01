@@ -603,16 +603,9 @@ namespace Ponos
         public bool AskIfPhotoTaggedAsComplete()
         {
             DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.No)
-            {
-                IsPhotoCompletelyTagged = false;
-                return false;
-            }
-            else
-            {
-                IsPhotoCompletelyTagged = true;
-                return true;
-            }
+            IsPhotoCompletelyTagged = result == DialogResult.Yes;
+            // Photo may not have been set as complete succesfully, so return if it was!
+            return IsPhotoCompletelyTagged;
         }
         #endregion Classifications
     }
