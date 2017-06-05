@@ -138,9 +138,9 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblMousePos,
             this.lblTooltip});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1931);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1946);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(2642, 37);
+            this.statusStrip1.Size = new System.Drawing.Size(2642, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -149,12 +149,14 @@
             this.lblMousePos.Name = "lblMousePos";
             this.lblMousePos.Size = new System.Drawing.Size(68, 32);
             this.lblMousePos.Text = "(X, Y)";
+            this.lblMousePos.Visible = false;
             // 
             // lblTooltip
             // 
             this.lblTooltip.Name = "lblTooltip";
             this.lblTooltip.Size = new System.Drawing.Size(209, 32);
             this.lblTooltip.Text = "[Guidance Tooltip]";
+            this.lblTooltip.Visible = false;
             // 
             // menuStrip1
             // 
@@ -502,7 +504,7 @@
             this.btnNextImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNextImage.Location = new System.Drawing.Point(2512, 3);
             this.btnNextImage.Name = "btnNextImage";
-            this.btnNextImage.Size = new System.Drawing.Size(127, 183);
+            this.btnNextImage.Size = new System.Drawing.Size(127, 184);
             this.btnNextImage.TabIndex = 9;
             this.btnNextImage.Text = "Next Photo [F12] ▶";
             this.btnNextImage.UseVisualStyleBackColor = true;
@@ -513,7 +515,7 @@
             this.btnPrevImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrevImage.Location = new System.Drawing.Point(3, 3);
             this.btnPrevImage.Name = "btnPrevImage";
-            this.btnPrevImage.Size = new System.Drawing.Size(126, 183);
+            this.btnPrevImage.Size = new System.Drawing.Size(126, 184);
             this.btnPrevImage.TabIndex = 10;
             this.btnPrevImage.Text = "Prev Photo ◀ [F11] ";
             this.btnPrevImage.UseVisualStyleBackColor = true;
@@ -541,7 +543,7 @@
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblMainGrid.Size = new System.Drawing.Size(2642, 1891);
+            this.tblMainGrid.Size = new System.Drawing.Size(2642, 1906);
             this.tblMainGrid.TabIndex = 18;
             // 
             // pnlRight
@@ -551,16 +553,16 @@
             this.pnlRight.Controls.Add(this.grpPhotoClass);
             this.pnlRight.Controls.Add(this.grpSteps);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRight.Location = new System.Drawing.Point(2116, 192);
+            this.pnlRight.Location = new System.Drawing.Point(2116, 193);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(523, 1317);
+            this.pnlRight.Size = new System.Drawing.Size(523, 1328);
             this.pnlRight.TabIndex = 33;
             // 
             // grpPhotoClass
             // 
             this.grpPhotoClass.Controls.Add(this.tableLayoutPanel1);
             this.grpPhotoClass.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grpPhotoClass.Location = new System.Drawing.Point(0, 949);
+            this.grpPhotoClass.Location = new System.Drawing.Point(0, 960);
             this.grpPhotoClass.Name = "grpPhotoClass";
             this.grpPhotoClass.Padding = new System.Windows.Forms.Padding(10);
             this.grpPhotoClass.Size = new System.Drawing.Size(523, 368);
@@ -670,13 +672,13 @@
             this.tblcolBibDelete});
             this.tblMainGrid.SetColumnSpan(this.tblTags, 5);
             this.tblTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblTags.Location = new System.Drawing.Point(3, 1515);
+            this.tblTags.Location = new System.Drawing.Point(3, 1527);
             this.tblTags.MultiSelect = false;
             this.tblTags.Name = "tblTags";
             this.tblTags.RowHeadersVisible = false;
             this.tblTags.RowTemplate.Height = 25;
             this.tblTags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tblTags.Size = new System.Drawing.Size(2636, 373);
+            this.tblTags.Size = new System.Drawing.Size(2636, 376);
             this.tblTags.StandardTab = true;
             this.tblTags.TabIndex = 32;
             // 
@@ -791,7 +793,7 @@
             this.pnlInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlInstructions.Location = new System.Drawing.Point(135, 3);
             this.pnlInstructions.Name = "pnlInstructions";
-            this.pnlInstructions.Size = new System.Drawing.Size(2371, 183);
+            this.pnlInstructions.Size = new System.Drawing.Size(2371, 184);
             this.pnlInstructions.TabIndex = 28;
             // 
             // imgPhoto
@@ -799,9 +801,9 @@
             this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.imgPhoto.Cursor = System.Windows.Forms.Cursors.Cross;
             this.imgPhoto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgPhoto.Location = new System.Drawing.Point(399, 192);
+            this.imgPhoto.Location = new System.Drawing.Point(399, 193);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1711, 1317);
+            this.imgPhoto.Size = new System.Drawing.Size(1711, 1328);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 25;
             this.imgPhoto.TabStop = false;
@@ -812,9 +814,9 @@
             this.tblMainGrid.SetColumnSpan(this.pnlLeft, 2);
             this.pnlLeft.Controls.Add(this.grpFiles);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLeft.Location = new System.Drawing.Point(3, 192);
+            this.pnlLeft.Location = new System.Drawing.Point(3, 193);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(390, 1317);
+            this.pnlLeft.Size = new System.Drawing.Size(390, 1328);
             this.pnlLeft.TabIndex = 29;
             // 
             // grpFiles
@@ -824,7 +826,7 @@
             this.grpFiles.Location = new System.Drawing.Point(0, 0);
             this.grpFiles.Name = "grpFiles";
             this.grpFiles.Padding = new System.Windows.Forms.Padding(10);
-            this.grpFiles.Size = new System.Drawing.Size(390, 1317);
+            this.grpFiles.Size = new System.Drawing.Size(390, 1328);
             this.grpFiles.TabIndex = 26;
             this.grpFiles.TabStop = false;
             this.grpFiles.Text = "Photo Files";
@@ -840,7 +842,7 @@
             ""});
             this.lstFiles.Location = new System.Drawing.Point(10, 34);
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(370, 1273);
+            this.lstFiles.Size = new System.Drawing.Size(370, 1284);
             this.lstFiles.TabIndex = 29;
             // 
             // tableLayoutPanel2
@@ -857,7 +859,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.81967F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.18033F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(2371, 183);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(2371, 184);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // lblInstructions
@@ -866,7 +868,7 @@
             this.lblInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInstructions.ForeColor = System.Drawing.Color.Red;
-            this.lblInstructions.Location = new System.Drawing.Point(3, 92);
+            this.lblInstructions.Location = new System.Drawing.Point(3, 93);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.Size = new System.Drawing.Size(2365, 91);
             this.lblInstructions.TabIndex = 42;
@@ -881,7 +883,7 @@
             this.lblStepName.ForeColor = System.Drawing.Color.Red;
             this.lblStepName.Location = new System.Drawing.Point(3, 0);
             this.lblStepName.Name = "lblStepName";
-            this.lblStepName.Size = new System.Drawing.Size(2365, 92);
+            this.lblStepName.Size = new System.Drawing.Size(2365, 93);
             this.lblStepName.TabIndex = 44;
             this.lblStepName.Text = "[Step Label]";
             this.lblStepName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
