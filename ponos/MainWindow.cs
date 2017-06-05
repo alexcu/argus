@@ -615,7 +615,7 @@ namespace Ponos
 
         void RenderGraphics(object sender, PaintEventArgs e)
         {
-            if (imgPhoto.Image == null || imgPhoto.Image == imgPhoto.InitialImage || _isLoadingImage)
+            if (imgPhoto.Image == null || imgPhoto.Image == imgPhoto.InitialImage)
             {
                 return;
             }
