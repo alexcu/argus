@@ -137,7 +137,6 @@ namespace Ponos
             AddDataBinding(lblInstructions, "Text", Model, "CurrentPhoto.TaggingStepInstructions");
             // Buttons
             AddDataBinding(btnPrevImage, "Enabled", Model, "CanGetPrevPhoto");
-            AddDataBinding(btnNextImage, "Enabled", Model, "CanGetNextPhoto");
         }
         #endregion
         #region Events
@@ -145,7 +144,20 @@ namespace Ponos
         {
             // Click events
             btnPrevImage.Click += (sender, e) => Model.GetPrevPhoto();
-            btnNextImage.Click += (sender, e) => Model.GetNextPhoto();
+            btnNextImage.Click += (sender, e) => AttemptGetNextPhoto();
+        }
+        void AttemptGetNextPhoto()
+        {
+            {
+                if (!Model.CanGetNextPhoto)
+                {
+                    AttemptExit(true);
+                }
+                else
+                {
+                    Model.GetNextPhoto();
+                }
+            };
         }
         #endregion
         #endregion
@@ -180,7 +192,7 @@ namespace Ponos
         {
             // View menu
             AddDataBinding(mnuViewPreviousPhoto, "Enabled", Model, "CanGetPrevPhoto");
-            AddDataBinding(mnuViewNextPhoto, "Enabled", Model, "CanGetNextPhoto");
+            //AddDataBinding(mnuViewNextPhoto, "Enabled", Model, "CanGetNextPhoto");
             // Edit menu
             //mnuEditUndo.DataBindings.Add("Enabled", Model, "CanUndoLastAction");
             //mnuEditRedo.DataBindings.Add("Enabled", Model, "CanRedoLastAction");
@@ -217,7 +229,7 @@ namespace Ponos
         #region Events
         void BindMainMenuEvents()
         {
-            mnuFileExit.Click += AttemptExit;
+            mnuFileExit.Click += (sender, e) => AttemptExit();
             mnuFileSave.Click += (sender, e) =>
             {
                 Model.CurrentPhoto.SaveToFile();
@@ -226,7 +238,7 @@ namespace Ponos
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
             // View menu
-            mnuViewNextPhoto.Click += (sender, e) => Model.GetNextPhoto();
+            mnuViewNextPhoto.Click += (sender, e) => AttemptGetNextPhoto();
             mnuViewPreviousPhoto.Click += (sender, e) => Model.GetPrevPhoto();
             mnuViewRotateImage.Click += (sender, e) => RotateImage(true);
             // Photo menu
@@ -253,8 +265,23 @@ namespace Ponos
             mnuRunnerDelete.Click += (sender, e) => Model.CurrentPhoto.DeleteTaggedPerson(Model.CurrentPhoto.SelectedRunner);
         }
 
-        private void AttemptExit(object sender, EventArgs e)
+        private void AttemptExit(bool showLastPhotoDialog = false)
         {
+            void RunClose()
+            {
+                if (showLastPhotoDialog)
+                {
+                    if (MessageBox.Show("You have finished tagging all photos. Would you like to exit?", "Done", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        Close();
+                    }
+                }
+                else
+                {
+                    Close();
+                }
+            }
+
             if (Model.CurrentPhoto.IsPhotoNotCompletelyTagged)
             {
                 if (!Model.CurrentPhoto.AskIfPhotoTaggedAsComplete())
@@ -264,12 +291,12 @@ namespace Ponos
                 else
                 {
                     Model.CurrentPhoto.SaveToFile();
-                    Close();
+                    RunClose();
                 }
             }
             else
             {
-                Close();
+                RunClose();
             }
         }
 
