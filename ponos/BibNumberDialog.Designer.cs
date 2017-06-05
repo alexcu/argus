@@ -81,6 +81,7 @@
             this.AcceptButton = this.btnEnterBibNumber;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(632, 279);
             this.Controls.Add(this.btnEnterBibNumber);
             this.Controls.Add(this.label1);
