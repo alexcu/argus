@@ -33,11 +33,11 @@ namespace Ponos
             switch (me)
             {
                 case StepType.ImageCrowded:
-                    return "Is this Image Crowded?";
+                    return "(STEP 1/3)  Is this Image Crowded?";
                 case StepType.SelectBibRegion:
-                    return "Select Bib Number Region";
+                    return "(STEP 2/3)  Select Bib Number Region";
                 case StepType.SelectFaceRegion:
-                    return "Select Face Region";
+                    return "(STEP 3/3)  Select Face Region";
                 default:
                     return "";
             }
