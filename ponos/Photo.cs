@@ -15,21 +15,36 @@ namespace Ponos
     [ImplementPropertyChanged]
     public class Photo
     {
+        // Rotation
+        public int Rotation { get; set; } = 0;
+
+        // Basic identifiers
         [JsonIgnore]
-        public Stopwatch TimerOnPhoto { get; } = new Stopwatch();
+        public string Filename { get; private set; }
+        public string Identifier { get; set; }
+
+        public Photo(string filename)
+        {
+            Filename = filename;
+            Identifier = Path.GetFileNameWithoutExtension(filename);
+            TaggingStep = StepType.ImageCrowded;
+        }
 
         #region Statistics
+        [JsonIgnore]
+        public Stopwatch TimerOnPhoto { get; } = new Stopwatch();
         public float TimeTakenOnPhoto => TimerOnPhoto.ElapsedMilliseconds;
         public float AverageTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Average(p => p.TotalTimeTaken) : 0;
         public float SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
         #endregion
 
-
         #region File IO
         public DateTime DateSaved { get; set; }
+        public Size CanvasSize { get; set; }
         public void SaveToFile()
         {
             DateSaved = DateTime.Now;
+            CanvasSize = MainWindow.Singleton.MainPictureBox.Size;
             File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
         public static bool LoadingJson { get; private set; }
@@ -44,14 +59,7 @@ namespace Ponos
         }
         #endregion
 
-        // Rotation
-        public int Rotation { get; set; } = 0;
-
-        // Basic identifiers
-        [JsonIgnore]
-        public string Filename { get; private set; }
-        public string Identifier { get; set;  }
-
+        #region Completeness
         private bool _isComplete;
         public bool IsPhotoCompletelyTagged
         {
@@ -78,6 +86,7 @@ namespace Ponos
         {
             IsPhotoCompletelyTagged = !IsPhotoCompletelyTagged;
         }
+        #endregion
 
         #region TaggedItems
         public BindingList<TaggedPerson> TaggedRunners = new BindingList<TaggedPerson>();
@@ -263,14 +272,6 @@ namespace Ponos
             }
         }
         #endregion
-
-        public Photo(string filename)
-        {
-            Filename = filename;
-            Identifier = Path.GetFileNameWithoutExtension(filename);
-            TaggingStep = StepType.ImageCrowded;
-        }
-
 
         #region HandleEvents
         public void HandleClick(PictureBox pbx, MouseEventArgs e)
