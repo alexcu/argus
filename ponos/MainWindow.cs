@@ -230,7 +230,7 @@ namespace Ponos
             mnuPhotoMarkCrowded.Click += (sender, e) => Model.CurrentPhoto.AskIfPhotoCrowded();
             mnuPhotoMarkComplete.Click += (sender, e) => Model.CurrentPhoto.ToggleComplete();
             // Selected runner menu
-            mnuRunnerMarkBib.Click += (sender, e) => Model.CurrentPhoto.AskToTagBibNumber(imgPhoto, Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerOpenMarkBibToolbox.Click += (sender, e) => Model.CurrentPhoto.AskToTagBibNumber(imgPhoto, Model.CurrentPhoto.SelectedRunner);
             mnuRunnerMarkBlurry.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred = !Model.CurrentPhoto.SelectedRunner.IsRunnerBlurred; RequestRedrawGraphics(); };
             mnuRunnerMarkFaceVisible.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsFaceVisible = !Model.CurrentPhoto.SelectedRunner.IsFaceVisible; RequestRedrawGraphics(); };
             mnuRunnerMarkGlasses.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.IsWearingGlasses = !Model.CurrentPhoto.SelectedRunner.IsWearingGlasses; RequestRedrawGraphics(); };
@@ -241,8 +241,8 @@ namespace Ponos
             mnuRunnerGenderMale.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Male; RequestRedrawGraphics(); };
             mnuRunnerGenderFemale.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Female; RequestRedrawGraphics(); };
             mnuRunnerGenderUnknown.Click += (sender, e) => { Model.CurrentPhoto.SelectedRunner.Gender = TaggedPerson.GenderType.Unknown; RequestRedrawGraphics(); };
-            mnuRunnerOpenColor.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
-            mnuRunnerOpenColorClassificationsWizard.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerOpenColorClassificationsToolbox.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
+            mnuRunnerOpenMarkBaseClassToolbox.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerDelete.Click += (sender, e) => Model.CurrentPhoto.DeleteTaggedPerson(Model.CurrentPhoto.SelectedRunner);
         }
 
