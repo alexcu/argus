@@ -40,11 +40,12 @@ namespace Ponos
 
         #region File IO
         public DateTime DateSaved { get; set; }
-        public Size CanvasSize { get; set; }
+        private Size _originalClientSize;
+        public Size ClientSize { get; set; }
+
         public void SaveToFile()
         {
             DateSaved = DateTime.Now;
-            CanvasSize = MainWindow.Singleton.MainPictureBox.Size;
             File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
         public static bool LoadingJson { get; private set; }
@@ -53,6 +54,7 @@ namespace Ponos
             LoadingJson = true;
             string jsonStr = File.ReadAllText(filename);
             Photo photo = (Photo)JsonConvert.DeserializeObject(File.ReadAllText(filename), typeof(Photo));
+            // Get from correct file path
             photo.Filename = filename.Replace(".json", "");
             LoadingJson = false;
             return photo;
@@ -609,5 +611,18 @@ namespace Ponos
             return IsPhotoCompletelyTagged;
         }
         #endregion Classifications
+
+        public void AdaptClickPoints()
+        {
+            if (_originalClientSize.IsEmpty)
+            {
+                _originalClientSize = ClientSize;
+            }
+            foreach (TaggedPerson person in TaggedRunners)
+            {
+                person.AdaptClickPoints(_originalClientSize);
+            }
+            ClientSize = MainWindow.Singleton.MainPictureBox.ClientSize;
+        }
     }
 }

@@ -98,6 +98,37 @@ namespace Ponos
         }
         public enum LikelihoodOfPurchaseType { No = -1, Maybe = 0, Yes = 1 }
         public enum GenderType { Male, Female, Unknown }
+        private Point[] _originalClickPointsBib;
+        private Point[] _originalClickPointsFace;
+        public void AdaptClickPoints(Size clientSz)
+        {
+            Size originalSz = clientSz;
+            Size newSz = MainWindow.Singleton.MainPictureBox.ClientSize;
+
+            if (originalSz == newSz)
+            {
+                return;
+            }
+            else if (_originalClickPointsBib == null)
+            {
+                _originalClickPointsBib = Bib.ClickPoints.ToArray();
+                _originalClickPointsFace = Face.ClickPoints.ToArray();
+            }
+            
+            int w1 = originalSz.Width;
+            int w2 = newSz.Width;
+            int h1 = originalSz.Height;
+            int h2 = newSz.Height;
+
+            for (int i = 0; i < Bib.ClickPoints.Count; i++)
+            {
+                Bib.ClickPoints[i] = Utils.PixelPointToClickPoint(MainWindow.Singleton.MainPictureBox, Bib.PixelPoints[i]);
+            }
+            for (int i = 0; i < Face.ClickPoints.Count; i++)
+            {
+                Face.ClickPoints[i] = Utils.PixelPointToClickPoint(MainWindow.Singleton.MainPictureBox, Face.PixelPoints[i]);
+            }
+        }
         #endregion
 
         // Classifications

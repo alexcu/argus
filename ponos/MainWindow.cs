@@ -118,6 +118,13 @@ namespace Ponos
         {
             lstSteps.SelectedIndex = (int)Model.CurrentPhoto.TaggingStep;
         }
+        public void RequestUpdateClickPoints()
+        {
+            foreach (Photo photo in PhotoManager.SharedManager.Photos)
+            {
+                photo.AdaptClickPoints();
+            }
+        }
         #endregion
         #endregion
 
@@ -525,6 +532,16 @@ namespace Ponos
 
             // Auto-rotate image
             imgPhoto.LoadCompleted += AutoRotateImage;
+            imgPhoto.LoadCompleted += UpdateClickPoints;
+            imgPhoto.ClientSizeChanged += UpdateClickPoints;
+        }
+
+        private void UpdateClickPoints(object sender, EventArgs e)
+        {
+            if (imgPhoto.Image != null)
+            {
+                RequestUpdateClickPoints();
+            }
         }
 
         private void AutoRotateImage(object sender, EventArgs e)
@@ -598,9 +615,14 @@ namespace Ponos
 
         void RenderGraphics(object sender, PaintEventArgs e)
         {
+            if (imgPhoto.Image == null || imgPhoto.Image == imgPhoto.InitialImage || _isLoadingImage)
+            {
+                return;
+            }
+            
             Debug.WriteLine("Rendering Graphics...");
             Graphics graphics = e.Graphics;
-
+            
             // Don't render if crowded image
             if (Model.CurrentPhoto.IsPhotoCrowded)
             {

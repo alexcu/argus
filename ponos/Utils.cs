@@ -30,7 +30,7 @@ namespace Ponos
 
         public static Point ToPixelPoint(this Point me, PictureBox picBx)
         {
-            return MousePointToPixelPoint(picBx, me);
+            return ClickPointToPixelPoint(picBx, me);
         }
 
         public static bool IsPointInImage(this PictureBox me, Point pt)
@@ -45,61 +45,118 @@ namespace Ponos
             return val > 130 ? Color.Black : Color.White;
         }
 
-        public static Point MousePointToPixelPoint(PictureBox picBx, Point pt)
+        public static Point ClickPointToPixelPoint(PictureBox pbx, Point clickPt)
         {
-            int picHeight = picBx.ClientSize.Height;
-            int picWidth = picBx.ClientSize.Width;
-            int imgHeight = picBx.Image.Height;
-            int imgWidth = picBx.Image.Width;
+            int pbxHeight = pbx.ClientSize.Height;
+            int pbxWidth = pbx.ClientSize.Width;
+            int imgHeight = pbx.Image.Height;
+            int imgWidth = pbx.Image.Width;
 
-            int x = pt.X;
-            int y = pt.Y;
+            int clickX = clickPt.X;
+            int clickY = clickPt.Y;
 
-            int retX = x;
-            int retY = y;
+            int pixelX = clickX;
+            int pixelY = clickY;
 
-            switch (picBx.SizeMode)
+            switch (pbx.SizeMode)
             {
                 case PictureBoxSizeMode.AutoSize:
                 case PictureBoxSizeMode.Normal:
                     // These are okay. Leave them alone.
                     break;
                 case PictureBoxSizeMode.CenterImage:
-                    retX = x - (picWidth - imgWidth) / 2;
-                    retY = y - (picHeight - imgHeight) / 2;
+                    pixelX = clickX - (pbxWidth - imgWidth) / 2;
+                    pixelY = clickY - (pbxHeight - imgHeight) / 2;
                     break;
                 case PictureBoxSizeMode.StretchImage:
-                    retX = (int)(imgWidth * x / (float)picWidth);
-                    retY = (int)(imgHeight * y / (float)picHeight);
+                    pixelX = (int)(imgWidth * clickX / (float)pbxWidth);
+                    pixelY = (int)(imgHeight * clickY / (float)pbxHeight);
                     break;
                 case PictureBoxSizeMode.Zoom:
-                    float pic_aspect = picWidth / (float)picHeight;
-                    float img_aspect = imgWidth / (float)imgHeight;
-                    if (pic_aspect > img_aspect)
+                    float pbxAspect = pbxWidth / (float)pbxHeight;
+                    float imgAspect = imgWidth / (float)imgHeight;
+                    if (pbxAspect > imgAspect)
                     {
                         // The PictureBox is wider/shorter than the image.
-                        retY = (int)(imgHeight * y / (float)picHeight);
+                        pixelY = (int)(imgHeight * clickY / (float)pbxHeight);
 
-                        // The image fills the height of the PictureBox.
+                        // The image fills the width of the PictureBox.
                         // Get its width.
-                        float scaled_width = imgWidth * picHeight / imgHeight;
-                        float dx = (picWidth - scaled_width) / 2;
-                        retX = (int)((x - dx) * imgHeight / (float)picHeight);
+                        float scaledWidth = imgWidth * pbxHeight / imgHeight;
+                        float dx = (pbxWidth - scaledWidth) / 2;
+                        pixelX = (int)((clickX - dx) * imgHeight / (float)pbxHeight);
                     }
                     else
                     {
                         // The PictureBox is taller/thinner than the image.
-                        retX = (int)(imgWidth * x / (float)picWidth);
+                        pixelX = (int)(imgWidth * clickX / (float)pbxWidth);
 
                         // The image fills the height of the PictureBox.
                         // Get its height.
-                        float scaled_height = imgHeight * picWidth / imgWidth;
-                        float dy = (picHeight - scaled_height) / 2;
-                        retY = (int)((y - dy) * imgWidth / picWidth);
+                        float scaledHeight = imgHeight * pbxWidth / imgWidth;
+                        float dy = (pbxHeight - scaledHeight) / 2;
+                        pixelY = (int)((clickY - dy) * imgWidth / pbxWidth);
                     }
                     break;
             }
-            return new Point(retX, retY);
+            return new Point(pixelX, pixelY);
+        }
+
+        public static Point PixelPointToClickPoint(PictureBox pbx, Point pixelPt)
+        {
+            int pbxHeight = pbx.ClientSize.Height;
+            int pbxWidth = pbx.ClientSize.Width;
+            int imgHeight = pbx.Image.Height;
+            int imgWidth = pbx.Image.Width;
+
+            int pixelX = pixelPt.X;
+            int pixelY = pixelPt.Y;
+
+            int clickX = pixelX;
+            int clickY = pixelY;
+
+            switch (pbx.SizeMode)
+            {
+                case PictureBoxSizeMode.AutoSize:
+                case PictureBoxSizeMode.Normal:
+                    // These are okay. Leave them alone.
+                    break;
+                case PictureBoxSizeMode.CenterImage:
+                    clickX = pixelX - (pbxWidth - imgWidth) / 2;
+                    clickY = pixelY - (pbxHeight - imgHeight) / 2;
+                    break;
+                case PictureBoxSizeMode.StretchImage:
+                    clickX = (int)(imgWidth * pixelX / (float)pbxWidth);
+                    clickY = (int)(imgHeight * pixelY / (float)pbxHeight);
+                    break;
+                case PictureBoxSizeMode.Zoom:
+                    float pbxAspect = pbxWidth / (float)pbxHeight;
+                    float imgAspect = imgWidth / (float)imgHeight;
+                    if (pbxAspect > imgAspect)
+                    {
+                        // The PictureBox is wider/shorter than the image.
+                        clickY = (int)(pbxHeight * pixelY / (float)imgHeight);
+
+                        // The image fills the width of the PictureBox.
+                        // Get its width.
+                        float scaledWidth = pbxWidth * imgHeight / pbxHeight;
+                        float dx = (imgWidth - scaledWidth) / 2;
+                        clickX = (int)((pixelX - dx) * pbxHeight / (float)imgHeight);
+                    }
+                    else
+                    {
+                        // The PictureBox is taller/thinner than the image.
+                        clickX = (int)(pbxWidth * pixelX / (float)imgWidth);
+
+                        // The image fills the height of the PictureBox.
+                        // Get its height.
+                        float scaledHeight = pbxHeight * imgWidth / pbxWidth;
+                        float dy = (imgHeight - scaledHeight) / 2;
+                        clickY = (int)((pixelY - dy) * pbxWidth / imgWidth);
+                    }
+                    break;
+            }
+            return new Point(clickX, clickY);
         }
 
         private static ArrayList WebColors;
