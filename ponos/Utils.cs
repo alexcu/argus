@@ -45,6 +45,16 @@ namespace Ponos
             return val > 130 ? Color.Black : Color.White;
         }
 
+        public static double GetDistance(this Point me, Point other)
+        {
+            //pythagorean theorem c^2 = a^2 + b^2
+            //thus c = square root(a^2 + b^2)
+            double a = (double)(other.X - me.X);
+            double b = (double)(other.Y - me.Y);
+
+            return Math.Sqrt(a * a + b * b);
+        }
+
         public static Point ClickPointToPixelPoint(PictureBox pbx, Point clickPt)
         {
             int pbxHeight = pbx.ClientSize.Height;

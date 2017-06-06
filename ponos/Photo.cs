@@ -311,11 +311,14 @@ namespace Ponos
         }
 
         // Handle users who are dragging and dropping bib regions
-        private int _draggingWhenClickingForBibCount = 0;
+        private Point _draggingInBibRegionStartPoint;
         public void HandleDragStart(PictureBox pbx, MouseEventArgs e)
         {
             switch (TaggingStep)
             {
+                case StepType.SelectBibRegion:
+                    _draggingInBibRegionStartPoint = e.Location;
+                    break;
                 case StepType.SelectFaceRegion:
                     SelectedRunner.TimerFaceDragDrop.Start();
                     RecordStartOfFaceRegion(pbx, e.Location);
@@ -330,10 +333,9 @@ namespace Ponos
             switch (TaggingStep)
             {
                 case StepType.SelectBibRegion:
-                    _draggingWhenClickingForBibCount++;
-                    if (_draggingWhenClickingForBibCount > 2)
+                    // Dragged for more than 10px?
+                    if (_draggingInBibRegionStartPoint.GetDistance(e.Location) > 10)
                     {
-                        _draggingWhenClickingForBibCount = 0;
                         if (HasTaggedARunner)
                         {
                             var diagResult = MessageBox.Show("You are currently marking up bib regions. Please LEFT click FOUR times to mark up bib region (do NOT drag and drop). Would you like to mark up faces instead?", "Drag-and-Drop Detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
@@ -360,7 +362,7 @@ namespace Ponos
             switch (TaggingStep)
             {
                 case StepType.SelectBibRegion:
-                    _draggingWhenClickingForBibCount = 0;
+                    _draggingInBibRegionStartPoint = Point.Empty;
                     break;
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
