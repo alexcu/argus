@@ -101,7 +101,7 @@ namespace Ponos
         [JsonIgnore]
         private bool HasAFaceMarkedForEveryBib => TaggedRunners.Count(p => p.IsFaceRegionTagged && p.IsBibRegionTagged) == TaggedRunners.Count;
         [JsonIgnore]
-        public bool HasTaggedARunner => TaggedBibNumbers.Length > 0;
+        public bool HasTaggedARunner => TaggedRunners.Count(p => p.Bib.BibNumber != null) > 0;
         private TaggedPerson _selectedRunner;
         [JsonIgnore]
         public bool IsRunnerSelected => SelectedRunner != null;
@@ -276,6 +276,22 @@ namespace Ponos
         #endregion
 
         #region HandleEvents
+        internal void UndoLastAction()
+        {
+            switch (TaggingStep)
+            {
+                case StepType.ImageCrowded:
+                    ToggleCrowdedPhoto();
+                    break;
+                case StepType.SelectBibRegion:
+                    RemoveLastBibPoint();
+                    break;
+                case StepType.SelectFaceRegion:
+                    RemoveLastFaceTaggingRegion();
+                    break;
+            }
+        }
+
         public void HandleClick(PictureBox pbx, MouseEventArgs e)
         {
             switch (TaggingStep)
@@ -293,6 +309,9 @@ namespace Ponos
                     break;
             }
         }
+
+        // Handle users who are dragging and dropping bib regions
+        private int _draggingWhenClickingForBibCount = 0;
         public void HandleDragStart(PictureBox pbx, MouseEventArgs e)
         {
             switch (TaggingStep)
@@ -306,26 +325,29 @@ namespace Ponos
             }
         }
 
-        internal void UndoLastAction()
-        {
-            switch (TaggingStep)
-            {
-                case StepType.ImageCrowded:
-                    ToggleCrowdedPhoto();
-                    break;
-                case StepType.SelectBibRegion:
-                    RemoveLastBibPoint();
-                    break;
-                case StepType.SelectFaceRegion:
-                    RemoveLastFaceTaggingRegion();
-                    break;
-            }
-        }
-
         public void HandleDragMove(PictureBox pbx, MouseEventArgs e)
         {
             switch (TaggingStep)
             {
+                case StepType.SelectBibRegion:
+                    _draggingWhenClickingForBibCount++;
+                    if (_draggingWhenClickingForBibCount > 2)
+                    {
+                        _draggingWhenClickingForBibCount = 0;
+                        if (HasTaggedARunner)
+                        {
+                            var diagResult = MessageBox.Show("You are currently marking up bib regions. Please LEFT click FOUR times to mark up bib region (do NOT drag and drop). Would you like to mark up faces instead?", "Drag-and-Drop Detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            if (diagResult == DialogResult.Yes)
+                            {
+                                GoToNextStep();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please LEFT click FOUR times to mark up bib region (do NOT drag and drop).", "Drag-and-Drop Detected!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    break;
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
                     break;
@@ -337,6 +359,9 @@ namespace Ponos
         {
             switch (TaggingStep)
             {
+                case StepType.SelectBibRegion:
+                    _draggingWhenClickingForBibCount = 0;
+                    break;
                 case StepType.SelectFaceRegion:
                     UpdateEndOfFaceRegion(pbx, e.Location);
                     SelectedRunner.TimerFaceDragDrop.Stop();

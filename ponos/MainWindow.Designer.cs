@@ -102,13 +102,13 @@
             this.tblcolHatColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tblcolBibDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.pnlInstructions = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblStepName = new System.Windows.Forms.Label();
+            this.lblInstructions = new System.Windows.Forms.Label();
             this.imgPhoto = new System.Windows.Forms.PictureBox();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.grpFiles = new System.Windows.Forms.GroupBox();
             this.lstFiles = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblInstructions = new System.Windows.Forms.Label();
-            this.lblStepName = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -118,10 +118,10 @@
             this.grpSteps.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblTags)).BeginInit();
             this.pnlInstructions.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
             this.pnlLeft.SuspendLayout();
             this.grpFiles.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -796,6 +796,49 @@
             this.pnlInstructions.Size = new System.Drawing.Size(2371, 184);
             this.pnlInstructions.TabIndex = 28;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.lblStepName, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.lblInstructions, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.81967F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.18033F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(2371, 184);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // lblStepName
+            // 
+            this.lblStepName.BackColor = System.Drawing.Color.White;
+            this.lblStepName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepName.ForeColor = System.Drawing.Color.Red;
+            this.lblStepName.Location = new System.Drawing.Point(3, 0);
+            this.lblStepName.Name = "lblStepName";
+            this.lblStepName.Size = new System.Drawing.Size(2365, 93);
+            this.lblStepName.TabIndex = 44;
+            this.lblStepName.Text = "[Step Label]";
+            this.lblStepName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // lblInstructions
+            // 
+            this.lblInstructions.BackColor = System.Drawing.Color.White;
+            this.lblInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstructions.ForeColor = System.Drawing.Color.Red;
+            this.lblInstructions.Location = new System.Drawing.Point(3, 93);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(2365, 91);
+            this.lblInstructions.TabIndex = 42;
+            this.lblInstructions.Text = "[Step Instructions Label]";
+            this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // imgPhoto
             // 
             this.imgPhoto.BackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -845,49 +888,6 @@
             this.lstFiles.Size = new System.Drawing.Size(370, 1284);
             this.lstFiles.TabIndex = 29;
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.lblStepName, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.lblInstructions, 0, 1);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.81967F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.18033F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(2371, 184);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // lblInstructions
-            // 
-            this.lblInstructions.BackColor = System.Drawing.Color.White;
-            this.lblInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInstructions.ForeColor = System.Drawing.Color.Red;
-            this.lblInstructions.Location = new System.Drawing.Point(3, 93);
-            this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(2365, 91);
-            this.lblInstructions.TabIndex = 42;
-            this.lblInstructions.Text = "[Step Instructions Label]";
-            this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblStepName
-            // 
-            this.lblStepName.BackColor = System.Drawing.Color.White;
-            this.lblStepName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblStepName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStepName.ForeColor = System.Drawing.Color.Red;
-            this.lblStepName.Location = new System.Drawing.Point(3, 0);
-            this.lblStepName.Name = "lblStepName";
-            this.lblStepName.Size = new System.Drawing.Size(2365, 93);
-            this.lblStepName.TabIndex = 44;
-            this.lblStepName.Text = "[Step Label]";
-            this.lblStepName.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -918,10 +918,10 @@
             this.grpSteps.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tblTags)).EndInit();
             this.pnlInstructions.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).EndInit();
             this.pnlLeft.ResumeLayout(false);
             this.grpFiles.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

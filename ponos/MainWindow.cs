@@ -201,8 +201,8 @@ namespace Ponos
             AddDataBinding(mnuPhotoMarkComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
             //mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs");
             //mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces");
-            AddDataBinding(mnuPhotoSelectNextRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
-            AddDataBinding(mnuPhotoSelectPrevRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
+            //AddDataBinding(mnuPhotoSelectNextRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
+            //AddDataBinding(mnuPhotoSelectPrevRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
             // Selected runner menu
             AddDataBinding(mnuSelectedRunner, "Enabled", Model, "CurrentPhoto.CanOpenRunnerMenu");
             mnuSelectedRunner.EnabledChanged += (sender, e) =>
