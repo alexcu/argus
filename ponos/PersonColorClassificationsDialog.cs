@@ -38,8 +38,7 @@ namespace Ponos
             BindDataToControls();
             BindEvents();
             UpdateInstructionsLabel();
-            // TODO: Work out why the window size won't reflect the designer
-            Height += 75;
+            Height = 900;
         }
 
         void CropPersonPhoto()

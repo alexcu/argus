@@ -20,8 +20,8 @@ namespace Ponos
             Person = person;
             CropPersonPhoto();
             BindDataToControls();
-            // TODO: Work out why the window size won't reflect the designer
-            Height += 275;
+            // Resize to left
+            Height = 900;
         }
 
         void CropPersonPhoto()
