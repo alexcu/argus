@@ -675,6 +675,7 @@
             this.tblTags.Location = new System.Drawing.Point(3, 1527);
             this.tblTags.MultiSelect = false;
             this.tblTags.Name = "tblTags";
+            this.tblTags.ReadOnly = true;
             this.tblTags.RowHeadersVisible = false;
             this.tblTags.RowTemplate.Height = 25;
             this.tblTags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -691,6 +692,7 @@
             this.tblcolBibNumber.Frozen = true;
             this.tblcolBibNumber.HeaderText = "Bib Number";
             this.tblcolBibNumber.Name = "tblcolBibNumber";
+            this.tblcolBibNumber.ReadOnly = true;
             this.tblcolBibNumber.ToolTipText = "The bib number identified of this runner";
             this.tblcolBibNumber.Width = 211;
             // 
@@ -702,6 +704,7 @@
             "Female",
             "Unknown"});
             this.tblcolGender.Name = "tblcolGender";
+            this.tblcolGender.ReadOnly = true;
             this.tblcolGender.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tblcolGender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
@@ -710,6 +713,7 @@
             this.tblcolBlurry.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tblcolBlurry.HeaderText = "Runner Blurry?";
             this.tblcolBlurry.Name = "tblcolBlurry";
+            this.tblcolBlurry.ReadOnly = true;
             this.tblcolBlurry.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tblcolBlurry.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tblcolBlurry.ToolTipText = "Is this runner blurry?";
@@ -719,6 +723,7 @@
             this.tblcolFaceVisible.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tblcolFaceVisible.HeaderText = "Face Visible?";
             this.tblcolFaceVisible.Name = "tblcolFaceVisible";
+            this.tblcolFaceVisible.ReadOnly = true;
             this.tblcolFaceVisible.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.tblcolFaceVisible.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.tblcolFaceVisible.ToolTipText = "Is this runner\'s face visible?";
@@ -733,6 +738,7 @@
             "No"});
             this.tblcolLikelihoodPurchase.MaxDropDownItems = 3;
             this.tblcolLikelihoodPurchase.Name = "tblcolLikelihoodPurchase";
+            this.tblcolLikelihoodPurchase.ReadOnly = true;
             this.tblcolLikelihoodPurchase.ToolTipText = "Would you purchase this photo given the option to?";
             // 
             // tblcolWearingHat
@@ -740,6 +746,7 @@
             this.tblcolWearingHat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tblcolWearingHat.HeaderText = "Wearing Hat?";
             this.tblcolWearingHat.Name = "tblcolWearingHat";
+            this.tblcolWearingHat.ReadOnly = true;
             this.tblcolWearingHat.ToolTipText = "Is this runner wearing a hat?";
             // 
             // tblcolWearingGlasses
@@ -747,6 +754,7 @@
             this.tblcolWearingGlasses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.tblcolWearingGlasses.HeaderText = "Wearing Glasses?";
             this.tblcolWearingGlasses.Name = "tblcolWearingGlasses";
+            this.tblcolWearingGlasses.ReadOnly = true;
             this.tblcolWearingGlasses.ToolTipText = "Is this runner wearing glasses?";
             // 
             // tblcolShirtColor
@@ -781,6 +789,7 @@
             // 
             this.tblcolBibDelete.HeaderText = "Delete";
             this.tblcolBibDelete.Name = "tblcolBibDelete";
+            this.tblcolBibDelete.ReadOnly = true;
             this.tblcolBibDelete.Text = "Delete";
             this.tblcolBibDelete.ToolTipText = "Delete this bib region";
             this.tblcolBibDelete.UseColumnTextForButtonValue = true;
