@@ -316,15 +316,13 @@ namespace Argus
             }
         }
 
-        // Handle users who are dragging and dropping bib regions
-        private Point _draggingInBibRegionStartPoint;
+        // Handle users who are dragging and dropping
+        private Point _draggingStartPoint;
         public void HandleDragStart(PictureBox pbx, MouseEventArgs e)
         {
+            _draggingStartPoint = e.Location;
             switch (TaggingStep)
             {
-                case StepType.SelectBibRegion:
-                    _draggingInBibRegionStartPoint = e.Location;
-                    break;
                 case StepType.SelectFaceRegion:
                     SelectedRunner.TimerFaceDragDrop.Start();
                     RecordStartOfFaceRegion(pbx, e.Location);
@@ -340,11 +338,11 @@ namespace Argus
             {
                 case StepType.SelectBibRegion:
                     // Dragged for more than 10px?
-                    if (_draggingInBibRegionStartPoint.GetDistance(e.Location) > 10)
+                    if (_draggingStartPoint.GetDistance(e.Location) > 10)
                     {
                         if (HasTaggedARunner)
                         {
-                            var diagResult = MessageBox.Show("You are currently marking up bib regions. Please LEFT click FOUR times to mark up bib region (do NOT drag and drop). Would you like to mark up faces instead?", "Drag-and-Drop Detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            var diagResult = MessageBox.Show("You are currently marking up bib regions (Step 2).\n\nPlease LEFT click FOUR times to mark up bib region (do NOT drag and drop).\n\nWould you like to mark up faces instead?", "Drag-and-Drop Detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                             if (diagResult == DialogResult.Yes)
                             {
                                 GoToNextStep();
@@ -352,12 +350,16 @@ namespace Argus
                         }
                         else
                         {
-                            MessageBox.Show("Please LEFT click FOUR times to mark up bib region (do NOT drag and drop).", "Drag-and-Drop Detected!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Please LEFT click FOUR times to mark up bib region (do NOT drag and drop).", "Drag-and-Drop Detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     break;
                 case StepType.SelectFaceRegion:
-                    UpdateEndOfFaceRegion(pbx, e.Location);
+                    // Assume at least 5px selected?
+                    if (_draggingStartPoint.GetDistance(e.Location) > 5)
+                    {
+                        UpdateEndOfFaceRegion(pbx, e.Location);
+                    }
                     break;
                 default:
                     break;
@@ -367,10 +369,12 @@ namespace Argus
         {
             switch (TaggingStep)
             {
-                case StepType.SelectBibRegion:
-                    _draggingInBibRegionStartPoint = Point.Empty;
-                    break;
                 case StepType.SelectFaceRegion:
+                    if (_draggingStartPoint.GetDistance(e.Location) < 5)
+                    {
+                        MessageBox.Show($"You are currently marking face regions (Step 3).\n\nPlease DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT the FACE of runner {SelectedRunner.BibNumber}", "Drag-and-Drop Not Detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                     UpdateEndOfFaceRegion(pbx, e.Location);
                     SelectedRunner.TimerFaceDragDrop.Stop();
                     bool didSetBothClassifications = AskForBothClassificationsOfPerson(SelectedRunner);
@@ -387,6 +391,7 @@ namespace Argus
                 default:
                     break;
             }
+            _draggingStartPoint = Point.Empty;
         }
         #endregion
 
