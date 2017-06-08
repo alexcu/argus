@@ -361,8 +361,9 @@ namespace Argus
         #region Bind Data
         void BindDataToTaggedDataGrid()
         {
-            // Enable bib panel if not in crowded step
-            AddDataBinding(tblTags, "Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded");
+            // Toggle visibility bib panel if not in crowded step
+            AddDataBinding(tblTags, "Visible", Model, "CurrentPhoto.IsPhotoNotCrowded");
+            
             // Set up table for bib # identified
             tblTags.AutoGenerateColumns = false;
             // Update the new source!

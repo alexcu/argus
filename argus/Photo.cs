@@ -101,6 +101,8 @@ namespace Argus
         [JsonIgnore]
         private bool HasAFaceMarkedForEveryBib => TaggedRunners.Count(p => p.IsFaceRegionTagged && p.IsBibRegionTagged) == TaggedRunners.Count;
         [JsonIgnore]
+        public bool HasIncompleteBibTag => !LastRunnerTagged.Bib.ClickPoints.AtCapacity();
+        [JsonIgnore]
         public bool HasTaggedARunner => TaggedRunners.Count(p => p.Bib.BibNumber != null) > 0;
         private TaggedPerson _selectedRunner;
         [JsonIgnore]
@@ -199,10 +201,14 @@ namespace Argus
                         if (!CanMarkFaces)
                         {
                             _taggingStep = CanMarkBibs ? StepType.SelectBibRegion : StepType.ImageCrowded;
-                            MessageBox.Show("You cannot tag image regions as there are no bib regions tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("You cannot tag face regions as there are no bib regions tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
+                            if (HasIncompleteBibTag)
+                            {
+                                DeleteTaggedPerson(LastRunnerTagged);
+                            }
                             _taggingStep = value;
                             MainWindow.Singleton.RequestUpdateSelectedRunner();
                         }
@@ -394,7 +400,7 @@ namespace Argus
             AskedIfPhotoCrowded = true;
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             IsPhotoCrowded = result == DialogResult.Yes;
-            if (IsPhotoNotCrowded)
+            if (IsPhotoNotCrowded && TaggingStep == StepType.ImageCrowded)
             {
                 GoToNextStep();
             }
