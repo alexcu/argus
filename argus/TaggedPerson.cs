@@ -179,7 +179,7 @@ namespace Argus
         [JsonIgnore]
         public bool IsFaceVisible { get { return Face.IsFaceVisible; } set { Face.IsFaceVisible = value; } }
         [JsonIgnore]
-        public bool IsWearingHat { get { return Face.IsWearingHat; } set { Face.IsWearingHat = value; } }
+        public bool IsWearingHat { get { return Face.IsWearingHat; } set { Face.IsWearingHat = value; if (!Face.IsWearingHat) { HatColor = Color.Empty; } } }
         [JsonIgnore]
         public bool IsWearingGlasses { get { return Face.IsWearingGlasses; } set { Face.IsWearingGlasses = value; } }
 
