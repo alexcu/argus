@@ -177,5 +177,47 @@ namespace Argus
                 Person.IsWearingHat = !pixelColor.IsEmpty;
             }
         }
+
+        private void EditUndoClicked(object sender, EventArgs e)
+        {
+            if (btnSave.Focused)
+            {
+                Person.ShoeColor = Color.Empty;
+                rdoSettingShoesColor.Checked = true;
+                _isSettingShoeColor = true;
+                rdoSettingShoesColor.Focus();
+                UpdateInstructionsLabel();
+            }
+            else if (_isSettingShirtColor)
+            {
+                if (Person.IsWearingHat)
+                {
+                    Person.HatColor = Color.Empty;
+                    rdoSettingHatColor.Checked = true;
+                    _isSettingHatColor = true;
+                    UpdateInstructionsLabel();
+                }
+            }
+            else if (_isSettingShortsColor)
+            {
+                Person.ShirtColor = Color.Empty;
+                rdoSettingShirtColor.Checked = true;
+                _isSettingShirtColor = true;
+                UpdateInstructionsLabel();
+            }
+            else if (_isSettingShoeColor)
+            {
+                Person.ShortsColor = Color.Empty;
+                rdoSettingShortsColor.Checked = true;
+                _isSettingShortsColor = true;
+                UpdateInstructionsLabel();
+            }
+            else if (_isSettingHatColor)
+            {
+                Person.HatColor = Color.Empty;
+            }
+
+            _dragingModeEnabled = false;
+        }
     }
 }

@@ -47,10 +47,14 @@
             this.pnlHatColor = new System.Windows.Forms.Panel();
             this.lblInstructions = new System.Windows.Forms.Label();
             this.imgPersonCrop = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -283,6 +287,35 @@
             this.imgPersonCrop.TabIndex = 22;
             this.imgPersonCrop.TabStop = false;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuEdit});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(774, 42);
+            this.menuStrip1.TabIndex = 50;
+            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Visible = false;
+            // 
+            // mnuEdit
+            // 
+            this.mnuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuEditUndo});
+            this.mnuEdit.Name = "mnuEdit";
+            this.mnuEdit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.mnuEdit.Size = new System.Drawing.Size(67, 38);
+            this.mnuEdit.Text = "Edit";
+            // 
+            // mnuEditUndo
+            // 
+            this.mnuEditUndo.Name = "mnuEditUndo";
+            this.mnuEditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.mnuEditUndo.Size = new System.Drawing.Size(255, 38);
+            this.mnuEditUndo.Text = "Undo";
+            this.mnuEditUndo.Click += new System.EventHandler(this.EditUndoClicked);
+            // 
             // PersonColorClassificationsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -290,6 +323,8 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(774, 1729);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PersonColorClassificationsDialog";
@@ -299,7 +334,10 @@
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imgPersonCrop)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -323,5 +361,8 @@
         private System.Windows.Forms.Button btnClearHatColor;
         private System.Windows.Forms.RadioButton rdoSettingHatColor;
         private System.Windows.Forms.Panel pnlHatColor;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem mnuEdit;
+        private System.Windows.Forms.ToolStripMenuItem mnuEditUndo;
     }
 }
