@@ -8,7 +8,7 @@ using PropertyChanged;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace Ponos
+namespace Argus
 {
     [ImplementPropertyChanged]
     public class TaggedPerson

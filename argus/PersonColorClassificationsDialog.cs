@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ponos
+namespace Argus
 {
     public partial class PersonColorClassificationsDialog : Form
     {

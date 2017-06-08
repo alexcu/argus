@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ponos", "ponos\Ponos.csproj", "{DED26979-FA9F-43C1-AE93-DDA9A9F3B236}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argus", "argus\Argus.csproj", "{DED26979-FA9F-43C1-AE93-DDA9A9F3B236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

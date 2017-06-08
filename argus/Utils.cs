@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Ponos
+namespace Argus
 {
 	public static class Utils
 	{

@@ -7,7 +7,7 @@ using PropertyChanged;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace Ponos
+namespace Argus
 {
     [ImplementPropertyChanged]
     public class PhotoManager

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace Ponos
+namespace Argus
 {
     public partial class MainWindow : Form
     {
@@ -329,7 +329,6 @@ namespace Ponos
             AddDataBinding(chbxIsComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
             // Disable next button & steps if crowded
             AddDataBinding(lstSteps, "Enabled", Model, "CurrentPhoto.IsPhotoNotCrowded");
-            AddDataBinding(grpSteps, "Enabled", Model, "CurrentPhoto.IsPhotoNotCompletelyTagged");
 
             void PopulateStepList()
             {

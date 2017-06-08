@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-namespace Ponos
+namespace Argus
 { 
     public class BindableToolStripMenuItem : ToolStripMenuItem, IBindableComponent
     {

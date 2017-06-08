@@ -1,4 +1,4 @@
-﻿namespace Ponos
+﻿namespace Argus
 {
     partial class BibNumberDialog
     {
