@@ -587,8 +587,19 @@ namespace Argus
 
         public void UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
         {
+            Point firstPt = SelectedRunner.Face.ClickPoints[0];
             Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
-            SetFaceRegionAtIndex(pbx, pt, 1);
+            // Prevent end from being before start
+            if (pt.X < firstPt.X || pt.Y < firstPt.Y)
+            {
+                MessageBox.Show("Please drag from the TOP LEFT to the BOTTOM RIGHT of the person's face", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                
+            }
+            // Only set if 15 px away
+            else if (pt.GetDistance(firstPt) > 15)
+            {
+                SetFaceRegionAtIndex(pbx, pt, 1);
+            }
         }
 
         private void SetFaceRegionAtIndex(PictureBox pbx, Point pt, int idx)
