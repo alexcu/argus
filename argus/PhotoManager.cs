@@ -23,10 +23,13 @@ namespace Argus
             get => _photoIdx;
             set
             {
+                // Save the photo
+                if (!CurrentPhoto.SaveToFile())
+                {
+                    return;
+                }
                 // Stop old timner
                 CurrentPhoto.TimeTakenOnPhoto.Stop();
-                // Save the photo
-                CurrentPhoto.SaveToFile();
                 try { _photoIdx = value; } catch { };
                 MainWindow.Singleton.RequestDataBindingsUpdate();
                 // Start new timer
@@ -64,6 +67,11 @@ namespace Argus
         }
         void ChangePhotoIndexBy(int value)
         {
+            if (!CurrentPhoto.IsMarkUpValid)
+            {
+                MessageBox.Show("Missing information within the photo.\n\nCheck that every bib region has been assigned a number (and is not 'N/A') and that a face has been marked up for every corresponding bib region", "Not Progressing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (CurrentPhoto.IsPhotoNotCompletelyTagged)
             {
                 if (!CurrentPhoto.AskIfPhotoTaggedAsComplete())

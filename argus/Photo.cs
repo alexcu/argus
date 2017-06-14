@@ -50,11 +50,17 @@ namespace Argus
         private Size _originalClientSize;
         public Size ClientSize { get; set; }
 
-        public void SaveToFile()
+        public bool SaveToFile()
         {
+            if (!IsMarkUpValid)
+            {
+                MessageBox.Show("Missing information within the photo.\n\nCheck that every bib region has been assigned a number (and is not 'N/A') and that a face has been marked up for every corresponding bib region", "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             TimesSaved++;
             DateSaved = DateTime.Now;
             File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
+            return true;
         }
         public static bool LoadingJson { get; private set; }
         public static Photo LoadFromFile(string filename)
@@ -81,7 +87,7 @@ namespace Argus
                     _isComplete = value;
                     return;
                 }
-                if (value && !HasAFaceMarkedForEveryBib && !IsPhotoCrowded)
+                if (value && !IsMarkUpValid && !IsPhotoCrowded)
                 {
                     MessageBox.Show("Cannot be marked as complete as not all marked bibs have an associated face!", "Marking as Complete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -92,6 +98,8 @@ namespace Argus
         }
         [JsonIgnore]
         public bool IsPhotoNotCompletelyTagged => !IsPhotoCompletelyTagged;
+        [JsonIgnore]
+        public bool IsMarkUpValid => IsPhotoCrowded || (IsPhotoNotCrowded && HasAFaceMarkedForEveryBib && !HasIncompleteBibTag);
         public void ToggleComplete()
         {
             IsPhotoCompletelyTagged = !IsPhotoCompletelyTagged;

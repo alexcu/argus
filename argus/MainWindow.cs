@@ -181,7 +181,12 @@ namespace Argus
         {
             lstFiles.SelectedIndexChanged += (sender, e) =>
             {
+                int oldIdx = Model.PhotoIdx;
                 Model.PhotoIdx = lstFiles.SelectedIndex;
+                if (!Model.Photos[oldIdx].IsMarkUpValid)
+                {
+                    lstFiles.SelectedIndex = oldIdx;
+                }
             };
         }
         #endregion
@@ -208,9 +213,11 @@ namespace Argus
             mnuFileExit.Click += (sender, e) => AttemptExit();
             mnuFileSave.Click += (sender, e) =>
             {
-                Model.CurrentPhoto.TimesManualSaveMade++;
-                Model.CurrentPhoto.SaveToFile();
-                MessageBox.Show("Tagging data saved successfully", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (Model.CurrentPhoto.SaveToFile())
+                {
+                    Model.CurrentPhoto.TimesManualSaveMade++;
+                    MessageBox.Show("Tagging data saved successfully", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             };
             // Edit menu
             mnuEditUndo.Click += (sender, e) => Model.CurrentPhoto.UndoLastAction();
@@ -278,8 +285,10 @@ namespace Argus
                 }
                 else
                 {
-                    Model.CurrentPhoto.SaveToFile();
-                    RunClose();
+                    if (Model.CurrentPhoto.SaveToFile())
+                    {
+                        RunClose();
+                    }
                 }
             }
             else
