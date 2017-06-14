@@ -333,7 +333,7 @@ namespace Argus
             switch (TaggingStep)
             {
                 case StepType.SelectFaceRegion:
-                    SelectedRunner.TimeToDragAndDropFaceReigon.Start();
+                    SelectedRunner.TimeToDragAndDropFaceRegion.Start();
                     RecordStartOfFaceRegion(pbx, e.Location);
                     break;
                 default:
@@ -385,7 +385,7 @@ namespace Argus
                         return;
                     }
                     UpdateEndOfFaceRegion(pbx, e.Location);
-                    SelectedRunner.TimeToDragAndDropFaceReigon.Stop();
+                    SelectedRunner.TimeToDragAndDropFaceRegion.Stop();
                     SelectedRunner.TimesFaceDragAndDropMade++;
                     bool didSetBothClassifications = AskForBothClassificationsOfPerson(SelectedRunner);
                     if (!didSetBothClassifications)
@@ -458,7 +458,7 @@ namespace Argus
             if (person == null || person.Bib.ClickPoints.Count == 4)
             {
                 person = new TaggedPerson();
-                person.TimeToClickBibReigons.Start();
+                person.TimeToClickBibRegions.Start();
                 TaggedRunners.Insert(0, person);
                 Debug.WriteLine($"Adding person #{TaggedRunners.Count} to ({Identifier})");
             }
@@ -482,7 +482,7 @@ namespace Argus
                 person.Bib.PixelPoints = orderedPoints.Select(p => p.ToPixelPoint(pbx)).ToList();
 
                 // Done!
-                person.TimeToClickBibReigons.Stop();
+                person.TimeToClickBibRegions.Stop();
 
                 // Invalidate (update graphics) of picture box to reflect new bib number
                 pbx.Invalidate();
@@ -567,17 +567,17 @@ namespace Argus
         #region FaceRegion
         public void RecordStartOfFaceRegion(PictureBox pbx, Point pt)
         {
-            Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face reigon start at {pt} ({Identifier})");
-            SetFaceReigonAtIndex(pbx, pt, 0);
+            Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region start at {pt} ({Identifier})");
+            SetFaceRegionAtIndex(pbx, pt, 0);
         }
 
         public void UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
         {
-            Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face reigon end at {pt} ({Identifier})");
-            SetFaceReigonAtIndex(pbx, pt, 1);
+            Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
+            SetFaceRegionAtIndex(pbx, pt, 1);
         }
 
-        private void SetFaceReigonAtIndex(PictureBox pbx, Point pt, int idx)
+        private void SetFaceRegionAtIndex(PictureBox pbx, Point pt, int idx)
         {
             TaggedPerson.PersonFace face = SelectedRunner.Face;
             Point pixelPt = pt.ToPixelPoint(pbx);

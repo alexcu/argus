@@ -13,17 +13,17 @@ namespace Argus
     public class TaggedPerson
     {
         #region Statistics
-        public Stopwatch TimeToClickBibReigons { get; set; }
+        public Stopwatch TimeToClickBibRegions { get; set; }
         public Stopwatch TimeToEnterBibNumber { get; set; }
         public Stopwatch TimeToDoBaseClassifications { get; set; }
         public Stopwatch TimeToDoColorClassifications { get; set; }
-        public Stopwatch TimeToDragAndDropFaceReigon { get; set; }
+        public Stopwatch TimeToDragAndDropFaceRegion { get; set; }
         public long TotalTimeTaken => 
-            TimeToClickBibReigons.ElapsedMilliseconds +
+            TimeToClickBibRegions.ElapsedMilliseconds +
             TimeToEnterBibNumber.ElapsedMilliseconds +
             TimeToDoBaseClassifications.ElapsedMilliseconds +
             TimeToDoColorClassifications.ElapsedMilliseconds +
-            TimeToDragAndDropFaceReigon.ElapsedMilliseconds;
+            TimeToDragAndDropFaceRegion.ElapsedMilliseconds;
         public int TimesBibClickMade { get; set; }
         public int TimesFaceDragAndDropMade { get; set; }
         public int TimesColorClassificationsShown { get; set; }
@@ -132,11 +132,11 @@ namespace Argus
         public TaggedPerson()
         {
             // Construct timers
-            TimeToClickBibReigons = new Stopwatch();
+            TimeToClickBibRegions = new Stopwatch();
             TimeToEnterBibNumber = new Stopwatch();
             TimeToDoBaseClassifications = new Stopwatch();
             TimeToDoColorClassifications = new Stopwatch();
-            TimeToDragAndDropFaceReigon = new Stopwatch();
+            TimeToDragAndDropFaceRegion = new Stopwatch();
         }
 
         // Classifications
@@ -190,7 +190,7 @@ namespace Argus
         [JsonIgnore]
         public bool IsWearingGlasses { get { return Face.IsWearingGlasses; } set { Face.IsWearingGlasses = value; } }
 
-        // Reigons
+        // Regions
         public BibSheet Bib { get; } = new BibSheet();
         public bool IsBibRegionTagged => Bib.ClickPoints.AtCapacity();
         public PersonFace Face { get; } = new PersonFace();
