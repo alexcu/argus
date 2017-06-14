@@ -37,6 +37,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new Argus.BindableToolStripMenuItem();
             this.mnuFileAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileExit = new Argus.BindableToolStripMenuItem();
@@ -110,7 +111,6 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.grpFiles = new System.Windows.Forms.GroupBox();
             this.lstFiles = new System.Windows.Forms.ListBox();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -192,6 +192,11 @@
             this.mnuFileAbout.Name = "mnuFileAbout";
             this.mnuFileAbout.Size = new System.Drawing.Size(393, 38);
             this.mnuFileAbout.Text = "&About Argus";
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(390, 6);
             // 
             // mnuFileSave
             // 
@@ -906,11 +911,6 @@
             this.lstFiles.Name = "lstFiles";
             this.lstFiles.Size = new System.Drawing.Size(370, 1282);
             this.lstFiles.TabIndex = 29;
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(390, 6);
             // 
             // MainWindow
             // 
