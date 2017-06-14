@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Threading;
 using PropertyChanged;
 using System.IO;
+using System.Diagnostics;
 using Newtonsoft.Json;
 
 namespace Argus
@@ -28,14 +27,16 @@ namespace Argus
             Filename = filename;
             Identifier = Path.GetFileNameWithoutExtension(filename);
             TaggingStep = StepType.ImageCrowded;
+            // Construct timers
+            TimeTakenOnPhoto = new Stopwatch();
+            TimeToRespondToCrowded = new Stopwatch();
         }
 
         #region Statistics
-        [JsonIgnore]
-        public Stopwatch TimerOnPhoto { get; } = new Stopwatch();
-        public float TimeTakenOnPhoto => TimerOnPhoto.ElapsedMilliseconds;
-        public float AverageTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Average(p => p.TotalTimeTaken) : 0;
-        public float SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
+        public Stopwatch TimeTakenOnPhoto { get; set; }
+        public Stopwatch TimeToRespondToCrowded { get; set; }
+        public long AverageTimeTakenPerPerson => HasTaggedARunner ? (long)TaggedRunners.Average(p => p.TotalTimeTaken) : 0;
+        public long SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
         #endregion
 
         #region File IO
@@ -324,7 +325,7 @@ namespace Argus
             switch (TaggingStep)
             {
                 case StepType.SelectFaceRegion:
-                    SelectedRunner.TimerFaceDragDrop.Start();
+                    SelectedRunner.TimeToDragAndDropFaceReigon.Start();
                     RecordStartOfFaceRegion(pbx, e.Location);
                     break;
                 default:
@@ -376,7 +377,7 @@ namespace Argus
                         return;
                     }
                     UpdateEndOfFaceRegion(pbx, e.Location);
-                    SelectedRunner.TimerFaceDragDrop.Stop();
+                    SelectedRunner.TimeToDragAndDropFaceReigon.Stop();
                     bool didSetBothClassifications = AskForBothClassificationsOfPerson(SelectedRunner);
                     if (!didSetBothClassifications)
                     {
@@ -403,7 +404,9 @@ namespace Argus
         public void AskIfPhotoCrowded()
         {
             AskedIfPhotoCrowded = true;
+            TimeToRespondToCrowded.Start();
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            TimeToRespondToCrowded.Stop();
             IsPhotoCrowded = result == DialogResult.Yes;
             if (IsPhotoNotCrowded && TaggingStep == StepType.ImageCrowded)
             {
@@ -445,7 +448,7 @@ namespace Argus
             if (person == null || person.Bib.ClickPoints.Count == 4)
             {
                 person = new TaggedPerson();
-                person.TimerBibRegionClicks.Start();
+                person.TimeToClickBibReigons.Start();
                 TaggedRunners.Insert(0, person);
                 Debug.WriteLine($"Adding person #{TaggedRunners.Count} to ({Identifier})");
             }
@@ -468,7 +471,7 @@ namespace Argus
                 person.Bib.PixelPoints = orderedPoints.Select(p => p.ToPixelPoint(pbx)).ToList();
 
                 // Done!
-                person.TimerBibRegionClicks.Stop();
+                person.TimeToClickBibReigons.Stop();
 
                 // Invalidate (update graphics) of picture box to reflect new bib number
                 pbx.Invalidate();
@@ -490,7 +493,7 @@ namespace Argus
                 return;
             }
             BibNumberDialog bibDiag = new BibNumberDialog(person);
-            person.TimerEnteringBibNumber.Start();
+            person.TimeToEnterBibNumber.Start();
             // Prevent duplicate bib numbers being entered
             do
             {
@@ -500,6 +503,7 @@ namespace Argus
                     // Cancel -- remove this tag!
                     if (shouldDeleteIfCancel)
                     {
+                        person.TimeToEnterBibNumber.Stop();
                         DeleteTaggedPerson(person);
                     }
                     return;
@@ -515,7 +519,7 @@ namespace Argus
                     break;
                 }
             } while (true);
-            person.TimerEnteringBibNumber.Stop();
+            person.TimeToEnterBibNumber.Stop();
             // Notify that bindings should be updated to display tag
             TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             Debug.WriteLine($"Person #{TaggedRunners.Count} RBN identified as {person.Bib.BibNumber} ({Identifier})");
@@ -614,14 +618,14 @@ namespace Argus
                 MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
-            person.TimerBaseClassificationDialog.Start();
+            person.TimeToDoBaseClassifications.Start();
             Form dialog = new PersonBaseClassificationDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
             {
                 TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             }
-            person.TimerBaseClassificationDialog.Stop();
+            person.TimeToDoBaseClassifications.Stop();
             return didSet;
         }
         public bool AskForColorClassificationsOfPerson(TaggedPerson person)
@@ -631,14 +635,14 @@ namespace Argus
                 MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
-            person.TimerColorClassificationDialog.Start();
+            person.TimeToDoColorClassifications.Start();
             Form dialog = new PersonColorClassificationsDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
             {
                 TaggedRunners.ResetItem(TaggedRunners.IndexOf(person));
             }
-            person.TimerColorClassificationDialog.Stop();
+            person.TimeToDoColorClassifications.Stop();
             return didSet;
         }
         public bool AskIfPhotoTaggedAsComplete()

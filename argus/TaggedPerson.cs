@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Drawing;
 using PropertyChanged;
 using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace Argus
 {
@@ -14,22 +13,17 @@ namespace Argus
     public class TaggedPerson
     {
         #region Timers
-        [JsonIgnore]
-        public Stopwatch TimerBibRegionClicks { get; } = new Stopwatch();
-        [JsonIgnore]
-        public Stopwatch TimerEnteringBibNumber { get; } = new Stopwatch();
-        [JsonIgnore]
-        public Stopwatch TimerBaseClassificationDialog { get; } = new Stopwatch();
-        [JsonIgnore]
-        public Stopwatch TimerColorClassificationDialog { get; } = new Stopwatch();
-        [JsonIgnore]
-        public Stopwatch TimerFaceDragDrop { get; } = new Stopwatch();
-        // Time we care about
-        public float TimeToClickBibReigons => TimerBibRegionClicks.ElapsedMilliseconds;
-        public float TimeToEnterBibNumber => TimerEnteringBibNumber.ElapsedMilliseconds;
-        public float TimeToDoBaseClassifications => TimerBaseClassificationDialog.ElapsedMilliseconds;
-        public float TimeToDoColorClassifications => TimerColorClassificationDialog.ElapsedMilliseconds;
-        public float TotalTimeTaken => TimeToClickBibReigons + TimeToEnterBibNumber + TimeToDoBaseClassifications + TimeToDoColorClassifications;
+        public Stopwatch TimeToClickBibReigons { get; set; }
+        public Stopwatch TimeToEnterBibNumber { get; set; }
+        public Stopwatch TimeToDoBaseClassifications { get; set; }
+        public Stopwatch TimeToDoColorClassifications { get; set; }
+        public Stopwatch TimeToDragAndDropFaceReigon { get; set; }
+        public long TotalTimeTaken => 
+            TimeToClickBibReigons.ElapsedMilliseconds +
+            TimeToEnterBibNumber.ElapsedMilliseconds +
+            TimeToDoBaseClassifications.ElapsedMilliseconds +
+            TimeToDoColorClassifications.ElapsedMilliseconds +
+            TimeToDragAndDropFaceReigon.ElapsedMilliseconds;
         #endregion
 
         #region Related Data Types
@@ -130,6 +124,16 @@ namespace Argus
             }
         }
         #endregion
+
+        public TaggedPerson()
+        {
+            // Construct timers
+            TimeToClickBibReigons = new Stopwatch();
+            TimeToEnterBibNumber = new Stopwatch();
+            TimeToDoBaseClassifications = new Stopwatch();
+            TimeToDoColorClassifications = new Stopwatch();
+            TimeToDragAndDropFaceReigon = new Stopwatch();
+        }
 
         // Classifications
         public bool IsRunnerBlurred { get; set; }
