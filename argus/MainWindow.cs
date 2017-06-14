@@ -5,6 +5,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Deployment.Application;
 
 namespace Argus
 {
@@ -229,6 +230,8 @@ namespace Argus
         #region Events
         void BindMainMenuEvents()
         {
+            // File menu
+            mnuFileAbout.Click += (sender, e) => AboutArgusClicked();
             mnuFileExit.Click += (sender, e) => AttemptExit();
             mnuFileSave.Click += (sender, e) =>
             {
@@ -263,6 +266,17 @@ namespace Argus
             mnuRunnerOpenColorClassificationsToolbox.Click += (sender, e) => Model.CurrentPhoto.AskForColorClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerOpenMarkBaseClassToolbox.Click += (sender, e) => Model.CurrentPhoto.AskForBaseClassificationsOfPerson(Model.CurrentPhoto.SelectedRunner);
             mnuRunnerDelete.Click += (sender, e) => Model.CurrentPhoto.DeleteTaggedPerson(Model.CurrentPhoto.SelectedRunner);
+        }
+
+
+        private void AboutArgusClicked()
+        {
+            #if DEBUG
+                string deploymentVersion = "DEBUG";
+            #else
+                string deploymentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            #endif
+            MessageBox.Show($"Argus v{deploymentVersion} - A data tagging tool.\n\nRefer to http://www.deakin.edu.au/~ca/argus/ for more.\n\n© Deakin Software and Technology Innovation Lab 2017.", "About Argus", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void AttemptExit(bool showLastPhotoDialog = false)
@@ -731,6 +745,7 @@ namespace Argus
             }
         }
         #endregion
+
         #endregion
     }
 }

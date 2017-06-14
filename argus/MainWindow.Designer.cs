@@ -36,6 +36,7 @@
             this.lblTooltip = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new Argus.BindableToolStripMenuItem();
+            this.mnuFileAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileExit = new Argus.BindableToolStripMenuItem();
@@ -109,6 +110,7 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.grpFiles = new System.Windows.Forms.GroupBox();
             this.lstFiles = new System.Windows.Forms.ListBox();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tblMainGrid.SuspendLayout();
@@ -169,19 +171,27 @@
             this.mnuSelectedRunner});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2642, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(2642, 42);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // mnuFile
             // 
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuFileAbout,
+            this.toolStripSeparator10,
             this.mnuFileSave,
             this.toolStripSeparator2,
             this.mnuFileExit});
             this.mnuFile.Name = "mnuFile";
-            this.mnuFile.Size = new System.Drawing.Size(64, 36);
+            this.mnuFile.Size = new System.Drawing.Size(64, 38);
             this.mnuFile.Text = "&File";
+            // 
+            // mnuFileAbout
+            // 
+            this.mnuFileAbout.Name = "mnuFileAbout";
+            this.mnuFileAbout.Size = new System.Drawing.Size(393, 38);
+            this.mnuFileAbout.Text = "&About Argus";
             // 
             // mnuFileSave
             // 
@@ -207,7 +217,7 @@
             this.mnuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuEditUndo});
             this.mnuEdit.Name = "mnuEdit";
-            this.mnuEdit.Size = new System.Drawing.Size(67, 36);
+            this.mnuEdit.Size = new System.Drawing.Size(67, 38);
             this.mnuEdit.Text = "&Edit";
             // 
             // mnuEditUndo
@@ -225,7 +235,7 @@
             this.toolStripSeparator6,
             this.mnuViewRotateImage});
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(78, 36);
+            this.mnuView.Size = new System.Drawing.Size(78, 38);
             this.mnuView.Text = "&View";
             // 
             // mnuViewPreviousPhoto
@@ -267,7 +277,7 @@
             this.mnuPhotoSelectNextRunner});
             this.mnuPhoto.Name = "mnuPhoto";
             this.mnuPhoto.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.mnuPhoto.Size = new System.Drawing.Size(90, 36);
+            this.mnuPhoto.Size = new System.Drawing.Size(90, 38);
             this.mnuPhoto.Text = "&Photo";
             // 
             // mnuPhotoMarkCrowded
@@ -339,7 +349,7 @@
             this.toolStripSeparator9,
             this.mnuRunnerDelete});
             this.mnuSelectedRunner.Name = "mnuSelectedRunner";
-            this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 36);
+            this.mnuSelectedRunner.Size = new System.Drawing.Size(202, 38);
             this.mnuSelectedRunner.Text = "Selected &Runner";
             // 
             // mnuRunnerStaticNumberValue
@@ -537,13 +547,13 @@
             this.tblMainGrid.Controls.Add(this.btnPrevImage, 0, 0);
             this.tblMainGrid.Controls.Add(this.pnlLeft, 0, 1);
             this.tblMainGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblMainGrid.Location = new System.Drawing.Point(0, 40);
+            this.tblMainGrid.Location = new System.Drawing.Point(0, 42);
             this.tblMainGrid.Name = "tblMainGrid";
             this.tblMainGrid.RowCount = 3;
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tblMainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblMainGrid.Size = new System.Drawing.Size(2642, 1906);
+            this.tblMainGrid.Size = new System.Drawing.Size(2642, 1904);
             this.tblMainGrid.TabIndex = 18;
             // 
             // pnlRight
@@ -555,14 +565,14 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(2116, 193);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(523, 1328);
+            this.pnlRight.Size = new System.Drawing.Size(523, 1326);
             this.pnlRight.TabIndex = 33;
             // 
             // grpPhotoClass
             // 
             this.grpPhotoClass.Controls.Add(this.tableLayoutPanel1);
             this.grpPhotoClass.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grpPhotoClass.Location = new System.Drawing.Point(0, 960);
+            this.grpPhotoClass.Location = new System.Drawing.Point(0, 958);
             this.grpPhotoClass.Name = "grpPhotoClass";
             this.grpPhotoClass.Padding = new System.Windows.Forms.Padding(10);
             this.grpPhotoClass.Size = new System.Drawing.Size(523, 368);
@@ -672,7 +682,7 @@
             this.tblcolBibDelete});
             this.tblMainGrid.SetColumnSpan(this.tblTags, 5);
             this.tblTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblTags.Location = new System.Drawing.Point(3, 1527);
+            this.tblTags.Location = new System.Drawing.Point(3, 1525);
             this.tblTags.MultiSelect = false;
             this.tblTags.Name = "tblTags";
             this.tblTags.ReadOnly = true;
@@ -855,7 +865,7 @@
             this.imgPhoto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgPhoto.Location = new System.Drawing.Point(399, 193);
             this.imgPhoto.Name = "imgPhoto";
-            this.imgPhoto.Size = new System.Drawing.Size(1711, 1328);
+            this.imgPhoto.Size = new System.Drawing.Size(1711, 1326);
             this.imgPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPhoto.TabIndex = 25;
             this.imgPhoto.TabStop = false;
@@ -868,7 +878,7 @@
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlLeft.Location = new System.Drawing.Point(3, 193);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(390, 1328);
+            this.pnlLeft.Size = new System.Drawing.Size(390, 1326);
             this.pnlLeft.TabIndex = 29;
             // 
             // grpFiles
@@ -878,7 +888,7 @@
             this.grpFiles.Location = new System.Drawing.Point(0, 0);
             this.grpFiles.Name = "grpFiles";
             this.grpFiles.Padding = new System.Windows.Forms.Padding(10);
-            this.grpFiles.Size = new System.Drawing.Size(390, 1328);
+            this.grpFiles.Size = new System.Drawing.Size(390, 1326);
             this.grpFiles.TabIndex = 26;
             this.grpFiles.TabStop = false;
             this.grpFiles.Text = "Photo Files";
@@ -894,8 +904,13 @@
             ""});
             this.lstFiles.Location = new System.Drawing.Point(10, 34);
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(370, 1284);
+            this.lstFiles.Size = new System.Drawing.Size(370, 1282);
             this.lstFiles.TabIndex = 29;
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(390, 6);
             // 
             // MainWindow
             // 
@@ -1016,6 +1031,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label lblStepName;
         private System.Windows.Forms.Label lblInstructions;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileAbout;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
     }
 }
 
