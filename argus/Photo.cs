@@ -471,6 +471,12 @@ namespace Argus
                 Debug.WriteLine($"Adding person #{TaggedRunners.Count} to ({Identifier})");
             }
             person.TimesBibClickMade++;
+            // Verify click is at least 15px away from previous click
+            if (person.Bib.ClickPoints.Count > 0 && person.Bib.ClickPoints.Last().GetDistance(pt) < 15)
+            {
+                MessageBox.Show("Bib clicks must be a few pixels apart. Please click further away.", "Bib click", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             person.Bib.ClickPoints.Add(pt);
             person.Bib.PixelPoints.Add(pt.ToPixelPoint(pbx));
             Debug.WriteLine($"Person #{TaggedRunners.Count} has Bib[{person.Bib.ClickPoints.Count}] = {pt} ({Identifier})");
