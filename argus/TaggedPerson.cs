@@ -12,7 +12,7 @@ namespace Argus
     [ImplementPropertyChanged]
     public class TaggedPerson
     {
-        #region Timers
+        #region Statistics
         public Stopwatch TimeToClickBibReigons { get; set; }
         public Stopwatch TimeToEnterBibNumber { get; set; }
         public Stopwatch TimeToDoBaseClassifications { get; set; }
@@ -24,6 +24,10 @@ namespace Argus
             TimeToDoBaseClassifications.ElapsedMilliseconds +
             TimeToDoColorClassifications.ElapsedMilliseconds +
             TimeToDragAndDropFaceReigon.ElapsedMilliseconds;
+        public int TimesBibClickMade { get; set; }
+        public int TimesFaceDragAndDropMade { get; set; }
+        public int TimesColorClassificationsShown { get; set; }
+        public int TimesBaseClassificationsShown { get; set; }
         #endregion
 
         #region Related Data Types

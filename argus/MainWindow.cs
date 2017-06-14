@@ -208,6 +208,7 @@ namespace Argus
             mnuFileExit.Click += (sender, e) => AttemptExit();
             mnuFileSave.Click += (sender, e) =>
             {
+                Model.CurrentPhoto.TimesManualSaveMade++;
                 Model.CurrentPhoto.SaveToFile();
                 MessageBox.Show("Tagging data saved successfully", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
             };

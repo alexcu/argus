@@ -37,6 +37,12 @@ namespace Argus
         public Stopwatch TimeToRespondToCrowded { get; set; }
         public long AverageTimeTakenPerPerson => HasTaggedARunner ? (long)TaggedRunners.Average(p => p.TotalTimeTaken) : 0;
         public long SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
+        public int TimesAskedForCrowdedness { get; set; }
+        public int TimesUndoMade { get; set; }
+        public int TimesAskedIfPhotoComplete { get; set; }
+        public int TimesDeletedRunner { get; set; }
+        public int TimesManualSaveMade { get; set; }
+        public int TimesSaved { get; set; }
         #endregion
 
         #region File IO
@@ -46,6 +52,7 @@ namespace Argus
 
         public void SaveToFile()
         {
+            TimesSaved++;
             DateSaved = DateTime.Now;
             File.WriteAllText($"{Filename}.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
@@ -156,6 +163,7 @@ namespace Argus
 
         public void DeleteTaggedPerson(TaggedPerson person)
         {
+            TimesDeletedRunner++;
             TaggedRunners.Remove(person);
             if (person == SelectedRunner)
             {
@@ -171,7 +179,6 @@ namespace Argus
         #region Steps
         // Steps in tagging the photo
         private StepType _taggingStep;
-        [JsonIgnore]
         public StepType TaggingStep
         {
             get => _taggingStep;
@@ -285,6 +292,7 @@ namespace Argus
         #region HandleEvents
         internal void UndoLastAction()
         {
+            TimesUndoMade++;
             switch (TaggingStep)
             {
                 case StepType.ImageCrowded:
@@ -378,6 +386,7 @@ namespace Argus
                     }
                     UpdateEndOfFaceRegion(pbx, e.Location);
                     SelectedRunner.TimeToDragAndDropFaceReigon.Stop();
+                    SelectedRunner.TimesFaceDragAndDropMade++;
                     bool didSetBothClassifications = AskForBothClassificationsOfPerson(SelectedRunner);
                     if (!didSetBothClassifications)
                     {
@@ -407,6 +416,7 @@ namespace Argus
             TimeToRespondToCrowded.Start();
             DialogResult result = MessageBox.Show("Is this photo crowded?", "Crowded Image", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             TimeToRespondToCrowded.Stop();
+            TimesAskedForCrowdedness++;
             IsPhotoCrowded = result == DialogResult.Yes;
             if (IsPhotoNotCrowded && TaggingStep == StepType.ImageCrowded)
             {
@@ -452,6 +462,7 @@ namespace Argus
                 TaggedRunners.Insert(0, person);
                 Debug.WriteLine($"Adding person #{TaggedRunners.Count} to ({Identifier})");
             }
+            person.TimesBibClickMade++;
             person.Bib.ClickPoints.Add(pt);
             person.Bib.PixelPoints.Add(pt.ToPixelPoint(pbx));
             Debug.WriteLine($"Person #{TaggedRunners.Count} has Bib[{person.Bib.ClickPoints.Count}] = {pt} ({Identifier})");
@@ -492,8 +503,9 @@ namespace Argus
                 MessageBox.Show("Unable to set tag number - the tag region is not yet specified", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            BibNumberDialog bibDiag = new BibNumberDialog(person);
             person.TimeToEnterBibNumber.Start();
+            person.TimesBibClickMade++;
+            BibNumberDialog bibDiag = new BibNumberDialog(person);
             // Prevent duplicate bib numbers being entered
             do
             {
@@ -619,6 +631,7 @@ namespace Argus
                 return false;
             }
             person.TimeToDoBaseClassifications.Start();
+            person.TimesBaseClassificationsShown++;
             Form dialog = new PersonBaseClassificationDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
@@ -636,6 +649,7 @@ namespace Argus
                 return false;
             }
             person.TimeToDoColorClassifications.Start();
+            person.TimesColorClassificationsShown++;
             Form dialog = new PersonColorClassificationsDialog(person);
             bool didSet = dialog.ShowDialog() != DialogResult.Cancel;
             if (didSet)
@@ -649,6 +663,7 @@ namespace Argus
         {
             DialogResult result = MessageBox.Show("Are you finished tagging this image?", "Moving to Next Photo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             IsPhotoCompletelyTagged = result == DialogResult.Yes;
+            TimesAskedIfPhotoComplete++;
             // Photo may not have been set as complete succesfully, so return if it was!
             return IsPhotoCompletelyTagged;
         }
