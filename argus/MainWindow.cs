@@ -193,38 +193,11 @@ namespace Argus
         {
             // View menu
             AddDataBinding(mnuViewPreviousPhoto, "Enabled", Model, "CanGetPrevPhoto");
-            //AddDataBinding(mnuViewNextPhoto, "Enabled", Model, "CanGetNextPhoto");
-            // Edit menu
-            //mnuEditUndo.DataBindings.Add("Enabled", Model, "CanUndoLastAction");
-            //mnuEditRedo.DataBindings.Add("Enabled", Model, "CanRedoLastAction");
             // Photo menu
             AddDataBinding(mnuPhotoMarkCrowded, "Checked", Model, "CurrentPhoto.IsPhotoCrowded");
             AddDataBinding(mnuPhotoMarkComplete, "Checked", Model, "CurrentPhoto.IsPhotoCompletelyTagged");
-            //mnuPhotoMarkBibs.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkBibs");
-            //mnuPhotoMarkFaces.DataBindings.Add("Enabled", Model.CurrentPhoto, "CanMarkFaces");
-            //AddDataBinding(mnuPhotoSelectNextRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
-            //AddDataBinding(mnuPhotoSelectPrevRunner, "Enabled", Model, "CurrentPhoto.HasTaggedARunner");
             // Selected runner menu
             AddDataBinding(mnuSelectedRunner, "Enabled", Model, "CurrentPhoto.CanOpenRunnerMenu");
-            mnuSelectedRunner.EnabledChanged += (sender, e) =>
-            {
-                // Only bind if no bindings were set
-                bool mnuBindingsSet = mnuRunnerMarkBlurry.DataBindings.Count > 0;
-                if (Model.CurrentPhoto.IsRunnerSelected && !mnuBindingsSet)
-                {
-                    //mnuRunnerStaticNumberValue.DataBindings.Add("Text", Model.CurrentPhoto, "SelectedRunnerNumber");
-                    AddDataBinding(mnuRunnerMarkBlurry, "Checked", Model, "CurrentPhoto.SelectedRunner.IsRunnerBlurred");
-                    AddDataBinding(mnuRunnerMarkFaceVisible, "Checked", Model, "CurrentPhoto.SelectedRunner.IsFaceVisible");
-                    AddDataBinding(mnuRunnerMarkGlasses, "Checked", Model, "CurrentPhoto.SelectedRunner.IsWearingGlasses");
-                    AddDataBinding(mnuRunnerMarkHat, "Checked", Model, "CurrentPhoto.SelectedRunner.IsWearingHat");
-                    AddDataBinding(mnuRunnerLikelihoodPurchaseYes, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseYes");
-                    AddDataBinding(mnuRunnerLikelihoodPurchaseMaybe, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseMaybe");
-                    AddDataBinding(mnuRunnerLikelihoodPurchaseNo, "Checked", Model, "CurrentPhoto.SelectedRunner.IsLikelihoodOfPurchaseNo");
-                    AddDataBinding(mnuRunnerGenderMale, "Checked", Model, "CurrentPhoto.SelectedRunner.IsGenderMale");
-                    AddDataBinding(mnuRunnerGenderFemale, "Checked", Model, "CurrentPhoto.SelectedRunner.IsGenderFemale");
-                    AddDataBinding(mnuRunnerGenderUnknown, "Checked", Model, "CurrentPhoto.SelectedRunner.IsGenderUnknown");
-                }
-            };
         }
         #endregion
         #region Events
