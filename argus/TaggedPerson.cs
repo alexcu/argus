@@ -135,7 +135,6 @@ namespace Argus
         public bool IsRunnerBlurred { get; set; }
         // Gender
         public GenderType Gender { get; set; }
-        [JsonIgnore]
         public string GenderName
         {
             get { return Gender.ToString(); }
