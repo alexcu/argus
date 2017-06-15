@@ -11,21 +11,25 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Deploy\Argus\</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>Z:\Repos\dstil\argus\bin\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://s3-ap-southeast-2.amazonaws.com/dstil-argus/</InstallUrl>
+    <UpdateUrl>https://s3-ap-southeast-2.amazonaws.com/dstil-argus/</UpdateUrl>
+    <SupportUrl>http://deakin.edu.au/~ca/argus</SupportUrl>
     <TargetCulture>en-AU</TargetCulture>
     <ProductName>Argus</ProductName>
     <PublisherName>DSTIL</PublisherName>
-    <WebPage>publish.htm</WebPage>
+    <MinimumRequiredVersion>1.0.0.11</MinimumRequiredVersion>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
