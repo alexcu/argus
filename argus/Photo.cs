@@ -117,7 +117,7 @@ namespace Argus
         [JsonIgnore]
         private bool HasAFaceMarkedForEveryBib => TaggedRunners.Count(p => p.IsFaceRegionTagged && p.IsBibRegionTagged) == TaggedRunners.Count;
         [JsonIgnore]
-        public bool HasIncompleteBibTag => !LastRunnerTagged.Bib.ClickPoints.AtCapacity();
+        public bool HasIncompleteBibTag => LastRunnerTagged != null && !LastRunnerTagged.Bib.ClickPoints.AtCapacity();
         [JsonIgnore]
         public bool HasTaggedARunner => TaggedRunners.Count(p => p.Bib.BibNumber != null) > 0;
         private TaggedPerson _selectedRunner;
