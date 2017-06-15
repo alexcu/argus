@@ -581,23 +581,45 @@ namespace Argus
         #region FaceRegion
         public void RecordStartOfFaceRegion(PictureBox pbx, Point pt)
         {
-            Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region start at {pt} ({Identifier})");
-            SetFaceRegionAtIndex(pbx, pt, 0);
+            // Start cannot be too far away from bib left
+            Point leftBibPt = SelectedRunner.Bib.ClickPoints.OrderBy(p => p.X).First();
+            if (pt.GetDistance(leftBibPt) > 400)
+            {
+                MessageBox.Show("Face region too far left from runner's bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region start at {pt} ({Identifier})");
+                SetFaceRegionAtIndex(pbx, pt, 0);
+            }
         }
 
         public void UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
         {
             Point firstPt = SelectedRunner.Face.ClickPoints[0];
-            Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
+            Point topBibPt = SelectedRunner.Bib.ClickPoints.OrderBy(p => p.Y).First();
+           
+            Point rightBibPt = SelectedRunner.Bib.ClickPoints.OrderBy(p => p.X).Last();
             // Prevent end from being before start
             if (pt.X < firstPt.X || pt.Y < firstPt.Y)
             {
                 MessageBox.Show("Please drag from the TOP LEFT to the BOTTOM RIGHT of the person's face", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                
+
+            }
+            // Must be higher than the top of the bib
+            else if (pt.Y > topBibPt.Y)
+            {
+                MessageBox.Show("Bottom of face region cannot overlap top of bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            // Ensure distance right of bib region is not too far away
+            else if (pt.GetDistance(rightBibPt) > 400)
+            {
+                MessageBox.Show("Face region too far right from runner's bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             // Only set if 15 px away
             else if (pt.GetDistance(firstPt) > 15)
             {
+                Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
                 SetFaceRegionAtIndex(pbx, pt, 1);
             }
         }
