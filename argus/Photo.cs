@@ -387,14 +387,16 @@ namespace Argus
             switch (TaggingStep)
             {
                 case StepType.SelectFaceRegion:
-                    if (_draggingStartPoint.GetDistance(e.Location) < 5)
-                    {
-                        MessageBox.Show($"You are currently marking face regions (Step 3).\n\nPlease DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT the FACE of runner {SelectedRunner.BibNumber}", "Drag-and-Drop Not Detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    UpdateEndOfFaceRegion(pbx, e.Location);
                     SelectedRunner.TimeToDragAndDropFaceRegion.Stop();
                     SelectedRunner.TimesFaceDragAndDropMade++;
+                    bool isValidFaceDrag = UpdateEndOfFaceRegion(pbx, e.Location);
+                    if (!isValidFaceDrag)
+                    {
+                        SelectedRunner.Face.ClickPoints.Clear();
+                        SelectedRunner.Face.PixelPoints.Clear();
+                        MainWindow.Singleton.RequestRedrawGraphics();
+                        return;
+                    }
                     bool didSetBothClassifications = AskForBothClassificationsOfPerson(SelectedRunner);
                     if (!didSetBothClassifications)
                     {
@@ -486,10 +488,10 @@ namespace Argus
                 // Reorder so that values are in clockwise order!
                 List<Point> orderedPoints = new List<Point>
                 {
-                    person.Bib.TopLeft,
-                    person.Bib.TopRight,
-                    person.Bib.BtmRight,
-                    person.Bib.BtmLeft
+                    person.Bib.ClickTopLeft,
+                    person.Bib.ClickTopRight,
+                    person.Bib.ClickBottomRight,
+                    person.Bib.ClickBottomLeft
                 };
                 person.Bib.ClickPoints = orderedPoints;
                 // Update to reflect pixel points
@@ -581,9 +583,15 @@ namespace Argus
         #region FaceRegion
         public void RecordStartOfFaceRegion(PictureBox pbx, Point pt)
         {
+            // Clear all previous points
+            SelectedRunner.Face.ClickPoints.Clear();
+            SelectedRunner.Face.PixelPoints.Clear();
+
+            int maxFaceLeftX = SelectedRunner.ClickMaxSelectableRegion.Left;
+            bool isBeyondLeft = pt.X < maxFaceLeftX;
+
             // Start cannot be too far away from bib left
-            Point leftBibPt = SelectedRunner.Bib.ClickPoints.OrderBy(p => p.X).First();
-            if (pt.GetDistance(leftBibPt) > 400)
+            if (isBeyondLeft)
             {
                 MessageBox.Show("Face region too far left from runner's bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -594,34 +602,40 @@ namespace Argus
             }
         }
 
-        public void UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
+        public bool UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
         {
-            Point firstPt = SelectedRunner.Face.ClickPoints[0];
-            Point topBibPt = SelectedRunner.Bib.ClickPoints.OrderBy(p => p.Y).First();
-           
-            Point rightBibPt = SelectedRunner.Bib.ClickPoints.OrderBy(p => p.X).Last();
-            // Prevent end from being before start
-            if (pt.X < firstPt.X || pt.Y < firstPt.Y)
+            if (SelectedRunner.Face.ClickPoints.Count == 0)
             {
-                MessageBox.Show("Please drag from the TOP LEFT to the BOTTOM RIGHT of the person's face", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                return false;
             }
+            Point firstPt = SelectedRunner.Face.ClickPoints[0];
+            int maxFaceRightX = SelectedRunner.ClickMaxSelectableRegion.Right;
+            bool isBeyondRight = pt.X > maxFaceRightX;
+            
             // Must be higher than the top of the bib
-            else if (pt.Y > topBibPt.Y)
+            if (pt.Y > SelectedRunner.Bib.ClickBounds.Top)
             {
                 MessageBox.Show("Bottom of face region cannot overlap top of bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             // Ensure distance right of bib region is not too far away
-            else if (pt.GetDistance(rightBibPt) > 400)
+            else if (isBeyondRight)
             {
                 MessageBox.Show("Face region too far right from runner's bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            // Only set if 15 px away
+            // Prevent end from being before start or from just 'clicking'
+            else if (pt.X < firstPt.X || pt.Y < firstPt.Y || _draggingStartPoint.GetDistance(pt) < 5)
+            {
+                MessageBox.Show("You are currently marking face regions (Step 3).\n\nPlease DRAG-AND-DROP from the TOP LEFT to the BOTTOM RIGHT of the person's face", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            // Only set if 15 px away from first point
             else if (pt.GetDistance(firstPt) > 15)
             {
                 Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
                 SetFaceRegionAtIndex(pbx, pt, 1);
+                return true;
             }
+
+            return false;
         }
 
         private void SetFaceRegionAtIndex(PictureBox pbx, Point pt, int idx)

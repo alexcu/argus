@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using Newtonsoft.Json;
 using PropertyChanged;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace Argus
 {
     [ImplementPropertyChanged]
     public class TaggedPerson
     {
+        // Aspect ratio of Width and Height of Face relative to Bib sheet
+        private const int FACE_ASPECT_W = 3;
+        private const int FACE_ASPECT_H = 5;
+
         #region Statistics
         public Stopwatch TimeToClickBibRegions { get; set; }
         public Stopwatch TimeToEnterBibNumber { get; set; }
@@ -35,12 +37,31 @@ namespace Argus
         public class PersonFace
         {
             // Region
+            public Point PixelCentre => new Point((int)PixelPoints.Average(pt => pt.X), (int)PixelPoints.Average(pt => pt.Y));
+            public Point ClickCentre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+
             [JsonIgnore]
-            public Point Centre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+            public Point ClickTopLeft => ClickPoints.Find(pt => pt.X < ClickCentre.X && pt.Y < ClickCentre.Y); // MinX, MinY
             [JsonIgnore]
-            public Point TopLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y < Centre.Y); // MinX, MinY
-            [JsonIgnore]
-            public Point BtmRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y > Centre.Y);  // MaxX, MaxY
+            public Point ClickBottomRight => ClickPoints.Find(pt => pt.X > ClickCentre.X && pt.Y > ClickCentre.Y);  // MaxX, MaxY
+
+            private Point ClickTop => ClickPoints.OrderBy(p => p.Y).First();
+            private Point ClickRight => ClickPoints.OrderBy(p => p.X).Last();
+            private Point ClickBottom => ClickPoints.OrderBy(p => p.Y).Last();
+            private Point ClickLeft => ClickPoints.OrderBy(p => p.X).First();
+            private int ClickWidth => ClickRight.X - ClickLeft.X;
+            private int ClickHeight => ClickBottom.Y - ClickTop.Y;
+            
+            private Point PixelTop => PixelPoints.OrderBy(p => p.Y).First();
+            private Point PixelRight => PixelPoints.OrderBy(p => p.X).Last();
+            private Point PixelBottom => PixelPoints.OrderBy(p => p.Y).Last();
+            private Point PixelLeft => PixelPoints.OrderBy(p => p.X).First();
+            private int PixelWidth => PixelRight.X - PixelLeft.X;
+            private int PixelHeight => PixelBottom.Y - PixelTop.Y;
+
+            // Face region itself
+            public Rectangle ClickBounds => new Rectangle(ClickLeft.X, ClickTop.Y, ClickWidth, ClickHeight);
+            public Rectangle PixelBounds => new Rectangle(PixelLeft.X, PixelTop.Y, PixelWidth, PixelHeight);
 
             // 2 indexes for top left and bottom right and the second mapped as pixels
             public List<Point> ClickPoints = new List<Point>(2);
@@ -64,16 +85,35 @@ namespace Argus
         public class BibSheet
         {
             // Bib region
+            public Point PixelCentre => new Point((int)PixelPoints.Average(pt => pt.X), (int)PixelPoints.Average(pt => pt.Y));
+            public Point ClickCentre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+
             [JsonIgnore]
-            public Point Centre => new Point((int)ClickPoints.Average(pt => pt.X), (int)ClickPoints.Average(pt => pt.Y));
+            public Point ClickTopLeft => ClickPoints.Find(pt => pt.X < ClickCentre.X && pt.Y < ClickCentre.Y); // MinX, MinY
             [JsonIgnore]
-            public Point TopLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y < Centre.Y); // MinX, MinY
+            public Point ClickTopRight => ClickPoints.Find(pt => pt.X > ClickCentre.X && pt.Y < ClickCentre.Y); // MaxX, MinY
             [JsonIgnore]
-            public Point TopRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y < Centre.Y); // MaxX, MinY
+            public Point ClickBottomRight => ClickPoints.Find(pt => pt.X > ClickCentre.X && pt.Y > ClickCentre.Y);  // MaxX, MaxY
             [JsonIgnore]
-            public Point BtmRight => ClickPoints.Find(pt => pt.X > Centre.X && pt.Y > Centre.Y);  // MaxX, MaxY
-            [JsonIgnore]
-            public Point BtmLeft => ClickPoints.Find(pt => pt.X < Centre.X && pt.Y > Centre.Y); // MinX, MaxY
+            public Point ClickBottomLeft => ClickPoints.Find(pt => pt.X < ClickCentre.X && pt.Y > ClickCentre.Y); // MinX, MaxY
+
+            private Point ClickTop => ClickPoints.OrderBy(p => p.Y).First();
+            private Point ClickRight => ClickPoints.OrderBy(p => p.X).Last();
+            private Point ClickBottom => ClickPoints.OrderBy(p => p.Y).Last();
+            private Point ClickLeft => ClickPoints.OrderBy(p => p.X).First();
+            private int ClickWidth => ClickRight.X - ClickLeft.X;
+            private int ClickHeight => ClickBottom.Y - ClickTop.Y;
+
+            private Point PixelTop => PixelPoints.OrderBy(p => p.Y).First();
+            private Point PixelRight => PixelPoints.OrderBy(p => p.X).Last();
+            private Point PixelBottom => PixelPoints.OrderBy(p => p.Y).Last();
+            private Point PixelLeft => PixelPoints.OrderBy(p => p.X).First();
+            private int PixelWidth => PixelRight.X - PixelLeft.X;
+            private int PixelHeight => PixelBottom.Y - PixelTop.Y;
+
+            // Bib region itself
+            public Rectangle ClickBounds => new Rectangle(ClickLeft.X, ClickTop.Y, ClickWidth, ClickHeight);
+            public Rectangle PixelBounds => new Rectangle(PixelLeft.X, PixelTop.Y, PixelWidth, PixelHeight);
 
             // 4 indexes for 4 corners of mouse clicks and the representation as pixels
             public List<Point> ClickPoints = new List<Point>(4);
@@ -195,6 +235,12 @@ namespace Argus
         public bool IsBibRegionTagged => Bib.ClickPoints.AtCapacity();
         public PersonFace Face { get; } = new PersonFace();
         public bool IsFaceRegionTagged => Face.ClickPoints.AtCapacity();
+
+        // Face region geometric boundaries
+        [JsonIgnore]
+        public Size ClickMaxFaceSize => new Size (FACE_ASPECT_W * Bib.ClickBounds.Width, FACE_ASPECT_H * Bib.ClickBounds.Height);
+        [JsonIgnore]
+        public Rectangle ClickMaxSelectableRegion => new Rectangle((int)(Bib.ClickCentre.X - ClickMaxFaceSize.Width / 2.0), Bib.ClickBounds.Top - ClickMaxFaceSize.Height, ClickMaxFaceSize.Width, ClickMaxFaceSize.Height + Bib.ClickBounds.Height + 30);
 
         // Bounds of person within photo
         private Point[] AllPixelPoints => Face.PixelPoints.Concat(Bib.PixelPoints).ToArray();

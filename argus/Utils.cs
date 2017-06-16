@@ -22,6 +22,7 @@ namespace Argus
         public static Brush FaceBrush = Brushes.Cyan;
         public static Pen RedPen = new Pen(Color.Magenta, 2);
         public static Pen GuidelinePen = new Pen(Color.White, 3);
+        public static Brush InactiveRegionBrush = new SolidBrush(Color.FromArgb(128, Color.Black));
 
         public static bool AtCapacity<T>(this List<T> me)
         {

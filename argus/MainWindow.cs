@@ -667,6 +667,19 @@ namespace Argus
                 // Draw bounding box of person
                 if (isSelectedPerson)
                 {
+                    if (person.IsBibRegionTagged && Model.CurrentPhoto.TaggingStep == StepType.SelectFaceRegion)
+                    {
+                        // Mark up max selectable region if face
+                        Rectangle selRegion = person.ClickMaxSelectableRegion;
+                        Rectangle[] inactiveRegions = new Rectangle[]
+                        {
+                            new Rectangle(0, 0, selRegion.Left, imgPhoto.Height),
+                            new Rectangle(selRegion.Left, 0, selRegion.Width, selRegion.Top),
+                            new Rectangle(selRegion.Left, selRegion.Bottom, selRegion.Width, imgPhoto.Height - selRegion.Top),
+                            new Rectangle(selRegion.Right, 0, imgPhoto.Width - selRegion.Right, imgPhoto.Height)
+                        };
+                        graphics.FillRectangles(Utils.InactiveRegionBrush, inactiveRegions);
+                    }
                     Utils.GuidelinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot;
                     graphics.DrawLine(Utils.GuidelinePen, person.LeftmostClickX, 0, person.LeftmostClickX, imgPhoto.Height);
                     graphics.DrawLine(Utils.GuidelinePen, person.RightmostClickX, 0, person.RightmostClickX, imgPhoto.Height);
@@ -708,7 +721,7 @@ namespace Argus
                 // Number has been assigned? Draw that number
                 if (person.Bib.BibNumber != null)
                 {
-                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.TopLeft.X, person.Bib.TopLeft.Y - 25);
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.BibBrush, person.Bib.ClickTopLeft.X, person.Bib.ClickTopLeft.Y - 25);
                 }
                 // Draw face
                 if (person.Face.ClickPoints.Count == 2)
@@ -720,10 +733,10 @@ namespace Argus
                     int width = Math.Abs(startX - endPt.X);
                     int height = Math.Abs(startY - endPt.Y);
                     graphics.DrawRectangle(facePen, startX, startY, width, height);
-                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.FaceBrush, person.Face.TopLeft.X, person.Face.TopLeft.Y - 25);
+                    graphics.DrawString(person.BibNumber, Utils.StdFont, Utils.FaceBrush, person.Face.ClickTopLeft.X, person.Face.ClickTopLeft.Y - 25);
                     // Draw line between face and bib number
-                    graphics.DrawLine(Utils.RedPen, startX, startY + height, person.Bib.TopLeft.X, person.Bib.TopLeft.Y);
-                    graphics.DrawLine(Utils.RedPen, person.Face.BtmRight, person.Bib.TopRight);
+                    graphics.DrawLine(Utils.RedPen, startX, startY + height, person.Bib.ClickTopLeft.X, person.Bib.ClickTopLeft.Y);
+                    graphics.DrawLine(Utils.RedPen, person.Face.ClickBottomRight, person.Bib.ClickTopRight);
                 }
             }
         }

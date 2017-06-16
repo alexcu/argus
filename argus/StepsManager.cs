@@ -50,7 +50,7 @@ namespace Argus
                 case StepType.ImageCrowded:
                     return "Would you buy this image if you were in the foreground, or is it too crowded?";
                 case StepType.SelectBibRegion:
-                    return "Left click FOUR times on the image to mark up a new bib region";
+                    return "LEFT-CLICK FOUR times on all BIB SHEETS in the image below";
                 case StepType.SelectFaceRegion:
                     TaggedPerson person = Model.CurrentPhoto.SelectedRunner;
                     if (person == null)
@@ -59,7 +59,7 @@ namespace Argus
                     }
                     else
                     {
-                        return "Drag-and-drop from the TOP LEFT to the BOTTOM RIGHT of runner {#}";
+                        return "DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT of runner {#}'s FACE";
                     }
                 default:
                     return "";
