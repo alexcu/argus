@@ -21,6 +21,11 @@ namespace Argus
             Singleton = this;
             InitializeComponent();
             Model.LoadFiles();
+            Load += WindowLoaded;
+        }
+
+        private void WindowLoaded(object sender, EventArgs e)
+        {
             BindDataToControls();
             BindEvents();
             RequestDataBindingsUpdate();
