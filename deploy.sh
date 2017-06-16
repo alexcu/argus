@@ -5,8 +5,11 @@ S3_BUCKET_NAME=dstil-argus
 ARGUS_WEB_PAGE=/Volumes/my-home/public_html/argus/
 PWD=$(pwd)
 
+read -p "Have you updated the minimum required version? If so, press enter to continue..."
+
 echo "Zipping Argus..."
 cd $PATH_TO_ARGUS_DEPLOY
+rm -f $ARGUS_WEB_PAGE/Argus.zip
 zip -r $ARGUS_WEB_PAGE/Argus.zip . -x "*.DS_Store" -q
 cd $PWD
 
