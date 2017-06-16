@@ -69,7 +69,7 @@ namespace Argus
         {
             if (!CurrentPhoto.IsMarkUpValid)
             {
-                CurrentPhoto.TimesSaveFailed++;
+                CurrentPhoto.UpdateInvalidStatistics();
                 MessageBox.Show("Missing information within the photo.\n\nCheck that every bib region has been assigned a number (and is not 'N/A') and that a face has been marked up for every corresponding bib region", "Not Progressing", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

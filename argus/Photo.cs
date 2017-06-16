@@ -43,7 +43,8 @@ namespace Argus
         public int TimesDeletedRunner { get; set; }
         public int TimesManualSaveMade { get; set; }
         public int TimesSaved { get; set; }
-        public int TimesSaveFailed { get; set; }
+        public int TimesInvalidIncompleteBibTagged { get; set; }
+        public int TimesInvalidIncompleteFaceTagged { get; set; }
         #endregion
 
         #region File IO
@@ -55,7 +56,7 @@ namespace Argus
         {
             if (!IsMarkUpValid)
             {
-                TimesSaveFailed++;
+                UpdateInvalidStatistics();
                 MessageBox.Show("Missing information within the photo.\n\nCheck that every bib region has been assigned a number (and is not 'N/A') and that a face has been marked up for every corresponding bib region", "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -102,6 +103,17 @@ namespace Argus
         public bool IsPhotoNotCompletelyTagged => !IsPhotoCompletelyTagged;
         [JsonIgnore]
         public bool IsMarkUpValid => IsPhotoCrowded || (IsPhotoNotCrowded && HasAFaceMarkedForEveryBib && !HasIncompleteBibTag);
+        public void UpdateInvalidStatistics()
+        {
+            if (IsPhotoNotCrowded && !HasAFaceMarkedForEveryBib)
+            {
+                TimesInvalidIncompleteFaceTagged++;
+            }
+            if (IsPhotoNotCrowded && HasIncompleteBibTag)
+            {
+                TimesInvalidIncompleteBibTagged++;
+            }
+        }
         public void ToggleComplete()
         {
             IsPhotoCompletelyTagged = !IsPhotoCompletelyTagged;
