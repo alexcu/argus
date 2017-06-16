@@ -30,6 +30,13 @@ namespace Argus
         public int TimesFaceDragAndDropMade { get; set; }
         public int TimesColorClassificationsShown { get; set; }
         public int TimesBaseClassificationsShown { get; set; }
+        public int TimesDragAndDropMadeForBibSheet { get; set; }
+        public int TimesDragAndDropFaceInInversedDirection { get; set; }
+        public int TimesClickedForFaceRegion { get; set; }
+        public int TimesSelectedFaceRegionOutsideArea { get; set; }
+        public int TimesSelectedFaceRegionBelowBibSheet { get; set; }
+        public int TimesAttemptedToShowBaseClassificationsWhenInvalid { get; set; }
+        public int TimesAttemptedToShowColorClassificationsWhenInvalid { get; set; }
         #endregion
 
         #region Related Data Types

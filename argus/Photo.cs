@@ -43,6 +43,7 @@ namespace Argus
         public int TimesDeletedRunner { get; set; }
         public int TimesManualSaveMade { get; set; }
         public int TimesSaved { get; set; }
+        public int TimesSaveFailed { get; set; }
         #endregion
 
         #region File IO
@@ -54,6 +55,7 @@ namespace Argus
         {
             if (!IsMarkUpValid)
             {
+                TimesSaveFailed++;
                 MessageBox.Show("Missing information within the photo.\n\nCheck that every bib region has been assigned a number (and is not 'N/A') and that a face has been marked up for every corresponding bib region", "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -357,6 +359,7 @@ namespace Argus
                     // Dragged for more than 10px?
                     if (_draggingStartPoint.GetDistance(e.Location) > 10)
                     {
+                        SelectedRunner.TimesDragAndDropMadeForBibSheet++;
                         if (HasTaggedARunner)
                         {
                             var diagResult = MessageBox.Show("You are currently marking up bib regions (Step 2).\n\nPlease LEFT click FOUR times to mark up bib region (do NOT drag and drop).\n\nWould you like to mark up faces instead?", "Drag-and-Drop Detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -593,6 +596,10 @@ namespace Argus
                 Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region start at {pt} ({Identifier})");
                 SetFaceRegionAtIndex(pbx, pt, 0);
             }
+            else
+            {
+                SelectedRunner.TimesSelectedFaceRegionOutsideArea++;
+            }
         }
 
         public bool UpdateEndOfFaceRegion(PictureBox pbx, Point pt)
@@ -605,15 +612,30 @@ namespace Argus
             // Must be higher than the top of the bib
             if (pt.Y > SelectedRunner.Bib.ClickBounds.Top)
             {
+                SelectedRunner.TimesSelectedFaceRegionBelowBibSheet++;
                 MessageBox.Show("Bottom of face region cannot overlap top of bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            // Outside acceptable bounds
+            else if (!SelectedRunner.ClickMaxSelectableRegion.Contains(pt))
+            {
+                SelectedRunner.TimesSelectedFaceRegionOutsideArea++;
             }
             // Prevent end from being before start or from just 'clicking'
             else if (pt.X < firstPt.X || pt.Y < firstPt.Y || _draggingStartPoint.GetDistance(pt) < 5)
             {
+                if (pt.X < firstPt.X || pt.Y < firstPt.Y)
+                {
+                    SelectedRunner.TimesDragAndDropFaceInInversedDirection++;
+                }
+                else
+                {
+                    SelectedRunner.TimesClickedForFaceRegion++;
+                }
+                
                 MessageBox.Show("You are currently marking face regions (Step 3).\n\nPlease DRAG-AND-DROP from the TOP LEFT to the BOTTOM RIGHT of the person's face", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             // Only set if 15 px away from first point and within selectable region
-            else if (pt.GetDistance(firstPt) > 15 && SelectedRunner.ClickMaxSelectableRegion.Contains(pt))
+            else if (pt.GetDistance(firstPt) > 15)
             {
                 Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
                 SetFaceRegionAtIndex(pbx, pt, 1);
@@ -671,8 +693,9 @@ namespace Argus
         }
         public bool AskForBaseClassificationsOfPerson(TaggedPerson person)
         {
-            if (!CanMarkFaces)
+            if (!CanMarkFaces || !person.IsFaceRegionTagged)
             {
+                SelectedRunner.TimesAttemptedToShowBaseClassificationsWhenInvalid++;
                 MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
@@ -689,8 +712,9 @@ namespace Argus
         }
         public bool AskForColorClassificationsOfPerson(TaggedPerson person)
         {
-            if (!CanMarkFaces)
+            if (!CanMarkFaces || !person.IsFaceRegionTagged)
             {
+                SelectedRunner.TimesAttemptedToShowColorClassificationsWhenInvalid++;
                 MessageBox.Show("Unable to set classifications for person as their face is not yet tagged", "Note", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
