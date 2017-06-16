@@ -587,15 +587,8 @@ namespace Argus
             SelectedRunner.Face.ClickPoints.Clear();
             SelectedRunner.Face.PixelPoints.Clear();
 
-            int maxFaceLeftX = SelectedRunner.ClickMaxSelectableRegion.Left;
-            bool isBeyondLeft = pt.X < maxFaceLeftX;
-
-            // Start cannot be too far away from bib left
-            if (isBeyondLeft)
-            {
-                MessageBox.Show("Face region too far left from runner's bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
+            // Prevent clicking outside of reigon!
+            if (SelectedRunner.ClickMaxSelectableRegion.Contains(pt))
             {
                 Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region start at {pt} ({Identifier})");
                 SetFaceRegionAtIndex(pbx, pt, 0);
@@ -609,26 +602,18 @@ namespace Argus
                 return false;
             }
             Point firstPt = SelectedRunner.Face.ClickPoints[0];
-            int maxFaceRightX = SelectedRunner.ClickMaxSelectableRegion.Right;
-            bool isBeyondRight = pt.X > maxFaceRightX;
-            
             // Must be higher than the top of the bib
             if (pt.Y > SelectedRunner.Bib.ClickBounds.Top)
             {
                 MessageBox.Show("Bottom of face region cannot overlap top of bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            // Ensure distance right of bib region is not too far away
-            else if (isBeyondRight)
-            {
-                MessageBox.Show("Face region too far right from runner's bib region", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             // Prevent end from being before start or from just 'clicking'
             else if (pt.X < firstPt.X || pt.Y < firstPt.Y || _draggingStartPoint.GetDistance(pt) < 5)
             {
                 MessageBox.Show("You are currently marking face regions (Step 3).\n\nPlease DRAG-AND-DROP from the TOP LEFT to the BOTTOM RIGHT of the person's face", "Invalid face drag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            // Only set if 15 px away from first point
-            else if (pt.GetDistance(firstPt) > 15)
+            // Only set if 15 px away from first point and within selectable region
+            else if (pt.GetDistance(firstPt) > 15 && SelectedRunner.ClickMaxSelectableRegion.Contains(pt))
             {
                 Debug.WriteLine($"Person #{SelectedRunner.BibNumber} face region end at {pt} ({Identifier})");
                 SetFaceRegionAtIndex(pbx, pt, 1);

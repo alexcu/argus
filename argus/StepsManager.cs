@@ -59,7 +59,7 @@ namespace Argus
                     }
                     else
                     {
-                        return "DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT of runner {#}'s FACE";
+                        return "DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT of runner {#}'s FACE within the HIGHLIGHTED AREA";
                     }
                 default:
                     return "";
