@@ -273,12 +273,18 @@ namespace Argus
                 {
                     if (MessageBox.Show("You have finished tagging all photos. Would you like to exit?", "Done", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
-                        Close();
+                        if (Model.CurrentPhoto.SaveToFile())
+                        {
+                            Close();
+                        }
                     }
                 }
                 else
                 {
-                    Close();
+                    if (Model.CurrentPhoto.SaveToFile())
+                    {
+                        Close();
+                    }
                 }
             }
 
@@ -290,10 +296,7 @@ namespace Argus
                 }
                 else
                 {
-                    if (Model.CurrentPhoto.SaveToFile())
-                    {
-                        RunClose();
-                    }
+                    RunClose();
                 }
             }
             else
