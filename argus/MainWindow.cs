@@ -5,7 +5,6 @@ using System.Linq;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Deployment.Application;
 
 namespace Argus
 {
@@ -257,12 +256,7 @@ namespace Argus
 
         private void AboutArgusClicked()
         {
-            #if DEBUG
-                string deploymentVersion = "DEBUG";
-            #else
-                string deploymentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-            #endif
-            MessageBox.Show($"Argus v{deploymentVersion} - A data tagging tool.\n\nRefer to http://www.deakin.edu.au/~ca/argus/ for more.\n\n© Deakin Software and Technology Innovation Lab 2017.", "About Argus", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Argus v{Utils.ArgusVersion} - A data tagging tool.\n\nRefer to http://www.deakin.edu.au/~ca/argus/ for more.\n\n© Deakin Software and Technology Innovation Lab 2017.", "About Argus", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void AttemptExit(bool showLastPhotoDialog = false)

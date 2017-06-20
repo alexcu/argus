@@ -1,17 +1,15 @@
-/*
- * This code is provided "as is". Without any warranty.
- */
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Deployment.Application;
 
 namespace Argus
 {
-	public static class Utils
-	{
+    public static class Utils
+    {
         public static Pen BibPen = new Pen(Color.Lime, 4);
         public static Pen SelectedBibPen = new Pen(Color.Lime, 6);
         public static Brush BibBrush = Brushes.Lime;
@@ -23,6 +21,19 @@ namespace Argus
         public static Pen RedPen = new Pen(Color.Magenta, 2);
         public static Pen GuidelinePen = new Pen(Color.White, 3);
         public static Brush InactiveRegionBrush = new SolidBrush(Color.FromArgb(128, Color.Black));
+
+        public static string ArgusVersion { get
+            {
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    return ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                }
+                else
+                {
+                    return $"NOT_DEPLOYED_{Application.ProductVersion}";
+                }
+            }
+        }
 
         public static bool AtCapacity<T>(this List<T> me)
         {

@@ -51,6 +51,7 @@ namespace Argus
         public DateTime DateSaved { get; set; }
         private Size _originalClientSize;
         public Size ClientSize { get; set; }
+        public string ArgusVersion => Utils.ArgusVersion;
 
         public bool SaveToFile()
         {
