@@ -35,8 +35,8 @@ namespace Argus
         #region Statistics
         public Stopwatch TimeTakenOnPhoto { get; set; }
         public Stopwatch TimeToRespondToCrowded { get; set; }
-        public long AverageTimeTakenPerPerson => HasTaggedARunner ? (long)TaggedRunners.Average(p => p.TotalTimeTaken) : 0;
-        public long SumOfTimeTakenPerPerson => HasTaggedARunner ? TaggedRunners.Sum(p => p.TotalTimeTaken) : 0;
+        public long? AverageTimeTakenPerPerson => HasTaggedARunner ? (long?)TaggedRunners.Average(p => p.TotalTimeTaken) : null;
+        public long? SumOfTimeTakenPerPerson => HasTaggedARunner ? (long?)TaggedRunners.Sum(p => p.TotalTimeTaken) : null;
         public int TimesAskedForCrowdedness { get; set; }
         public int TimesUndoMade { get; set; }
         public int TimesAskedIfPhotoComplete { get; set; }
