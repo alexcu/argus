@@ -28,7 +28,7 @@
     <TargetCulture>en-AU</TargetCulture>
     <ProductName>Argus</ProductName>
     <PublisherName>DSTIL</PublisherName>
-    <MinimumRequiredVersion>1.0.0.16</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.17</MinimumRequiredVersion>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
