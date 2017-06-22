@@ -23,8 +23,9 @@ end
 
 def photo_stats(data)
   headers = %i(
+    PhotoNumber
     Identifier
-    TimeTakenOnPhoto
+    TimeViewingPhoto
     TimeToRespondToCrowded
     AverageTimeTakenPerPerson
     SumOfTimeTakenPerPerson
@@ -42,8 +43,9 @@ def photo_stats(data)
   )
   CSV do |csv|
     csv << headers
-    data.each do |photo|
-      row = photo.select { |k, _| headers.include? k }.values
+    data.each_with_index do |photo, idx|
+      row = [idx + 1]
+      row += photo.select { |k, _| headers.include? k }.values
       csv << row
     end
   end

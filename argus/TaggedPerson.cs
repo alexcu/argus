@@ -26,6 +26,18 @@ namespace Argus
             TimeToDoBaseClassifications.ElapsedMilliseconds +
             TimeToDoColorClassifications.ElapsedMilliseconds +
             TimeToDragAndDropFaceRegion.ElapsedMilliseconds;
+
+        public List<DateTime> TimeToClickBibRegionsTimestampsStarted => TimeToClickBibRegions.TimestampsStarted;
+        public List<DateTime> TimeToClickBibRegionsTimestampsStopped => TimeToClickBibRegions.TimestampsStopped;
+        public List<DateTime> TimeToEnterBibNumberTimestampsStarted => TimeToEnterBibNumber.TimestampsStarted;
+        public List<DateTime> TimeToEnterBibNumberTimestampsStopped => TimeToEnterBibNumber.TimestampsStopped;
+        public List<DateTime> TimeToDoBaseClassificationsTimestampsStarted => TimeToDoBaseClassifications.TimestampsStarted;
+        public List<DateTime> TimeToDoBaseClassificationsTimestampsStopped => TimeToDoBaseClassifications.TimestampsStopped;
+        public List<DateTime> TimeToDoColorClassificationsTimestampsStarted => TimeToDoColorClassifications.TimestampsStarted;
+        public List<DateTime> TimeToDoColorClassificationsTimestampsStopped => TimeToDoColorClassifications.TimestampsStopped;
+        public List<DateTime> TimeToDragAndDropFaceRegionTimestampsStarted => TimeToDragAndDropFaceRegion.TimestampsStarted;
+        public List<DateTime> TimeToDragAndDropFaceRegionTimestampsStopped => TimeToDragAndDropFaceRegion.TimestampsStopped;
+
         public int TimesBibClickMade { get; set; }
         public int TimesFaceDragAndDropMade { get; set; }
         public int TimesColorClassificationsShown { get; set; }

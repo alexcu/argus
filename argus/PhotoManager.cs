@@ -23,17 +23,17 @@ namespace Argus
             get => _photoIdx;
             set
             {
+                // Stop old timner
+                CurrentPhoto.TimeViewingPhoto.Stop();
                 // Save the photo
                 if (!CurrentPhoto.SaveToFile())
                 {
                     return;
                 }
-                // Stop old timner
-                CurrentPhoto.TimeTakenOnPhoto.Stop();
                 try { _photoIdx = value; } catch { };
                 MainWindow.Singleton.RequestDataBindingsUpdate();
                 // Start new timer
-                CurrentPhoto.TimeTakenOnPhoto.Start();
+                CurrentPhoto.TimeViewingPhoto.Start();
                 CurrentPhoto.WaitAndAskForPhotoCrowded();
             }
         }

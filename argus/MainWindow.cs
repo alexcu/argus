@@ -31,7 +31,7 @@ namespace Argus
             RequestRedrawGraphics();
             RequestUpdateSelectedRunner();
             RequestUpdateSelectedStep();
-            Model.CurrentPhoto.TimeTakenOnPhoto.Start();
+            Model.CurrentPhoto.TimeViewingPhoto.Start();
             Model.CurrentPhoto.WaitAndAskForPhotoCrowded();
         }
 
