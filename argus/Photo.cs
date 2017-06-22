@@ -28,16 +28,16 @@ namespace Argus
             Identifier = Path.GetFileNameWithoutExtension(filename);
             TaggingStep = StepType.ImageCrowded;
             // Construct timers
-            TimeViewingPhoto = new Stopwatch();
+            TimeToMarkPhoto = new Stopwatch();
             TimeToRespondToCrowded = new Stopwatch();
         }
 
         #region Statistics
-        public Stopwatch TimeViewingPhoto { get; set; }
+        public Stopwatch TimeToMarkPhoto { get; set; }
         public Stopwatch TimeToRespondToCrowded { get; set; }
 
-        public List<DateTime> TimeViewingPhotoTimestampsStarted => TimeViewingPhoto.TimestampsStarted;
-        public List<DateTime> TimeViewingPhotoTimestampsStopped => TimeViewingPhoto.TimestampsStopped;
+        public List<DateTime> TimeToMarkPhotoTimestampsStarted => TimeToMarkPhoto.TimestampsStarted;
+        public List<DateTime> TimeToMarkPhotoTimestampsStopped => TimeToMarkPhoto.TimestampsStopped;
         public List<DateTime> TimeToRespondToCrowdedTimestampsStarted => TimeToRespondToCrowded.TimestampsStarted;
         public List<DateTime> TimeToRespondToCrowdedTimestampsStopped => TimeToRespondToCrowded.TimestampsStopped;
 

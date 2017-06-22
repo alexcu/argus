@@ -25,7 +25,7 @@ def photo_stats(data)
   headers = %i(
     PhotoNumber
     Identifier
-    TimeViewingPhoto
+    TimeToMarkPhoto
     TimeToRespondToCrowded
     AverageTimeTakenPerPerson
     SumOfTimeTakenPerPerson
