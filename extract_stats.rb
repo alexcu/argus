@@ -7,6 +7,16 @@ require 'csv'
 require 'json'
 require 'fileutils'
 
+class String
+  def underscore
+    self.gsub(/::/, '/').
+    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+    gsub(/([a-z\d])([A-Z])/,'\1_\2').
+    tr("-", "_").
+    downcase
+  end
+end
+
 # Script start
 src_dir = ARGV[0]
 raise 'Missing directory argument' if src_dir.nil?
@@ -22,7 +32,7 @@ json_files.each do |file|
 end
 
 def photo_stats(data)
-  headers = %i(
+  headers = %i[
     PhotoNumber
     Identifier
     TimeToMarkPhoto
@@ -40,9 +50,9 @@ def photo_stats(data)
     NumberOfPeopleTagged
     TaggingStep
     IsPhotoCrowded
-  )
+  ]
   CSV do |csv|
-    csv << headers
+    csv << headers.map(&:to_s).map(&:underscore)
     data.each_with_index do |photo, idx|
       row = [idx + 1]
       row += photo.select { |k, _| headers.include? k }.values
@@ -52,7 +62,7 @@ def photo_stats(data)
 end
 
 def runner_stats(data)
-  headers = %i(
+  headers = %i[
     PhotoIdentifier
     PersonNumber
     BibNumber
@@ -78,9 +88,9 @@ def runner_stats(data)
     GenderName
     LikelihoodOfPurchase
     LikelihoodOfPurchaseName
-  )
+  ]
   CSV do |csv|
-    csv << headers
+    csv << headers.map(&:to_s).map(&:underscore)
     data.each do |photo|
       photo_id = photo[:Identifier]
       photo[:TaggedRunners].each_with_index do |runner, idx|
