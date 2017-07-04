@@ -52,15 +52,7 @@ namespace Argus
                 case StepType.SelectBibRegion:
                     return "LEFT-CLICK FOUR times on all BIB SHEETS in the image below";
                 case StepType.SelectFaceRegion:
-                    TaggedPerson person = Model.CurrentPhoto.SelectedRunner;
-                    if (person == null)
-                    {
-                        return "You MUST TAG BIB REGIONS (Step 2) before you can select face regions!";
-                    }
-                    else
-                    {
-                        return "DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT of runner {#}'s FACE within the HIGHLIGHTED AREA";
-                    }
+                    return "DRAG-AND-DROP from the TOP-LEFT to the BOTTOM-RIGHT of runner {#}'s FACE within the HIGHLIGHTED AREA";
                 default:
                     return "";
             }

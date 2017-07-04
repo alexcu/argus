@@ -53,7 +53,14 @@ namespace Argus
             txtBibNumber.TextChanged += (sender, e) =>
             {
                 btnEnterBibNumber.Enabled = !String.IsNullOrWhiteSpace(txtBibNumber.Text);
-                EnteredBibNumber = txtBibNumber.Text;
+                // Uppercasify and remove all spaces
+                EnteredBibNumber = txtBibNumber.Text.ToUpper().Replace(" ", "");
+                txtBibNumber.Text = EnteredBibNumber;
+                if (txtBibNumber.TextLength > 0)
+                {
+                    txtBibNumber.SelectionStart = txtBibNumber.TextLength;
+                    txtBibNumber.SelectionLength = 0;
+                }
             };
         }
         

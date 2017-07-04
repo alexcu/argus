@@ -190,31 +190,31 @@
             // mnuFileAbout
             // 
             this.mnuFileAbout.Name = "mnuFileAbout";
-            this.mnuFileAbout.Size = new System.Drawing.Size(393, 38);
+            this.mnuFileAbout.Size = new System.Drawing.Size(392, 38);
             this.mnuFileAbout.Text = "&About Argus";
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(390, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(389, 6);
             // 
             // mnuFileSave
             // 
             this.mnuFileSave.Name = "mnuFileSave";
             this.mnuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mnuFileSave.Size = new System.Drawing.Size(393, 38);
+            this.mnuFileSave.Size = new System.Drawing.Size(392, 38);
             this.mnuFileSave.Text = "Save Tagging Data";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(390, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(389, 6);
             // 
             // mnuFileExit
             // 
             this.mnuFileExit.Name = "mnuFileExit";
             this.mnuFileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.mnuFileExit.Size = new System.Drawing.Size(393, 38);
+            this.mnuFileExit.Size = new System.Drawing.Size(392, 38);
             this.mnuFileExit.Text = "&Exit";
             // 
             // mnuEdit
@@ -229,7 +229,7 @@
             // 
             this.mnuEditUndo.Name = "mnuEditUndo";
             this.mnuEditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.mnuEditUndo.Size = new System.Drawing.Size(255, 38);
+            this.mnuEditUndo.Size = new System.Drawing.Size(254, 38);
             this.mnuEditUndo.Text = "Undo";
             // 
             // mnuView
@@ -247,7 +247,7 @@
             // 
             this.mnuViewPreviousPhoto.Name = "mnuViewPreviousPhoto";
             this.mnuViewPreviousPhoto.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.mnuViewPreviousPhoto.Size = new System.Drawing.Size(380, 38);
+            this.mnuViewPreviousPhoto.Size = new System.Drawing.Size(379, 38);
             this.mnuViewPreviousPhoto.Text = "Go &Back Photo";
             // 
             // mnuViewNextPhoto
@@ -255,19 +255,19 @@
             this.mnuViewNextPhoto.Name = "mnuViewNextPhoto";
             this.mnuViewNextPhoto.ShortcutKeyDisplayString = "";
             this.mnuViewNextPhoto.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.mnuViewNextPhoto.Size = new System.Drawing.Size(380, 38);
+            this.mnuViewNextPhoto.Size = new System.Drawing.Size(379, 38);
             this.mnuViewNextPhoto.Text = "Go &Forward Photo";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(377, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(376, 6);
             // 
             // mnuViewRotateImage
             // 
             this.mnuViewRotateImage.Name = "mnuViewRotateImage";
             this.mnuViewRotateImage.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.mnuViewRotateImage.Size = new System.Drawing.Size(380, 38);
+            this.mnuViewRotateImage.Size = new System.Drawing.Size(379, 38);
             this.mnuViewRotateImage.Text = "Rotate Image 90°";
             // 
             // mnuPhoto
@@ -289,40 +289,40 @@
             // 
             this.mnuPhotoMarkCrowded.Name = "mnuPhotoMarkCrowded";
             this.mnuPhotoMarkCrowded.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mnuPhotoMarkCrowded.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoMarkCrowded.Size = new System.Drawing.Size(421, 38);
             this.mnuPhotoMarkCrowded.Text = "Mark Photo as &Crowded";
             // 
             // mnuPhotoMarkBibs
             // 
             this.mnuPhotoMarkBibs.Name = "mnuPhotoMarkBibs";
             this.mnuPhotoMarkBibs.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.mnuPhotoMarkBibs.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoMarkBibs.Size = new System.Drawing.Size(421, 38);
             this.mnuPhotoMarkBibs.Text = "Mark &Bib Regions";
             // 
             // mnuPhotoMarkFaces
             // 
             this.mnuPhotoMarkFaces.Name = "mnuPhotoMarkFaces";
             this.mnuPhotoMarkFaces.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.mnuPhotoMarkFaces.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoMarkFaces.Size = new System.Drawing.Size(421, 38);
             this.mnuPhotoMarkFaces.Text = "Mark &Face Regions";
             // 
             // mnuPhotoMarkComplete
             // 
             this.mnuPhotoMarkComplete.Name = "mnuPhotoMarkComplete";
             this.mnuPhotoMarkComplete.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnuPhotoMarkComplete.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoMarkComplete.Size = new System.Drawing.Size(421, 38);
             this.mnuPhotoMarkComplete.Text = "Mark Photo As Com&plete";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(419, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(418, 6);
             // 
             // mnuPhotoSelectPrevRunner
             // 
             this.mnuPhotoSelectPrevRunner.Name = "mnuPhotoSelectPrevRunner";
             this.mnuPhotoSelectPrevRunner.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.mnuPhotoSelectPrevRunner.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoSelectPrevRunner.Size = new System.Drawing.Size(421, 38);
             this.mnuPhotoSelectPrevRunner.Text = "Select &Previous Runner";
             // 
             // mnuPhotoSelectNextRunner
@@ -330,7 +330,7 @@
             this.mnuPhotoSelectNextRunner.Name = "mnuPhotoSelectNextRunner";
             this.mnuPhotoSelectNextRunner.ShortcutKeyDisplayString = "";
             this.mnuPhotoSelectNextRunner.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.mnuPhotoSelectNextRunner.Size = new System.Drawing.Size(422, 38);
+            this.mnuPhotoSelectNextRunner.Size = new System.Drawing.Size(421, 38);
             this.mnuPhotoSelectNextRunner.Text = "Select &Next Runner";
             // 
             // mnuSelectedRunner
@@ -361,39 +361,39 @@
             // 
             this.mnuRunnerStaticNumberValue.Enabled = false;
             this.mnuRunnerStaticNumberValue.Name = "mnuRunnerStaticNumberValue";
-            this.mnuRunnerStaticNumberValue.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerStaticNumberValue.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerStaticNumberValue.Text = "Runner #X";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(513, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(512, 6);
             // 
             // mnuRunnerOpenMarkBibToolbox
             // 
             this.mnuRunnerOpenMarkBibToolbox.Name = "mnuRunnerOpenMarkBibToolbox";
             this.mnuRunnerOpenMarkBibToolbox.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.mnuRunnerOpenMarkBibToolbox.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerOpenMarkBibToolbox.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerOpenMarkBibToolbox.Text = "Set Bib &Number";
             // 
             // mnuRunnerOpenMarkBaseClassToolbox
             // 
             this.mnuRunnerOpenMarkBaseClassToolbox.Name = "mnuRunnerOpenMarkBaseClassToolbox";
             this.mnuRunnerOpenMarkBaseClassToolbox.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.mnuRunnerOpenMarkBaseClassToolbox.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerOpenMarkBaseClassToolbox.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerOpenMarkBaseClassToolbox.Text = "Set Runner &Classifications";
             // 
             // mnuRunnerOpenColorClassificationsToolbox
             // 
             this.mnuRunnerOpenColorClassificationsToolbox.Name = "mnuRunnerOpenColorClassificationsToolbox";
             this.mnuRunnerOpenColorClassificationsToolbox.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.mnuRunnerOpenColorClassificationsToolbox.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerOpenColorClassificationsToolbox.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerOpenColorClassificationsToolbox.Text = "Set Runner C&olors";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(513, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(512, 6);
             // 
             // mnuRunnerGender
             // 
@@ -402,53 +402,53 @@
             this.mnuRunnerGenderFemale,
             this.mnuRunnerGenderUnknown});
             this.mnuRunnerGender.Name = "mnuRunnerGender";
-            this.mnuRunnerGender.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerGender.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerGender.Text = "Runner\'s Gen&der";
             // 
             // mnuRunnerGenderMale
             // 
             this.mnuRunnerGenderMale.Name = "mnuRunnerGenderMale";
             this.mnuRunnerGenderMale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mnuRunnerGenderMale.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderMale.Size = new System.Drawing.Size(299, 38);
             this.mnuRunnerGenderMale.Text = "&Male";
             // 
             // mnuRunnerGenderFemale
             // 
             this.mnuRunnerGenderFemale.Name = "mnuRunnerGenderFemale";
             this.mnuRunnerGenderFemale.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.mnuRunnerGenderFemale.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderFemale.Size = new System.Drawing.Size(299, 38);
             this.mnuRunnerGenderFemale.Text = "&Female";
             // 
             // mnuRunnerGenderUnknown
             // 
             this.mnuRunnerGenderUnknown.Name = "mnuRunnerGenderUnknown";
             this.mnuRunnerGenderUnknown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.mnuRunnerGenderUnknown.Size = new System.Drawing.Size(300, 38);
+            this.mnuRunnerGenderUnknown.Size = new System.Drawing.Size(299, 38);
             this.mnuRunnerGenderUnknown.Text = "&Unknown";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(513, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(512, 6);
             // 
             // mnuRunnerMarkBlurry
             // 
             this.mnuRunnerMarkBlurry.Name = "mnuRunnerMarkBlurry";
             this.mnuRunnerMarkBlurry.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-            this.mnuRunnerMarkBlurry.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerMarkBlurry.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerMarkBlurry.Text = "Mark Runner &Blurry";
             // 
             // mnuRunnerMarkFaceVisible
             // 
             this.mnuRunnerMarkFaceVisible.Name = "mnuRunnerMarkFaceVisible";
             this.mnuRunnerMarkFaceVisible.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.mnuRunnerMarkFaceVisible.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerMarkFaceVisible.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerMarkFaceVisible.Text = "Mark Face &Visible";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(513, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(512, 6);
             // 
             // mnuRunnerLikelihoodPurchase
             // 
@@ -457,60 +457,60 @@
             this.mnuRunnerLikelihoodPurchaseMaybe,
             this.mnuRunnerLikelihoodPurchaseYes});
             this.mnuRunnerLikelihoodPurchase.Name = "mnuRunnerLikelihoodPurchase";
-            this.mnuRunnerLikelihoodPurchase.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerLikelihoodPurchase.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerLikelihoodPurchase.Text = "Likelihood Of &Purchase";
             // 
             // mnuRunnerLikelihoodPurchaseNo
             // 
             this.mnuRunnerLikelihoodPurchaseNo.Name = "mnuRunnerLikelihoodPurchaseNo";
             this.mnuRunnerLikelihoodPurchaseNo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.mnuRunnerLikelihoodPurchaseNo.Size = new System.Drawing.Size(547, 38);
+            this.mnuRunnerLikelihoodPurchaseNo.Size = new System.Drawing.Size(546, 38);
             this.mnuRunnerLikelihoodPurchaseNo.Text = "I would &Not buy this photo";
             // 
             // mnuRunnerLikelihoodPurchaseMaybe
             // 
             this.mnuRunnerLikelihoodPurchaseMaybe.Name = "mnuRunnerLikelihoodPurchaseMaybe";
             this.mnuRunnerLikelihoodPurchaseMaybe.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.mnuRunnerLikelihoodPurchaseMaybe.Size = new System.Drawing.Size(547, 38);
+            this.mnuRunnerLikelihoodPurchaseMaybe.Size = new System.Drawing.Size(546, 38);
             this.mnuRunnerLikelihoodPurchaseMaybe.Text = "I would &Maybe buy this photo";
             // 
             // mnuRunnerLikelihoodPurchaseYes
             // 
             this.mnuRunnerLikelihoodPurchaseYes.Name = "mnuRunnerLikelihoodPurchaseYes";
             this.mnuRunnerLikelihoodPurchaseYes.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.mnuRunnerLikelihoodPurchaseYes.Size = new System.Drawing.Size(547, 38);
+            this.mnuRunnerLikelihoodPurchaseYes.Size = new System.Drawing.Size(546, 38);
             this.mnuRunnerLikelihoodPurchaseYes.Text = "I would &Definitely buy this photo";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(513, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(512, 6);
             // 
             // mnuRunnerMarkHat
             // 
             this.mnuRunnerMarkHat.Name = "mnuRunnerMarkHat";
             this.mnuRunnerMarkHat.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.mnuRunnerMarkHat.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerMarkHat.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerMarkHat.Text = "Mark Runner Wearing &Hat";
             // 
             // mnuRunnerMarkGlasses
             // 
             this.mnuRunnerMarkGlasses.Name = "mnuRunnerMarkGlasses";
             this.mnuRunnerMarkGlasses.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.mnuRunnerMarkGlasses.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerMarkGlasses.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerMarkGlasses.Text = "Mark Runner Wearing &Glasses";
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(513, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(512, 6);
             // 
             // mnuRunnerDelete
             // 
             this.mnuRunnerDelete.Name = "mnuRunnerDelete";
             this.mnuRunnerDelete.ShortcutKeyDisplayString = "Delete";
             this.mnuRunnerDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.mnuRunnerDelete.Size = new System.Drawing.Size(516, 38);
+            this.mnuRunnerDelete.Size = new System.Drawing.Size(515, 38);
             this.mnuRunnerDelete.Text = "&Delete Runner";
             // 
             // btnNextImage

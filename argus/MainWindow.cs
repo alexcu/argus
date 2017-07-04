@@ -93,6 +93,7 @@ namespace Argus
                 if (Model.CurrentPhoto.TaggingStep == StepType.SelectFaceRegion)
                 {
                     lblInstructions.Text = StepType.SelectFaceRegion.ToInstructionString().Replace("{#}", person.BibNumber);
+                    lblInstructions.Invalidate();
                 }
             }
         }
