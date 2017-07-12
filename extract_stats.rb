@@ -88,6 +88,9 @@ def runner_stats(data)
     GenderName
     LikelihoodOfPurchase
     LikelihoodOfPurchaseName
+    IsWearingHat
+    IsWearingGlasses
+    IsFaceVisible
   ]
   CSV do |csv|
     csv << headers.map(&:to_s).map(&:underscore)
@@ -95,8 +98,12 @@ def runner_stats(data)
       photo_id = photo[:Identifier]
       photo[:TaggedRunners].each_with_index do |runner, idx|
         bib_num = runner[:Bib][:BibNumber]
+        is_wearing_hat = runner[:Face][:IsWearingHat]
+        is_wearing_glasses = runner[:Face][:IsWearingGlasses]
+        is_face_visible = runner[:Face][:IsFaceVisible]
         row = [photo_id, idx + 1, bib_num]
         row += runner.select { |k, _| headers.include? k }.values
+        row += [is_wearing_hat, is_wearing_glasses, is_face_visible]
         csv << row
       end
     end
