@@ -23,6 +23,7 @@ out_dir = ARGV[1]
 raise 'Missing output directory argument' if out_dir.nil?
 
 padding = ARGV[2].nil? ? 10 : ARGV[2].to_i
+puts "Padding has been set to #{padding}px"
 
 data = []
 json_files = Dir["#{src_dir}/*.json"]
