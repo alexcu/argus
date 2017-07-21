@@ -90,7 +90,12 @@ def extract(type, runner, photo_io, photo_id, rotation, padding, out_dir)
   cropped_img = photo_io.crop(x, y, width, height)
   # Un-rotate image
   cropped_img.rotate!(-rotation) unless rotation == 90
-  cropped_img.write("#{out_dir}/#{type}_padding#{padding}_#{photo_id}\##{bib_num}.jpg")
+  # Convert
+  outfile = "jpeg:#{out_dir}/#{type}_padding#{padding}_#{photo_id}\##{bib_num}.jpg"
+  cropped_img.auto_orient!
+  cropped_img.write(outfile) {
+    self.quality = 80
+  }
 end
 
 data.each_with_index do |photo, idx|
