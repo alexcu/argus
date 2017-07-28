@@ -17,7 +17,7 @@ end
 
 # Script start
 src_dir = ARGV[0]
-raise 'Missing directory argument' if src_dir.nil?
+raise 'Missing input directory argument' if src_dir.nil?
 
 out_dir = ARGV[1]
 raise 'Missing output directory argument' if out_dir.nil?
