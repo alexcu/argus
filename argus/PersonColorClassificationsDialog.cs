@@ -21,6 +21,9 @@ namespace Argus
 
         private bool _dragingModeEnabled = false;
 
+        private int _xLeftFromSourceImage;
+        private const int CROP_AREA_PADDING = 200;
+
         public PersonColorClassificationsDialog(TaggedPerson person)
         {
             InitializeComponent();
@@ -47,13 +50,15 @@ namespace Argus
             // Crop image to bib
             Bitmap bmp = (Bitmap)srcImg;
             // Bounding area
-            int left = Person.LeftmostPixelX - 200;
-            int right = Person.RightmostPixelX + 200;
+            int left = Person.LeftmostPixelX - CROP_AREA_PADDING;
+            int right = Person.RightmostPixelX + CROP_AREA_PADDING;
             // Ensure we don't overcompensate
             left = left < 0 ? 0 : left;
             right = right > srcImg.Width ? srcImg.Width : right;
             int width = right - left;
             int height = srcImg.Height;
+            // Retain new x left from original image
+            _xLeftFromSourceImage = left;
             Rectangle crop = new Rectangle(left, 0, width, height);
             // Clone cropped image
             Bitmap croppedImage = bmp.Clone(crop, bmp.PixelFormat);
@@ -158,21 +163,28 @@ namespace Argus
             Bitmap bmp = (Bitmap)(imgPersonCrop.Image);
             Point pixelPt = pt.ToPixelPoint(imgPersonCrop);
             Color pixelColor = bmp.GetPixel(pixelPt.X, pixelPt.Y);
+            // Actual X coordinate must be re-calculated for the pixelPt as
+            // pixelPt is relative to the CROPPED image not the REAL image
+            pixelPt = new Point() { X = pixelPt.X + _xLeftFromSourceImage, Y = pixelPt.Y };
             if (_isSettingShirtColor)
             {
                 Person.ShirtColor = pixelColor;
+                Person.ShirtColorPoint = pixelPt;
             }
             else if (_isSettingShortsColor)
             {
                 Person.ShortsColor = pixelColor;
+                Person.ShortsColorPoint = pixelPt;
             }
             else if (_isSettingShoeColor)
             {
                 Person.ShoeColor = pixelColor;
+                Person.ShoeColorPoint = pixelPt;
             }
             else if (_isSettingHatColor)
             {
                 Person.HatColor = pixelColor;
+                Person.HatColorPoint = pixelPt;
                 // If not empty, then person must be wearing a hat
                 Person.IsWearingHat = !pixelColor.IsEmpty;
             }

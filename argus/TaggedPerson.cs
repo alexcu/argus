@@ -270,10 +270,64 @@ namespace Argus
         public int RightmostClickX => AllClickPoints.Max(pt => pt.X);
 
         // Colors
-        public Color ShirtColor { get; set; }
-        public Color ShortsColor { get; set; }
-        public Color ShoeColor { get; set; }
-        public Color HatColor { get; set; }
+        private Color _shirtColor;
+        private Color _shortsColor;
+        private Color _shoeColor;
+        private Color _hatColor;
+
+        public Color ShirtColor
+        {
+            get => _shirtColor;
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    ShirtColorPoint = Point.Empty;
+                }
+                _shirtColor = value;
+            }
+        }
+        public Color ShortsColor
+        {
+            get => _shortsColor;
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    ShortsColorPoint = Point.Empty;
+                }
+                _shortsColor = value;
+            }
+        }
+        public Color ShoeColor
+        {
+            get => _shoeColor;
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    ShoeColorPoint = Point.Empty;
+                }
+                _shoeColor = value;
+            }
+        }
+        public Color HatColor
+        {
+            get => _hatColor;
+            set
+            {
+                if (value == Color.Empty)
+                {
+                    HatColorPoint = Point.Empty;
+                }
+                _hatColor = value;
+            }
+        }
+
+        public Point ShirtColorPoint { get; set; }
+        public Point ShortsColorPoint { get; set; }
+        public Point ShoeColorPoint { get; set; }
+        public Point HatColorPoint { get; set; }
         public string ShirtColorName => ShirtColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShirtColor).Name;
         public string ShortsColorName => ShortsColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShortsColor).Name;
         public string ShoeColorName => ShoeColor.IsEmpty ? "N/A" : Utils.GetNearestWebColor(ShoeColor).Name;
